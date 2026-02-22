@@ -92,3 +92,147 @@ Where tradition meets modern web design excellence.
 ## ⚙️ Setup After Activation
 
 ### 1. Set Homepage
+
+Go to Dashboard → Settings → Reading → Select "A static page" or "Your latest posts"
+
+### 2. Customize Theme
+
+Go to Dashboard → Appearance → Customize → 💎 Baloch Diamond Settings
+
+### 3. Create Menus
+
+Go to Dashboard → Appearance → Menus → Create "Primary Menu" and "Footer Menu" → Assign to theme locations
+
+### 4. Set Logo
+
+Go to Dashboard → Appearance → Customize → Site Identity → Upload Logo and Site Icon
+
+### 5. Configure Footer Widgets
+
+Go to Dashboard → Appearance → Widgets → Footer Column 1, 2, 3
+
+---
+
+## 🎨 Customizer Sections
+
+| Section | Options |
+|---------|---------|
+| 🎨 Theme Colors | Primary color, Secondary color |
+| 📌 Header | Display mode (5), Background type, Gradient direction |
+| 🖼️ Hero Slider | Source, Count, Custom post IDs (7) |
+| 💼 Portfolio | 10 items (image, title, desc, link), Section texts |
+| 📝 Blog | Post count, Section texts, Read more text |
+| 📚 Resources | 10 items (icon, title, desc, link), Section texts |
+| 👥 Team | 10 members (avatar, name, role, bio, socials, header style) |
+| 📧 Newsletter | Title, Desc, Placeholder, Button text |
+| 🦶 Footer | About text, Column titles, Copyright |
+| 📞 Contact | Email, Address, Phone |
+| 🔗 Social Media | Twitter, GitHub, LinkedIn, Instagram, Facebook, YouTube, Telegram, WhatsApp |
+
+---
+
+## 📁 File Structure
+
+    baloch-diamond/
+    ├── style.css
+    ├── functions.php
+    ├── index.php
+    ├── front-page.php
+    ├── header.php
+    ├── footer.php
+    ├── single.php
+    ├── page.php
+    ├── archive.php
+    ├── search.php
+    ├── 404.php
+    ├── comments.php
+    ├── searchform.php
+    ├── screenshot.png
+    ├── README.md
+    ├── inc/
+    │   ├── customizer.php
+    │   └── template-functions.php
+    ├── template-parts/
+    │   ├── hero-slider.php
+    │   ├── section-portfolio.php
+    │   ├── section-blog.php
+    │   ├── section-resources.php
+    │   ├── section-team.php
+    │   ├── section-newsletter.php
+    │   ├── content.php
+    │   ├── content-single.php
+    │   └── content-none.php
+    ├── assets/
+    │   ├── css/
+    │   │   └── fonts.css
+    │   ├── fonts/
+    │   │   ├── poppins-*.woff2
+    │   │   ├── playfair-*.woff2
+    │   │   └── LICENSE.txt
+    │   ├── js/
+    │   │   ├── main.js
+    │   │   └── customizer-preview.js
+    │   └── images/
+    └── languages/
+        └── baloch-diamond.pot
+
+---
+
+## 🔧 Requirements
+
+- WordPress 6.0 or higher
+- PHP 7.4 or higher
+- Modern browser (Chrome, Firefox, Safari, Edge)
+
+---
+
+## 📜 Credits
+
+### Fonts
+- **Poppins** — Indian Type Foundry ([SIL OFL 1.1](http://scripts.sil.org/OFL))
+- **Playfair Display** — Claus Eggers Sorensen ([SIL OFL 1.1](http://scripts.sil.org/OFL))
+
+### Inspiration
+- Traditional Balochi needlework patterns (Soozan Doozi)
+- The geometric diamond motifs of Balochistan artistry
+
+---
+
+## 📄 License
+
+Baloch Diamond WordPress Theme is licensed under the [GNU General Public License v2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 🐛 Bug Reports
+
+Found a bug? Please open an [issue](../../issues) with:
+- WordPress version
+- PHP version
+- Browser and version
+- Steps to reproduce
+- Expected vs actual behavior
+
+---
+
+<div align="center">
+
+**Crafted with 💎 inspired by Balochi art & culture**
+
+Made with ❤️ by the Baloch Script Team
+
+</div>
