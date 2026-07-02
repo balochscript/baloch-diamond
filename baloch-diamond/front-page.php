@@ -16,6 +16,11 @@ get_header();
         get_template_part( 'template-parts/hero-slider' );
     }
 
+    // Shop & Forum Promo Hub Section
+    if ( bd_is_section_visible( 'promohub' ) ) {
+        get_template_part( 'template-parts/section-promo-hub' );
+    }
+
     // Portfolio Section
     if ( bd_is_section_visible( 'portfolio' ) ) {
         get_template_part( 'template-parts/section-portfolio' );
