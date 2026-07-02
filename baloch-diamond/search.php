@@ -22,7 +22,7 @@ get_header();
             <h1 class="section-title stitch-border">
                 <?php
                 /* translators: %s: Search query */
-                printf( esc_html__( 'Results for: %s', 'baloch-diamond' ), '<span style="color:var(--color-primary)">' . get_search_query() . '</span>' );
+                printf( esc_html__( 'Results for: %s', 'baloch-diamond' ), '<span style="color:var(--color-primary)">' . esc_html( get_search_query() ) . '</span>' );
                 ?>
             </h1>
 
