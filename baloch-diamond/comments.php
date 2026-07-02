@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( post_password_required() ) {
     return;
 }
+
+$commenter = wp_get_current_commenter();
 ?>
 
 <div id="comments" class="comments-area" style="margin-top:48px">
