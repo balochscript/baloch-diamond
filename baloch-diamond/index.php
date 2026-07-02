@@ -128,15 +128,7 @@ get_header();
             </div>
 
             <!-- Pagination -->
-            <div class="pagination">
-                <?php
-                the_posts_pagination( array(
-                    'mid_size'  => 2,
-                    'prev_text' => bd_icon( 'arrow-left', 16, 16 ) . ' ' . esc_html__( 'Prev', 'baloch-diamond' ),
-                    'next_text' => esc_html__( 'Next', 'baloch-diamond' ) . ' ' . bd_icon( 'arrow-right-small', 16, 16 ),
-                ) );
-                ?>
-            </div>
+            <?php bd_pagination(); ?>
 
         <?php else : ?>
 
