@@ -29,6 +29,27 @@ function bd_customize_register( $wp_customize ) {
         'priority' => 10,
     ) );
 
+    // Color Preset
+    $wp_customize->add_setting( 'bd_color_preset', array(
+        'default'           => 'default',
+        'sanitize_callback' => 'bd_sanitize_select',
+    ) );
+    $wp_customize->add_control( 'bd_color_preset', array(
+        'label'       => esc_html__( 'Color Scheme Preset', 'baloch-diamond' ),
+        'description' => esc_html__( 'Select a pre-designed color preset, or choose "Custom" to set your own colors below.', 'baloch-diamond' ),
+        'section'     => 'bd_colors_section',
+        'type'        => 'select',
+        'choices'     => array(
+            'default' => esc_html__( '💎 Baloch Diamond (Default)', 'baloch-diamond' ),
+            'ocean'   => esc_html__( '🌊 Ocean Breeze', 'baloch-diamond' ),
+            'desert'  => esc_html__( '🌅 Desert Sunset', 'baloch-diamond' ),
+            'forest'  => esc_html__( '🌿 Forest Green', 'baloch-diamond' ),
+            'royal'   => esc_html__( '👑 Royal Purple', 'baloch-diamond' ),
+            'custom'  => esc_html__( '🎨 Custom Colors (Set Below)', 'baloch-diamond' ),
+        ),
+        'priority'    => 5,
+    ) );
+
     // Primary Color
     $wp_customize->add_setting( 'bd_primary_color', array(
         'default'           => '#38bdf8',
@@ -236,6 +257,166 @@ function bd_customize_register( $wp_customize ) {
             'input_attrs' => array( 'min' => 0 ),
         ) );
     }
+
+
+    // ================================================================
+    //  SECTION 3.5: PROMO HUB (FORUMS & SHOP)
+    // ================================================================
+    $wp_customize->add_section( 'bd_promohub_section', array(
+        'title'    => esc_html__( '📣 Promo Hub (Forum & Shop)', 'baloch-diamond' ),
+        'panel'    => 'bd_panel',
+        'priority' => 22,
+    ) );
+
+    // Show Promo Hub
+    $wp_customize->add_setting( 'bd_promohub_show', array(
+        'default'           => true,
+        'sanitize_callback' => 'bd_sanitize_checkbox',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_show', array(
+        'label'   => esc_html__( 'Show Promo Hub Section', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'checkbox',
+    ) );
+
+    // Badge
+    $wp_customize->add_setting( 'bd_promohub_badge', array(
+        'default'           => esc_html__( 'Community & Marketplace', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_badge', array(
+        'label'   => esc_html__( 'Badge Text', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'text',
+    ) );
+
+    // Title
+    $wp_customize->add_setting( 'bd_promohub_title', array(
+        'default'           => esc_html__( 'Explore Our Diamond Hub', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_title', array(
+        'label'   => esc_html__( 'Section Title', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'text',
+    ) );
+
+    // Description
+    $wp_customize->add_setting( 'bd_promohub_desc', array(
+        'default'           => esc_html__( 'Connect with our thriving community of creators or support local craftsmanship by browsing our premium product collections.', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_desc', array(
+        'label'   => esc_html__( 'Section Description', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'textarea',
+    ) );
+
+    // --- Forum Card ---
+    $wp_customize->add_setting( 'bd_promohub_sep_forum', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new BD_Separator_Control(
+        $wp_customize,
+        'bd_promohub_sep_forum',
+        array(
+            'label'   => esc_html__( '── Forum Box Settings ──', 'baloch-diamond' ),
+            'section' => 'bd_promohub_section',
+        )
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_forum_title', array(
+        'default'           => esc_html__( 'Discussion Forums', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_forum_title', array(
+        'label'   => esc_html__( 'Forum Title', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_forum_desc', array(
+        'default'           => esc_html__( 'Join the conversations, share ideas, and explore deep-dives into traditional Balochi needlework, culture, and modern art.', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_forum_desc', array(
+        'label'   => esc_html__( 'Forum Description', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_forum_link', array(
+        'default'           => '#_forums',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_forum_link', array(
+        'label'   => esc_html__( 'Forum Link URL', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_forum_btn', array(
+        'default'           => esc_html__( 'Enter Forums', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_forum_btn', array(
+        'label'   => esc_html__( 'Forum Button Text', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'text',
+    ) );
+
+    // --- Shop Card ---
+    $wp_customize->add_setting( 'bd_promohub_sep_shop', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new BD_Separator_Control(
+        $wp_customize,
+        'bd_promohub_sep_shop',
+        array(
+            'label'   => esc_html__( '── Shop Box Settings ──', 'baloch-diamond' ),
+            'section' => 'bd_promohub_section',
+        )
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_shop_title', array(
+        'default'           => esc_html__( 'Artisanal Shop', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_shop_title', array(
+        'label'   => esc_html__( 'Shop Title', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_shop_desc', array(
+        'default'           => esc_html__( 'Browse our curated catalog of hand-woven garments, digital pattern guides, and premium merchandise handcrafted to perfection.', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_shop_desc', array(
+        'label'   => esc_html__( 'Shop Description', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_shop_link', array(
+        'default'           => '#_shop',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_shop_link', array(
+        'label'   => esc_html__( 'Shop Link URL', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'bd_promohub_shop_btn', array(
+        'default'           => esc_html__( 'Browse Shop', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_promohub_shop_btn', array(
+        'label'   => esc_html__( 'Shop Button Text', 'baloch-diamond' ),
+        'section' => 'bd_promohub_section',
+        'type'    => 'text',
+    ) );
 
 
     // ================================================================
@@ -1068,7 +1249,8 @@ function bd_sanitize_checkbox( $input ) {
 }
 
 function bd_sanitize_select( $input, $setting ) {
-    $choices = $setting->manager->get_control( $setting->id )->choices;
+    $control = $setting->manager->get_control( $setting->id );
+    $choices = $control ? $control->choices : array();
     return ( array_key_exists( $input, $choices ) ) ? $input : $setting->default;
 }
 
