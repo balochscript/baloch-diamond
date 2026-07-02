@@ -1,0 +1,104 @@
+[22-Feb-2026 18:01:30 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[26-Feb-2026 09:55:19 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[28-Feb-2026 09:18:38 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[01-Mar-2026 00:20:42 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[08-Mar-2026 00:11:12 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[14-Mar-2026 22:45:58 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[21-Mar-2026 22:05:21 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[28-Mar-2026 22:19:21 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[03-Apr-2026 19:50:41 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[05-Apr-2026 02:47:15 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[11-Apr-2026 21:00:24 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[19-Apr-2026 01:00:47 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[21-Apr-2026 05:26:18 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[25-Apr-2026 23:06:11 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[28-Apr-2026 19:21:03 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[02-May-2026 23:43:10 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[09-May-2026 20:22:30 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[16-May-2026 21:16:52 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[24-May-2026 01:55:19 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[25-May-2026 11:42:14 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[30-May-2026 22:52:49 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[01-Jun-2026 02:59:27 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[06-Jun-2026 20:00:14 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[20-Jun-2026 15:22:12 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[23-Jun-2026 21:06:04 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11
+[27-Jun-2026 04:08:05 Asia/Tehran] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php:11
+Stack trace:
+#0 {main}
+  thrown in /home/wlwsdwvt/public_html/wp-content/themes/baloch-diamond/index.php on line 11

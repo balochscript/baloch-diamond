@@ -1,0 +1,169 @@
+<?php
+/**
+ * Template helper functions
+ *
+ * @package Baloch_Diamond
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * Estimated reading time for a post
+ */
+function bd_reading_time( $post_id = null ) {
+    if ( ! $post_id ) {
+        $post_id = get_the_ID();
+    }
+
+    $content    = get_post_field( 'post_content', $post_id );
+    $word_count = str_word_count( strip_tags( $content ) );
+    $minutes    = max( 1, ceil( $word_count / 200 ) );
+
+    /* translators: %d: Number of minutes */
+    return sprintf( esc_html( _n( '%d min read', '%d min read', $minutes, 'baloch-diamond' ) ), $minutes );
+}
+
+
+/**
+ * Get first category of a post
+ */
+function bd_get_first_category( $post_id = null ) {
+    if ( ! $post_id ) {
+        $post_id = get_the_ID();
+    }
+
+    $categories = get_the_category( $post_id );
+
+    if ( ! empty( $categories ) ) {
+        return array(
+            'name' => $categories[0]->name,
+            'url'  => get_category_link( $categories[0]->term_id ),
+        );
+    }
+
+    return array(
+        'name' => esc_html__( 'Uncategorized', 'baloch-diamond' ),
+        'url'  => '#',
+    );
+}
+
+
+/**
+ * Custom pagination for archives
+ */
+function bd_pagination() {
+    global $wp_query;
+
+    if ( $wp_query->max_num_pages <= 1 ) {
+        return;
+    }
+
+    $paged = max( 1, get_query_var( 'paged' ) );
+    $max   = intval( $wp_query->max_num_pages );
+
+    echo '<div class="pagination">';
+
+    // Previous
+    if ( $paged > 1 ) {
+        echo '<a href="' . esc_url( get_pagenum_link( $paged - 1 ) ) . '">' . bd_icon( 'arrow-left', 16, 16 ) . '</a>';
+    }
+
+    // Page numbers
+    for ( $i = 1; $i <= $max; $i++ ) {
+        if ( $i === $paged ) {
+            echo '<span class="current">' . $i . '</span>';
+        } else {
+            echo '<a href="' . esc_url( get_pagenum_link( $i ) ) . '">' . $i . '</a>';
+        }
+    }
+
+    // Next
+    if ( $paged < $max ) {
+        echo '<a href="' . esc_url( get_pagenum_link( $paged + 1 ) ) . '">' . bd_icon( 'arrow-right-small', 16, 16 ) . '</a>';
+    }
+
+    echo '</div>';
+}
+
+
+/**
+ * Get customizer setting with default fallback
+ */
+function bd_get_mod( $key, $default = '' ) {
+    return get_theme_mod( 'bd_' . $key, $default );
+}
+
+
+/**
+ * Check if a section should be visible
+ */
+function bd_is_section_visible( $section ) {
+    return get_theme_mod( 'bd_' . $section . '_show', true );
+}
+
+
+/**
+ * Output section header (badge + title + divider + description)
+ */
+function bd_section_header( $section, $defaults = array() ) {
+
+    $badge = get_theme_mod( "bd_{$section}_badge", isset( $defaults['badge'] ) ? $defaults['badge'] : '' );
+    $title = get_theme_mod( "bd_{$section}_title", isset( $defaults['title'] ) ? $defaults['title'] : '' );
+    $desc  = get_theme_mod( "bd_{$section}_desc", isset( $defaults['desc'] ) ? $defaults['desc'] : '' );
+    $icon  = isset( $defaults['icon'] ) ? $defaults['icon'] : 'file-text';
+
+    $show_badge = get_theme_mod( "bd_{$section}_show_badge", true );
+    $show_title = get_theme_mod( "bd_{$section}_show_title", true );
+    $show_desc  = get_theme_mod( "bd_{$section}_show_desc", true );
+
+    echo '<div class="section-header" style="position:relative;z-index:1">';
+
+    if ( $show_badge && $badge ) {
+        echo '<div class="section-badge">';
+        echo bd_icon( $icon, 16, 16 );
+        echo esc_html( $badge );
+        echo '</div>';
+    }
+
+    if ( $show_title && $title ) {
+        echo '<h2 class="section-title stitch-border">' . esc_html( $title ) . '</h2>';
+        echo '<div class="balochi-divider"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>';
+    }
+
+    if ( $show_desc && $desc ) {
+        echo '<p class="section-desc">' . esc_html( $desc ) . '</p>';
+    }
+
+    echo '</div>';
+}
+
+
+/**
+ * Body classes
+ */
+function bd_body_classes( $classes ) {
+    if ( is_front_page() ) {
+        $classes[] = 'is-front-page';
+    }
+
+    if ( is_singular() ) {
+        $classes[] = 'is-singular';
+    }
+
+    return $classes;
+}
+add_filter( 'body_class', 'bd_body_classes' );
+
+
+/**
+ * Add custom CSS class to menu items
+ */
+function bd_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
+    if ( isset( $args->theme_location ) && $args->theme_location === 'footer' ) {
+        // Footer menu styling handled by CSS
+    }
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'bd_nav_menu_link_attributes', 10, 4 );
