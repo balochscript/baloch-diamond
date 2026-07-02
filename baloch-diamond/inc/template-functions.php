@@ -18,7 +18,9 @@ function bd_reading_time( $post_id = null ) {
     }
 
     $content    = get_post_field( 'post_content', $post_id );
-    $word_count = str_word_count( strip_tags( $content ) );
+    $clean_content = strip_tags( $content );
+    // UTF-8 word counting supporting Persian, Balochi, Arabic, etc.
+    $word_count = count( preg_split( '~[^\p{L}\p{N}\']+~u', $clean_content, -1, PREG_SPLIT_NO_EMPTY ) );
     $minutes    = max( 1, ceil( $word_count / 200 ) );
 
     /* translators: %d: Number of minutes */
