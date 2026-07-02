@@ -82,6 +82,70 @@ function bd_customize_register( $wp_customize ) {
 
 
     // ================================================================
+    //  SECTION 1.5: TYPOGRAPHY (FONTS)
+    // ================================================================
+    $wp_customize->add_section( 'bd_typography_section', array(
+        'title'    => esc_html__( '🔤 Typography & Fonts', 'baloch-diamond' ),
+        'panel'    => 'bd_panel',
+        'priority' => 12,
+    ) );
+
+    // Primary Font (Body Text)
+    $wp_customize->add_setting( 'bd_primary_font', array(
+        'default'           => 'Poppins',
+        'sanitize_callback' => 'bd_sanitize_select',
+    ) );
+    $wp_customize->add_control( 'bd_primary_font', array(
+        'label'    => esc_html__( 'Primary Font (Body Text)', 'baloch-diamond' ),
+        'section'  => 'bd_typography_section',
+        'type'     => 'select',
+        'choices'  => array(
+            'Poppins'    => 'Poppins (Modern Sans-Serif)',
+            'Roboto'     => 'Roboto (Clean Sans-Serif)',
+            'Inter'      => 'Inter (Minimalist Sans-Serif)',
+            'Montserrat' => 'Montserrat (Geometric Sans-Serif)',
+            'Lora'       => 'Lora (Elegant Serif)',
+        ),
+    ) );
+
+    // Heading Font
+    $wp_customize->add_setting( 'bd_heading_font', array(
+        'default'           => 'Playfair Display',
+        'sanitize_callback' => 'bd_sanitize_select',
+    ) );
+    $wp_customize->add_control( 'bd_heading_font', array(
+        'label'    => esc_html__( 'Heading Font', 'baloch-diamond' ),
+        'section'  => 'bd_typography_section',
+        'type'     => 'select',
+        'choices'  => array(
+            'Playfair Display' => 'Playfair Display (Premium Serif)',
+            'Poppins'          => 'Poppins (Bold Sans-Serif)',
+            'Montserrat'       => 'Montserrat (Display Sans-Serif)',
+            'Merriweather'     => 'Merriweather (Classic Editorial)',
+        ),
+    ) );
+
+    // RTL Font (Persian & Balochi)
+    $wp_customize->add_setting( 'bd_rtl_font', array(
+        'default'           => 'Vazirmatn',
+        'sanitize_callback' => 'bd_sanitize_select',
+    ) );
+    $wp_customize->add_control( 'bd_rtl_font', array(
+        'label'       => esc_html__( 'RTL Font (Persian/Balochi)', 'baloch-diamond' ),
+        'description' => esc_html__( 'Select the font family for Persian, Balochi, Arabic, and other Right-to-Left (RTL) scripts.', 'baloch-diamond' ),
+        'section'     => 'bd_typography_section',
+        'type'        => 'select',
+        'choices'     => array(
+            'Vazirmatn' => 'Vazirmatn (وزیرمتن - پیشنهادی)',
+            'Cairo'     => 'Cairo (کایرو - هندسی و مدرن)',
+            'Tajawal'   => 'Tajawal (تاجاوال - روان و شیک)',
+            'Amiri'     => 'Amiri (امیری - خط نسخ سنتی)',
+            'system'    => 'System default (فونت سیستم بدون وب‌فونت)',
+        ),
+    ) );
+
+
+    // ================================================================
     //  SECTION 2: HEADER
     // ================================================================
     $wp_customize->add_section( 'bd_header_section', array(
