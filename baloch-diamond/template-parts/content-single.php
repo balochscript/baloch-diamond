@@ -65,6 +65,15 @@ $category = bd_get_first_category();
 
     <?php the_content(); ?>
 
+    <?php
+    wp_link_pages( array(
+        'before'      => '<div class="pagination" style="margin-top:32px;margin-bottom:32px">',
+        'after'       => '</div>',
+        'link_before' => '<span>',
+        'link_after'  => '</span>',
+    ) );
+    ?>
+
     <!-- Tags -->
     <?php
     $tags = get_the_tags();
