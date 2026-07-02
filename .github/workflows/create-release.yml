@@ -29,11 +29,8 @@ jobs:
 
       - name: 🤐 Zip WordPress Theme Folder
         run: |
-          # The actual theme lies in the inner 'baloch-diamond' folder.
-          # We enter the root of the repo, and zip only the theme folder.
-          cd baloch-diamond
-          zip -r ../baloch-diamond.zip baloch-diamond/ -x "*.git*" "*/.DS_Store" "*/.github*"
-          cd ..
+          # We run zip directly from the repository root to package the theme folder
+          zip -r baloch-diamond.zip baloch-diamond/ -x "*.git*" "*/.DS_Store" "*/.github*"
 
       - name: 🚀 Create GitHub Release
         id: create_release
