@@ -4,7 +4,7 @@ Theme URI: https://balochscript.com/baloch-diamond
 Author: Baloch Script Team
 Author URI: https://balochscript.com
 Description: A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence. Features include customizable colors, hero slider, portfolio showcase, team section, and full dark/light mode support.
-Version: 1.0.0
+Version: 1.1.0
 Tested up to: 6.7
 Requires at least: 6.0
 Requires PHP: 7.4
@@ -1240,6 +1240,20 @@ body {
     margin-bottom: 20px;
 }
 
+.single-post-content a:not(.post-tag):not(.btn-gradient):not(.btn-outline) {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px dashed rgba(56, 189, 248, 0.4);
+    transition: all 0.3s ease;
+}
+
+.single-post-content a:not(.post-tag):not(.btn-gradient):not(.btn-outline):hover {
+    color: var(--color-secondary);
+    border-bottom-color: var(--color-secondary);
+    text-shadow: 0 0 1px rgba(249, 115, 22, 0.1);
+}
+
 .single-post-content h2 {
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
@@ -1645,4 +1659,103 @@ body {
     .slide-title { font-size: 1.3rem; }
     .section { padding: 50px 16px; }
     .newsletter-title { font-size: 1.8rem; }
+}
+
+/* ============================================
+   PROMO HUB SECTION (FORUM & MARKETPLACE)
+   ============================================ */
+.promo-hub-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.promo-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow);
+}
+
+.promo-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-primary);
+    box-shadow: 0 16px 40px rgba(56, 189, 248, 0.12);
+}
+
+.promo-card-pattern {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 2 L18 8 L15 14 L12 8Z' fill='none' stroke='%2338bdf8' stroke-width='0.4' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+.forum-promo-card .promo-card-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 2 L18 8 L15 14 L12 8Z' fill='none' stroke='%2338bdf8' stroke-width='0.4' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.shop-promo-card .promo-card-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 2 L18 8 L15 14 L12 8Z' fill='none' stroke='%23f97316' stroke-width='0.4' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.promo-card-body {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+}
+
+.promo-icon-wrapper {
+    width: 80px; height: 80px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(249, 115, 22, 0.08));
+    margin-bottom: 24px;
+    color: var(--color-primary);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    transition: all 0.3s;
+}
+
+.shop-promo-card .promo-icon-wrapper {
+    color: var(--color-secondary);
+    border-color: rgba(249, 115, 22, 0.15);
+}
+
+.promo-card:hover .promo-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--gradient);
+    color: white;
+    border-color: transparent;
+}
+
+.promo-svg-icon {
+    width: 36px; height: 36px;
+}
+
+.promo-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.promo-card-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 320px;
+}
+
+.promo-action {
+    margin-top: auto;
 }
