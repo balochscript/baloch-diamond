@@ -58,6 +58,14 @@ body {
     overflow-x: hidden;
 }
 
+body.rtl, 
+body.rtl button, 
+body.rtl input, 
+body.rtl textarea, 
+body.rtl select {
+    font-family: 'Vazirmatn', sans-serif;
+}
+
 /* ============================================
    BALOCHI PATTERN SVG BACKGROUND
    ============================================ */
