@@ -104,13 +104,58 @@ add_action( 'after_setup_theme', 'bd_content_width', 0 );
  */
 function bd_enqueue_scripts() {
 
-    // Google Fonts
-    wp_enqueue_style(
-        'bd-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap',
-        array(),
-        null
-    );
+    // Retrieve customizer fonts
+    $primary_font = get_theme_mod( 'bd_primary_font', 'Poppins' );
+    $heading_font = get_theme_mod( 'bd_heading_font', 'Playfair Display' );
+    $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
+
+    $font_families = array();
+
+    // Map body font
+    if ( $primary_font === 'Poppins' ) {
+        $font_families[] = 'Poppins:wght@300;400;500;600;700;800;900';
+    } elseif ( $primary_font === 'Roboto' ) {
+        $font_families[] = 'Roboto:wght@300;400;500;700;900';
+    } elseif ( $primary_font === 'Inter' ) {
+        $font_families[] = 'Inter:wght@300;400;500;600;700;800;900';
+    } elseif ( $primary_font === 'Montserrat' ) {
+        $font_families[] = 'Montserrat:wght@300;400;500;600;700;800;900';
+    } elseif ( $primary_font === 'Lora' ) {
+        $font_families[] = 'Lora:wght@400;500;600;700';
+    }
+
+    // Map heading font
+    if ( $heading_font === 'Playfair Display' ) {
+        $font_families[] = 'Playfair Display:wght@400;700;900';
+    } elseif ( $heading_font === 'Poppins' && $primary_font !== 'Poppins' ) {
+        $font_families[] = 'Poppins:wght@400;700;900';
+    } elseif ( $heading_font === 'Montserrat' && $primary_font !== 'Montserrat' ) {
+        $font_families[] = 'Montserrat:wght@400;700;900';
+    } elseif ( $heading_font === 'Merriweather' ) {
+        $font_families[] = 'Merriweather:wght@300;400;700;900';
+    }
+
+    // Map RTL font (Persian/Arabic)
+    if ( $rtl_font === 'Vazirmatn' ) {
+        $font_families[] = 'Vazirmatn:wght@300;400;500;700;900';
+    } elseif ( $rtl_font === 'Cairo' ) {
+        $font_families[] = 'Cairo:wght@300;400;500;700;900';
+    } elseif ( $rtl_font === 'Tajawal' ) {
+        $font_families[] = 'Tajawal:wght@300;400;500;700;900';
+    } elseif ( $rtl_font === 'Amiri' ) {
+        $font_families[] = 'Amiri:wght@400;700';
+    }
+
+    if ( ! empty( $font_families ) ) {
+        $fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', array_map( 'rawurlencode', $font_families ) ) . '&display=swap';
+        
+        wp_enqueue_style(
+            'bd-google-fonts',
+            $fonts_url,
+            array(),
+            null
+        );
+    }
 
     // Main theme stylesheet
     wp_enqueue_style(
@@ -347,6 +392,11 @@ function bd_dynamic_css() {
     $header_grad_2 = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
     $header_grad_direction = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 
+    $primary_font = get_theme_mod( 'bd_primary_font', 'Poppins' );
+    $heading_font = get_theme_mod( 'bd_heading_font', 'Playfair Display' );
+    $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
+
+    $rtl_family = $rtl_font === 'system' ? 'sans-serif' : "'{$rtl_font}', sans-serif";
     ?>
     <style id="bd-dynamic-css">
         :root {
@@ -354,6 +404,33 @@ function bd_dynamic_css() {
             --color-secondary: <?php echo esc_attr( $secondary ); ?>;
             --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?>, <?php echo esc_attr( $secondary ); ?>);
             --gradient-reverse: linear-gradient(135deg, <?php echo esc_attr( $secondary ); ?>, <?php echo esc_attr( $primary ); ?>);
+        }
+
+        body {
+            font-family: '<?php echo esc_attr( $primary_font ); ?>', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6,
+        .site-name,
+        .slide-title,
+        .section-title,
+        .project-card-title,
+        .post-card-title,
+        .doc-title,
+        .team-name,
+        .newsletter-title,
+        .footer-logo-text,
+        .error-number,
+        .error-title {
+            font-family: '<?php echo esc_attr( $heading_font ); ?>', serif;
+        }
+
+        body.rtl, 
+        body.rtl button, 
+        body.rtl input, 
+        body.rtl textarea, 
+        body.rtl select {
+            font-family: <?php echo $rtl_family; ?>;
         }
 
         <?php if ( $header_bg_type === 'solid' && $header_bg_color ) : ?>
