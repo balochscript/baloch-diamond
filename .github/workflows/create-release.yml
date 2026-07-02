@@ -1,0 +1,59 @@
+name: 🚀 Package & Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: 📦 Build Theme Zip & Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 🌐 Auto-Update Translation POT File
+        run: |
+          # This runs the update script to guarantee that the released ZIP 
+          # always contains the absolute latest translatable strings!
+          python3 update_pot.py
+
+      - name: 🤐 Zip WordPress Theme Folder
+        run: |
+          # The actual theme lies in the inner 'baloch-diamond' folder.
+          # We enter the root of the repo, and zip only the theme folder.
+          cd baloch-diamond
+          zip -r ../baloch-diamond.zip baloch-diamond/ -x "*.git*" "*/.DS_Store" "*/.github*"
+          cd ..
+
+      - name: 🚀 Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: baloch-diamond.zip
+          name: Baloch Diamond Theme Release ${{ github.ref_name }}
+          body: |
+            ## 💎 Baloch Diamond Theme Release `${{ github.ref_name }}`
+            
+            Welcome to the official release of the Baloch Diamond WordPress Theme!
+            
+            ### 📦 Installation Guide
+            1. Download the attached `baloch-diamond.zip` below.
+            2. In your WordPress dashboard, navigate to **Appearance → Themes → Add New → Upload Theme**.
+            3. Upload the `baloch-diamond.zip` file and click **Activate**.
+            
+            ### 📋 Changelog
+            Please refer to the `CHANGELOG.md` file inside the repository for full changes.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
