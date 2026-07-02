@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme version constant
-define( 'BD_VERSION', '1.0.0' );
+define( 'BD_VERSION', '1.1.0' );
 define( 'BD_DIR', get_template_directory() );
 define( 'BD_URI', get_template_directory_uri() );
 
@@ -70,6 +70,12 @@ function bd_theme_setup() {
 
     // Responsive embeds
     add_theme_support( 'responsive-embeds' );
+
+    // WooCommerce support
+    add_theme_support( 'woocommerce' );
+    add_theme_support( 'wc-product-gallery-zoom' );
+    add_theme_support( 'wc-product-gallery-lightbox' );
+    add_theme_support( 'wc-product-gallery-slider' );
 
     // Register navigation menus
     register_nav_menus( array(
@@ -316,8 +322,23 @@ add_action( 'wp_ajax_nopriv_bd_subscribe', 'bd_newsletter_subscribe' );
  */
 function bd_dynamic_css() {
 
-    $primary   = get_theme_mod( 'bd_primary_color', '#38bdf8' );
-    $secondary = get_theme_mod( 'bd_secondary_color', '#f97316' );
+    $preset = get_theme_mod( 'bd_color_preset', 'default' );
+
+    $presets = array(
+        'default' => array( 'primary' => '#38bdf8', 'secondary' => '#f97316' ),
+        'ocean'   => array( 'primary' => '#0ea5e9', 'secondary' => '#06b6d4' ),
+        'desert'  => array( 'primary' => '#f97316', 'secondary' => '#ef4444' ),
+        'forest'  => array( 'primary' => '#10b981', 'secondary' => '#059669' ),
+        'royal'   => array( 'primary' => '#8b5cf6', 'secondary' => '#ec4899' ),
+    );
+
+    if ( $preset !== 'custom' && isset( $presets[ $preset ] ) ) {
+        $primary   = $presets[ $preset ]['primary'];
+        $secondary = $presets[ $preset ]['secondary'];
+    } else {
+        $primary   = get_theme_mod( 'bd_primary_color', '#38bdf8' );
+        $secondary = get_theme_mod( 'bd_secondary_color', '#f97316' );
+    }
 
     // Header settings
     $header_bg_type = get_theme_mod( 'bd_header_bg_type', 'default' );
