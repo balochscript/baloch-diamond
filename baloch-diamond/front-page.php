@@ -16,9 +16,14 @@ get_header();
         get_template_part( 'template-parts/hero-slider' );
     }
 
-    // Shop & Forum Promo Hub Section
-    if ( bd_is_section_visible( 'promohub' ) ) {
-        get_template_part( 'template-parts/section-promo-hub' );
+    // Shop (WooCommerce) Showcase Section
+    if ( bd_is_section_visible( 'shop' ) ) {
+        get_template_part( 'template-parts/section-shop' );
+    }
+
+    // Forum (bbPress) Showcase Section
+    if ( bd_is_section_visible( 'forum' ) ) {
+        get_template_part( 'template-parts/section-forum' );
     }
 
     // Portfolio Section
