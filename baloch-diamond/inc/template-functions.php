@@ -154,6 +154,10 @@ function bd_body_classes( $classes ) {
         $classes[] = 'is-singular';
     }
 
+    if ( get_theme_mod( 'bd_animated_patterns', true ) ) {
+        $classes[] = 'balochi-pattern-animated';
+    }
+
     return $classes;
 }
 add_filter( 'body_class', 'bd_body_classes' );
