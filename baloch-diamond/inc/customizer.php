@@ -146,6 +146,40 @@ function bd_customize_register( $wp_customize ) {
 
 
     // ================================================================
+    //  SECTION 1.6: ADVANCED FEATURES
+    // ================================================================
+    $wp_customize->add_section( 'bd_advanced_section', array(
+        'title'    => esc_html__( '🚀 Advanced Core Features', 'baloch-diamond' ),
+        'panel'    => 'bd_panel',
+        'priority' => 13,
+    ) );
+
+    // Animated backgrounds
+    $wp_customize->add_setting( 'bd_animated_patterns', array(
+        'default'           => true,
+        'sanitize_callback' => 'bd_sanitize_checkbox',
+    ) );
+    $wp_customize->add_control( 'bd_animated_patterns', array(
+        'label'       => esc_html__( 'Enable Animated Needlework Patterns', 'baloch-diamond' ),
+        'description' => esc_html__( 'Check to activate slow, elegant stitch background scroll animations.', 'baloch-diamond' ),
+        'section'     => 'bd_advanced_section',
+        'type'        => 'checkbox',
+    ) );
+
+    // Skeleton Loading
+    $wp_customize->add_setting( 'bd_skeleton_loading', array(
+        'default'           => true,
+        'sanitize_callback' => 'bd_sanitize_checkbox',
+    ) );
+    $wp_customize->add_control( 'bd_skeleton_loading', array(
+        'label'       => esc_html__( 'Enable Skeleton Shimmer Loading', 'baloch-diamond' ),
+        'description' => esc_html__( 'Simulate highly optimized content block transitions on slow networks.', 'baloch-diamond' ),
+        'section'     => 'bd_advanced_section',
+        'type'        => 'checkbox',
+    ) );
+
+
+    // ================================================================
     //  SECTION 2: HEADER
     // ================================================================
     $wp_customize->add_section( 'bd_header_section', array(
