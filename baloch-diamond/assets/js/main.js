@@ -797,6 +797,127 @@
 
 
     // ================================================================
+    //  16. FRONTEND COLOR SWITCHER (Proposal 1)
+    // ================================================================
+    var frontendSwitcher = {
+        init: function() {
+            var toggleBtn = $( '#switcherToggleBtn' );
+            var switcher  = $( '#floatingSwitcher' );
+            var dots      = $$( '.switcher-color-dot' );
+            var resetBtn  = $( '#resetSwitcherBtn' );
+
+            if ( ! toggleBtn || ! switcher ) return;
+
+            // Toggle switcher visibility
+            toggleBtn.addEventListener( 'click', function( e ) {
+                e.stopPropagation();
+                switcher.classList.toggle( 'active' );
+            } );
+
+            // Close switcher on click outside
+            document.addEventListener( 'click', function( e ) {
+                if ( ! switcher.contains( e.target ) && e.target !== toggleBtn ) {
+                    switcher.classList.remove( 'active' );
+                }
+            } );
+
+            // Color dots click logic
+            dots.forEach( function( dot ) {
+                dot.addEventListener( 'click', function() {
+                    var primary   = this.getAttribute( 'data-primary' );
+                    var secondary = this.getAttribute( 'data-secondary' );
+
+                    // Remove active from all dots
+                    dots.forEach( function( d ) { d.classList.remove( 'active' ); } );
+                    this.classList.add( 'active' );
+
+                    // Apply styles
+                    document.documentElement.style.setProperty( '--color-primary', primary, 'important' );
+                    document.documentElement.style.setProperty( '--color-secondary', secondary, 'important' );
+                    document.documentElement.style.setProperty(
+                        '--gradient',
+                        'linear-gradient(135deg, ' + primary + ', ' + secondary + ')',
+                        'important'
+                    );
+                    document.documentElement.style.setProperty(
+                        '--gradient-reverse',
+                        'linear-gradient(135deg, ' + secondary + ', ' + primary + ')',
+                        'important'
+                    );
+
+                    // Save to localStorage
+                    localStorage.setItem( 'bd_temp_primary', primary );
+                    localStorage.setItem( 'bd_temp_secondary', secondary );
+                } );
+            } );
+
+            // Reset button click
+            if ( resetBtn ) {
+                resetBtn.addEventListener( 'click', function() {
+                    document.documentElement.style.removeProperty( '--color-primary' );
+                    document.documentElement.style.removeProperty( '--color-secondary' );
+                    document.documentElement.style.removeProperty( '--gradient' );
+                    document.documentElement.style.removeProperty( '--gradient-reverse' );
+
+                    dots.forEach( function( d ) { d.classList.remove( 'active' ); } );
+                    if ( dots[0] ) dots[0].classList.add( 'active' );
+
+                    localStorage.removeItem( 'bd_temp_primary' );
+                    localStorage.removeItem( 'bd_temp_secondary' );
+                    showNotify( 'Reset to Admin Colors!' );
+                } );
+            }
+
+            // Load temporary colors on page load if set
+            var tempPrimary   = localStorage.getItem( 'bd_temp_primary' );
+            var tempSecondary = localStorage.getItem( 'bd_temp_secondary' );
+
+            if ( tempPrimary && tempSecondary ) {
+                document.documentElement.style.setProperty( '--color-primary', tempPrimary, 'important' );
+                document.documentElement.style.setProperty( '--color-secondary', tempSecondary, 'important' );
+                document.documentElement.style.setProperty(
+                    '--gradient',
+                    'linear-gradient(135deg, ' + tempPrimary + ', ' + tempSecondary + ')',
+                    'important'
+                );
+                document.documentElement.style.setProperty(
+                    '--gradient-reverse',
+                    'linear-gradient(135deg, ' + tempSecondary + ', ' + tempPrimary + ')',
+                    'important'
+                );
+
+                // Set active dot
+                dots.forEach( function( d ) {
+                    var p = d.getAttribute( 'data-primary' );
+                    if ( p === tempPrimary ) {
+                        dots.forEach( function( other ) { other.classList.remove( 'active' ); } );
+                        d.classList.add( 'active' );
+                    }
+                } );
+            }
+        }
+    };
+
+    // ================================================================
+    //  17. SKELETON LOADER (Proposal 6)
+    // ================================================================
+    var skeletonLoader = {
+        init: function() {
+            var cards = $$( '.project-card, .post-card, .product-card' );
+            if ( cards.length === 0 ) return;
+
+            // Simple transition out after a brief moment to simulate elegant skeletal placeholder transitions
+            setTimeout( function() {
+                cards.forEach( function( card ) {
+                    card.style.transition = 'opacity 0.4s ease';
+                    card.style.opacity = '1';
+                } );
+            }, 800 );
+        }
+    };
+
+
+    // ================================================================
     //  INITIALIZE EVERYTHING
     // ================================================================
     domReady( function() {
@@ -817,6 +938,8 @@
         smoothScroll.init();
         lazyLoad.init();
         backToTop.init();
+        frontendSwitcher.init();
+        skeletonLoader.init();
 
     } );
 
