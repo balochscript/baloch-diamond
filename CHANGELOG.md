@@ -8,24 +8,28 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.1.0] - 2026-07-02
 
-### Added 
-- **WooCommerce Integration:** Full, official theme support for WooCommerce shop systems. Product gallery features (Zoom, Lightbox, Slider) are now active and styled.
-- **bbPress Compatibility:** Enhanced compatibility styling for forums and community-driven discussion sections.
-- **Promo Hub Section:** Created `template-parts/section-promo-hub.php` containing a beautiful dual-purpose promotional box right under the hero post slider. Admin can direct visitors to Forums and Shops with Baloch-inspired design.
-- **WordPress Customizer Color Presets:** Added the "Color Scheme Preset" option to Section 1 of the official WordPress Customizer. Users can select from 5 premium pre-designed color palettes (Ocean Breeze, Desert Sunset, Forest Green, Royal Purple, and Baloch Diamond Default) or set custom colors.
-- **Multi-page Post Navigation:** Added `wp_link_pages()` to `template-parts/content-single.php` to support single articles split across multiple pages.
+### Added
+- **WooCommerce Product Showcase:** Added dedicated `template-parts/section-shop.php` template for showing shop products in a highly customizable slider or grid. Includes filters for recent, sale, featured, and popular products, plus dynamic star ratings, prices, and sale badges.
+- **bbPress Forums Showcase:** Added dedicated `template-parts/section-forum.php` template. Displays latest active discussion topics (replies, author, date) or transitions to a styled Community CTA board with statistics counters.
+- **Color Scheme Presets:** Built-in "Color Scheme Preset" selector in Section 1 of the Customizer with 5 premium presets (Ocean Breeze, Desert Sunset, Forest Green, Royal Purple, and Baloch Diamond Default).
+- **Interactive Palette Switcher:** Added a floating frontend selector widget to let visitors temporarily preview colors on-the-fly, with an instant "Reset to Default" button.
+- **Customizer Typography Control:** Added Section 1.5 with full Google Font integration (Poppins, Roboto, Inter, Montserrat, Lora, Playfair Display, Merriweather) and Right-to-Left (RTL) specific font support (Vazirmatn, Cairo, Tajawal, Amiri).
+- **Megamenu with Needlework Borders:** Styled full-width 4-column dropdown menus under `.site-header .megamenu` featuring subtle geometric needlework pattern backdrops.
+- **Skeleton Shimmer Loading:** Built-in skeletal loading placeholders with shimmering gradients that transition smoothly into post cards, product cards, and portfolios once pages load.
+- **Optional Background Animations:** Added option to slow-animate the traditional background needlework SVG patterns to add life and motion.
+- **Multi-page Navigation:** Integrated `wp_link_pages()` into single article views (`content-single.php`).
 
-### Changed 
+### Changed
 - **Version Bump:** Upgraded theme version to `1.1.0`.
-- **Frontend Clean-up:** Removed the redundant frontend customizer menu, floating overlay, and sliders from `header.php` to give a cleaner, faster, production-ready website appearance.
-- **Pagination Clean-up:** Consolidated the duplication inside `index.php` by migrating default post pagination to the custom `bd_pagination()` function for design consistency.
+- **Frontend Panel Clean-up:** Relocated the heavy color selectors and settings panels to the secure WordPress Customizer back-end, leaving only a beautiful and lightweight palette preview switcher on the front-end.
+- **Pagination Consolidated:** Migrated `the_posts_pagination()` in `index.php` to use the custom, styled `bd_pagination()` function for a streamlined layout.
 
-### Fixed 
-- **Reflected XSS Vulnerability:** Fully sanitized the search query output inside `search.php` using `esc_html()` to prevent Cross-Site Scripting (XSS).
-- **Undefined Variable `$commenter` Warning:** Fixed PHP Warning notices inside `comments.php` by properly fetching comment author metadata via `wp_get_current_commenter()`.
-- **Customizer PHP Fatal Error risk:** Patched `bd_sanitize_select()` in `inc/customizer.php` by introducing defensive check constraints on active controls, preventing fatal errors during import/export pipelines.
-- **Multibyte Word Count (Persian/Balochi):** Corrected the estimated reading time calculation inside `inc/template-functions.php` to use a UTF-8 compatible Regex parser instead of Latin-only `str_word_count()`.
-- **Single Post Link Color styling:** Added elegant, cohesive link styles matching the Baloch Diamond palette inside single post paragraph tags (using dashed underlines and transitional color shifts on hover).
+### Fixed
+- **Reflected XSS Vulnerability:** Hardened the search page (`search.php`) by escaping search queries with `esc_html()` inside `printf()` functions.
+- **Undefined Variable `$commenter`:** Resolved the PHP warning in `comments.php` by correctly fetching comment author data via `wp_get_current_commenter()`.
+- **Customizer Defensive Boundaries:** Patched `bd_sanitize_select()` in `inc/customizer.php` by introducing control verification blocks to prevent PHP fatal errors during import/export.
+- **Multibyte UTF-8 Word Count:** Fixed estimated reading time calculations in `inc/template-functions.php` to properly compute Persian, Arabic, and Balochi characters.
+- **Article Link Color Styling:** Added custom link styles inside single posts using primary and secondary colors with dashed underlines.
 
 ---
 
@@ -33,6 +37,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 - Initial Release of Baloch Diamond WordPress Theme.
-- Responsive design, RTL support, standard translation `.pot` files.
+- Responsive design, standard translation `.pot` files.
 - Slider, Portfolio, Team, Resources, and Newsletter sections.
 - Vanilla JS implementations.
