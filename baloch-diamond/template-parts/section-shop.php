@@ -118,10 +118,10 @@ if ( ! $products_found ) {
 
     <?php if ( $layout === 'slider' ) : ?>
         <!-- Slider Layout -->
-        <div class="shop-slider-container" style="position:relative; overflow:hidden; padding:20px 0;">
-            <div class="shop-slider-wrapper" id="shopSliderWrapper" style="display:flex; transition: transform 0.5s ease; gap:24px;">
+        <div class="shop-slider-container" style="position:relative; overflow:hidden; padding:20px 0; width:100%;">
+            <div class="shop-slider-wrapper" id="shopSliderWrapper" style="display:flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); gap:24px; width:100%;">
                 <?php foreach ( $products_list as $prod ) : ?>
-                    <div class="shop-product-card" style="flex: 0 0 calc(33.333% - 16px); min-width: 280px; box-sizing: border-box;">
+                    <div class="shop-product-card" style="flex: 0 0 calc(33.333% - 16px); min-width: 280px; box-sizing: border-box; width: calc(33.333% - 16px);">
                         <?php bd_render_product_card_html( $prod ); ?>
                     </div>
                 <?php endforeach; ?>
@@ -129,10 +129,10 @@ if ( ! $products_found ) {
             
             <?php if ( count( $products_list ) > 1 ) : ?>
                 <div class="shop-slider-nav" style="display:flex; justify-content:center; gap:12px; margin-top:24px;">
-                    <button class="btn-outline" id="shopSliderPrev" style="padding:8px 16px; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">
+                    <button class="btn-outline shop-prev" id="shopSliderPrev" style="padding:8px 16px; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
                         <?php echo bd_icon( 'arrow-left', 16, 16 ); ?>
                     </button>
-                    <button class="btn-outline" id="shopSliderNext" style="padding:8px 16px; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">
+                    <button class="btn-outline shop-next" id="shopSliderNext" style="padding:8px 16px; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
                         <?php echo bd_icon( 'arrow-right-small', 16, 16 ); ?>
                     </button>
                 </div>
@@ -142,7 +142,9 @@ if ( ! $products_found ) {
         <!-- Grid Layout -->
         <div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:28px;">
             <?php foreach ( $products_list as $prod ) : ?>
-                <?php bd_render_product_card_html( $prod ); ?>
+                <div class="shop-product-card">
+                    <?php bd_render_product_card_html( $prod ); ?>
+                </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
