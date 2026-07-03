@@ -407,7 +407,7 @@ function bd_dynamic_css() {
         }
 
         body {
-            font-family: '<?php echo esc_attr( $primary_font ); ?>', sans-serif;
+            font-family: '<?php echo esc_attr( $primary_font ); ?>', sans-serif !important;
         }
 
         h1, h2, h3, h4, h5, h6,
@@ -421,8 +421,13 @@ function bd_dynamic_css() {
         .newsletter-title,
         .footer-logo-text,
         .error-number,
-        .error-title {
-            font-family: '<?php echo esc_attr( $heading_font ); ?>', serif;
+        .error-title,
+        .single-post-content h2,
+        .single-post-content h3,
+        .single-post-content h4,
+        .comment-author,
+        .comment-form-wrapper h4 {
+            font-family: '<?php echo esc_attr( $heading_font ); ?>', serif !important;
         }
 
         body.rtl, 
@@ -430,7 +435,7 @@ function bd_dynamic_css() {
         body.rtl input, 
         body.rtl textarea, 
         body.rtl select {
-            font-family: <?php echo $rtl_family; ?>;
+            font-family: <?php echo $rtl_family; ?> !important;
         }
 
         <?php if ( $header_bg_type === 'solid' && $header_bg_color ) : ?>
