@@ -15,6 +15,25 @@ $show_forum = get_theme_mod( 'bd_forum_show', true );
 $mode       = get_theme_mod( 'bd_forum_mode', 'topics' ); // 'topics' or 'cta'
 $count      = get_theme_mod( 'bd_forum_count', 4 );
 
+// Dynamic customization strings for texts
+$forum_badge     = get_theme_mod( 'bd_forum_badge', esc_html__( 'Thriving Community', 'baloch-diamond' ) );
+$forum_title     = get_theme_mod( 'bd_forum_title', esc_html__( 'Discussion Board', 'baloch-diamond' ) );
+$forum_desc      = get_theme_mod( 'bd_forum_desc', esc_html__( 'Join the conversations with embroidery enthusiasts, local artisans, and history lovers from all around the world.', 'baloch-diamond' ) );
+
+$cta_title       = get_theme_mod( 'bd_forum_cta_title', esc_html__( 'Connect with Fellow Creators', 'baloch-diamond' ) );
+$cta_desc        = get_theme_mod( 'bd_forum_cta_desc', esc_html__( 'Sign up today and get instant access to hundreds of topics. Explore patterns, share your design progress, get feedback from senior needlework masters, and join community workshops.', 'baloch-diamond' ) );
+$cta_btn_text    = get_theme_mod( 'bd_forum_cta_btn_text', esc_html__( 'Join Discussions', 'baloch-diamond' ) );
+$cta_btn_link    = get_theme_mod( 'bd_forum_cta_btn_link', '#_forum' );
+
+$stat1_num       = get_theme_mod( 'bd_forum_stat1_num', '1,240+' );
+$stat1_label     = get_theme_mod( 'bd_forum_stat1_label', esc_html__( 'Artisans', 'baloch-diamond' ) );
+$stat2_num       = get_theme_mod( 'bd_forum_stat2_num', '4,800+' );
+$stat2_label     = get_theme_mod( 'bd_forum_stat2_label', esc_html__( 'Discussions', 'baloch-diamond' ) );
+$stat3_num       = get_theme_mod( 'bd_forum_stat3_num', '350+' );
+$stat3_label     = get_theme_mod( 'bd_forum_stat3_label', esc_html__( 'Patterns', 'baloch-diamond' ) );
+$stat4_num       = get_theme_mod( 'bd_forum_stat4_num', '99%' );
+$stat4_label     = get_theme_mod( 'bd_forum_stat4_label', esc_html__( 'Help Rate', 'baloch-diamond' ) );
+
 if ( ! $show_forum ) {
     return;
 }
@@ -100,9 +119,9 @@ if ( ! $topics_found ) {
     
     <?php
     bd_section_header( 'forum', array(
-        'badge' => esc_html__( 'Thriving Community', 'baloch-diamond' ),
-        'title' => esc_html__( 'Discussion Board', 'baloch-diamond' ),
-        'desc'  => esc_html__( 'Join the conversations with embroidery enthusiasts, local artisans, and history lovers from all around the world.', 'baloch-diamond' ),
+        'badge' => $forum_badge,
+        'title' => $forum_title,
+        'desc'  => $forum_desc,
         'icon'  => 'users',
     ) );
     ?>
@@ -112,15 +131,15 @@ if ( ! $topics_found ) {
         <div class="forum-cta-box" style="display:flex; flex-wrap:wrap; gap:40px; align-items:center; background:var(--card-bg); border:1px solid var(--border); border-radius:24px; padding:48px; box-shadow:var(--shadow); margin-top:20px;">
             <div style="flex:1.5; min-width:300px;">
                 <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; margin-bottom:16px;">
-                    <?php esc_html_e( 'Connect with Fellow Creators', 'baloch-diamond' ); ?>
+                    <?php echo esc_html( $cta_title ); ?>
                 </h3>
                 <p style="color:var(--text-muted); font-size:1rem; line-height:1.7; margin-bottom:24px;">
-                    <?php esc_html_e( 'Sign up today and get instant access to hundreds of topics. Explore patterns, share your design progress, get feedback from senior needlework masters, and join community workshops.', 'baloch-diamond' ); ?>
+                    <?php echo esc_html( $cta_desc ); ?>
                 </p>
                 <div style="display:flex; gap:16px; flex-wrap:wrap;">
-                    <a href="<?php echo esc_url( class_exists( 'bbPress' ) ? get_post_type_archive_link( 'forum' ) : '#_forum' ); ?>" class="btn-gradient">
+                    <a href="<?php echo esc_url( class_exists( 'bbPress' ) ? $cta_btn_link : '#_forum' ); ?>" class="btn-gradient">
                         <?php echo bd_icon( 'users', 16, 16 ); ?>
-                        <?php esc_html_e( 'Join Discussions', 'baloch-diamond' ); ?>
+                        <?php echo esc_html( $cta_btn_text ); ?>
                     </a>
                     <a href="#newsletter" class="btn-outline">
                         <?php esc_html_e( 'Subscribe to Invites', 'baloch-diamond' ); ?>
@@ -131,20 +150,20 @@ if ( ! $topics_found ) {
             <!-- Statistics Card -->
             <div style="flex:1; min-width:260px; display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                 <div class="doc-card" style="text-align:center; padding:24px;">
-                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;">1,240+</div>
-                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php esc_html_e( 'Artisans', 'baloch-diamond' ); ?></span>
+                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;"><?php echo esc_html( $stat1_num ); ?></div>
+                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php echo esc_html( $stat1_label ); ?></span>
                 </div>
                 <div class="doc-card" style="text-align:center; padding:24px;">
-                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;">4,800+</div>
-                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php esc_html_e( 'Discussions', 'baloch-diamond' ); ?></span>
+                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;"><?php echo esc_html( $stat2_num ); ?></div>
+                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php echo esc_html( $stat2_label ); ?></span>
                 </div>
                 <div class="doc-card" style="text-align:center; padding:24px;">
-                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;">350+</div>
-                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php esc_html_e( 'Patterns', 'baloch-diamond' ); ?></span>
+                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;"><?php echo esc_html( $stat3_num ); ?></div>
+                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php echo esc_html( $stat3_label ); ?></span>
                 </div>
                 <div class="doc-card" style="text-align:center; padding:24px;">
-                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;">99%</div>
-                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php esc_html_e( 'Help Rate', 'baloch-diamond' ); ?></span>
+                    <div style="font-size:2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px;"><?php echo esc_html( $stat4_num ); ?></div>
+                    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;"><?php echo esc_html( $stat4_label ); ?></span>
                 </div>
             </div>
         </div>
@@ -190,7 +209,7 @@ if ( ! $topics_found ) {
         </div>
         
         <div style="text-align:center; margin-top:36px;">
-            <a href="<?php echo esc_url( class_exists( 'bbPress' ) ? get_post_type_archive_link( 'forum' ) : '#_forum' ); ?>" class="btn-gradient">
+            <a href="<?php echo esc_url( class_exists( 'bbPress' ) ? bbp_get_forum_archive_link() : '#_forum' ); ?>" class="btn-gradient">
                 <?php echo bd_icon( 'users', 16, 16 ); ?>
                 <?php esc_html_e( 'Visit Full Forums', 'baloch-diamond' ); ?>
             </a>
