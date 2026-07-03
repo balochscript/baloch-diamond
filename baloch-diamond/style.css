@@ -1767,3 +1767,214 @@ body.rtl select {
 .promo-action {
     margin-top: auto;
 }
+
+/* ============================================
+   PROPOSAL 1: FLOATING COLOR SWITCHER
+   ============================================ */
+.floating-switcher {
+    position: fixed;
+    bottom: 90px;
+    left: 24px;
+    z-index: 999;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transform: translateX(-180%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-switcher.active {
+    transform: translateX(0);
+}
+
+.switcher-toggle-btn {
+    position: fixed;
+    bottom: 90px;
+    left: 24px;
+    z-index: 1000;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(56,189,248,0.3);
+    transition: all 0.3s;
+}
+
+.switcher-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.switcher-palette-row {
+    display: flex;
+    gap: 8px;
+}
+
+.switcher-color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s;
+}
+
+.switcher-color-dot:hover {
+    transform: scale(1.15);
+}
+
+.switcher-color-dot.active {
+    border-color: var(--text);
+}
+
+/* ============================================
+   PROPOSAL 2: ANIMATED NEEDLEWORK BACKGROUNDS
+   ============================================ */
+.balochi-pattern-animated::before {
+    animation: stitchPulse 12s infinite linear !important;
+}
+
+@keyframes stitchPulse {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 60px 60px;
+    }
+}
+
+/* ============================================
+   PROPOSAL 4: MEGAMENU STYLE
+   ============================================ */
+@media (min-width: 1025px) {
+    .site-header .menu-item-has-children.megamenu {
+        position: static !important;
+    }
+
+    .site-header .megamenu .sub-menu {
+        position: absolute;
+        top: 100%;
+        left: 24px;
+        right: 24px;
+        width: calc(100% - 48px);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: var(--shadow);
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all 0.3s ease;
+        background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 5 L23 11 L20 17 L17 11Z' fill='none' stroke='%2338bdf8' stroke-width='0.4' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    .site-header .megamenu:hover .sub-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .site-header .megamenu .sub-menu li {
+        display: block;
+    }
+
+    .site-header .megamenu .sub-menu a {
+        padding: 8px 0;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .site-header .megamenu .sub-menu a:hover {
+        color: var(--color-primary);
+    }
+}
+
+/* ============================================
+   PROPOSAL 6: SKELETON SHIMMER LOADING
+   ============================================ */
+.skeleton-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+}
+
+.skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-alt);
+}
+
+.skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 20%,
+        rgba(255, 255, 255, 0.6) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmerWave 1.6s infinite;
+}
+
+[data-theme="dark"] .skeleton-shimmer::after {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.08) 20%,
+        rgba(255, 255, 255, 0.15) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+@keyframes shimmerWave {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.skeleton-image-placeholder {
+    width: 100%;
+    height: 220px;
+}
+
+.skeleton-title-line {
+    height: 18px;
+    width: 70%;
+    margin: 16px 24px 8px;
+    border-radius: 4px;
+}
+
+.skeleton-text-line {
+    height: 12px;
+    width: 85%;
+    margin: 8px 24px;
+    border-radius: 4px;
+}
+
+.skeleton-button-placeholder {
+    height: 38px;
+    width: 120px;
+    margin: 16px 24px 24px;
+    border-radius: 10px;
+}
