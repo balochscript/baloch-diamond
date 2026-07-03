@@ -80,6 +80,21 @@ function bd_customize_register( $wp_customize ) {
         )
     ) );
 
+    // Text Shadow Color for Slider (New feature)
+    $wp_customize->add_setting( 'bd_slider_shadow_color', array(
+        'default'           => 'rgba(0,0,0,0.5)',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Color_Control(
+        $wp_customize,
+        'bd_slider_shadow_color',
+        array(
+            'label'       => esc_html__( 'Slider Text Shadow Color', 'baloch-diamond' ),
+            'description' => esc_html__( 'Pick a custom shadow color for the main hero slider titles.', 'baloch-diamond' ),
+            'section'     => 'bd_colors_section',
+        )
+    ) );
+
 
     // ================================================================
     //  SECTION 1.5: TYPOGRAPHY (FONTS)
@@ -306,6 +321,18 @@ function bd_customize_register( $wp_customize ) {
         'type'    => 'checkbox',
     ) );
 
+    // Slider Height (New Option)
+    $wp_customize->add_setting( 'bd_slider_height', array(
+        'default'           => '55vh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_slider_height', array(
+        'label'       => esc_html__( 'Slider Height (CSS height)', 'baloch-diamond' ),
+        'description' => esc_html__( 'Set the main hero slider height. e.g. 50vh, 55vh, 60vh or 500px.', 'baloch-diamond' ),
+        'section'     => 'bd_slider_section',
+        'type'         => 'text',
+    ) );
+
     // Slider Source
     $wp_customize->add_setting( 'bd_slider_source', array(
         'default'           => 'recent',
@@ -449,11 +476,35 @@ function bd_customize_register( $wp_customize ) {
         'type'    => 'checkbox',
     ) );
 
-    // Section Headers
-    bd_add_section_header_controls( $wp_customize, 'forum', 'bd_forum_section', array(
-        'badge' => esc_html__( 'Thriving Community', 'baloch-diamond' ),
-        'title' => esc_html__( 'Discussion Board', 'baloch-diamond' ),
-        'desc'  => esc_html__( 'Join the conversations with embroidery enthusiasts, local artisans, and history lovers from all around the world.', 'baloch-diamond' ),
+    // Section Headers Customization
+    $wp_customize->add_setting( 'bd_forum_badge', array(
+        'default'           => esc_html__( 'Thriving Community', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_badge', array(
+        'label'   => esc_html__( 'Forum Section Badge', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_title', array(
+        'default'           => esc_html__( 'Discussion Board', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_title', array(
+        'label'   => esc_html__( 'Forum Section Title', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_desc', array(
+        'default'           => esc_html__( 'Join the conversations with embroidery enthusiasts, local artisans, and history lovers from all around the world.', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_desc', array(
+        'label'   => esc_html__( 'Forum Section Description', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'textarea',
     ) );
 
     // Forum Showcase Mode
@@ -481,6 +532,140 @@ function bd_customize_register( $wp_customize ) {
         'section' => 'bd_forum_section',
         'type'    => 'number',
         'input_attrs' => array( 'min' => 1, 'max' => 10 ),
+    ) );
+
+    // --- CTA Mode Customization (Text Inputs) ---
+    $wp_customize->add_setting( 'bd_forum_sep_cta', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new BD_Separator_Control(
+        $wp_customize,
+        'bd_forum_sep_cta',
+        array(
+            'label'   => esc_html__( '── CTA & Stats Customization ──', 'baloch-diamond' ),
+            'section' => 'bd_forum_section',
+        )
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_cta_title', array(
+        'default'           => esc_html__( 'Connect with Fellow Creators', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_cta_title', array(
+        'label'   => esc_html__( 'CTA Card Title', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_cta_desc', array(
+        'default'           => esc_html__( 'Sign up today and get instant access to hundreds of topics. Explore patterns, share your design progress, get feedback from senior needlework masters, and join community workshops.', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_cta_desc', array(
+        'label'   => esc_html__( 'CTA Card Description', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_cta_btn_text', array(
+        'default'           => esc_html__( 'Join Discussions', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_cta_btn_text', array(
+        'label'   => esc_html__( 'CTA Button Text', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_cta_btn_link', array(
+        'default'           => '#_forum',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'bd_forum_cta_btn_link', array(
+        'label'   => esc_html__( 'CTA Button Link', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'url',
+    ) );
+
+    // Stats Numbers and Labels
+    $wp_customize->add_setting( 'bd_forum_stat1_num', array(
+        'default'           => '1,240+',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat1_num', array(
+        'label'   => esc_html__( 'Stat 1 Number', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat1_label', array(
+        'default'           => esc_html__( 'Artisans', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat1_label', array(
+        'label'   => esc_html__( 'Stat 1 Label', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat2_num', array(
+        'default'           => '4,800+',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat2_num', array(
+        'label'   => esc_html__( 'Stat 2 Number', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat2_label', array(
+        'default'           => esc_html__( 'Discussions', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat2_label', array(
+        'label'   => esc_html__( 'Stat 2 Label', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat3_num', array(
+        'default'           => '350+',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat3_num', array(
+        'label'   => esc_html__( 'Stat 3 Number', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat3_label', array(
+        'default'           => esc_html__( 'Patterns', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat3_label', array(
+        'label'   => esc_html__( 'Stat 3 Label', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat4_num', array(
+        'default'           => '99%',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat4_num', array(
+        'label'   => esc_html__( 'Stat 4 Number', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'bd_forum_stat4_label', array(
+        'default'           => esc_html__( 'Help Rate', 'baloch-diamond' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'bd_forum_stat4_label', array(
+        'label'   => esc_html__( 'Stat 4 Label', 'baloch-diamond' ),
+        'section' => 'bd_forum_section',
+        'type'    => 'text',
     ) );
 
 
