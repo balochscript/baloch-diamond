@@ -197,6 +197,31 @@ $contact_phone   = get_theme_mod( 'bd_contact_phone', '' );
     <span id="moonIcon"><?php echo bd_icon( 'moon' ); ?></span>
 </button>
 
+<!-- Floating Color Switcher (Proposal 1) -->
+<button class="switcher-toggle-btn" id="switcherToggleBtn" aria-label="<?php esc_attr_e( 'Open color settings', 'baloch-diamond' ); ?>">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10V2z" opacity="0.4"></path>
+    </svg>
+</button>
+
+<div class="floating-switcher" id="floatingSwitcher">
+    <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;"><?php esc_html_e( 'Palette Switcher', 'baloch-diamond' ); ?></span>
+    <div class="switcher-palette-row">
+        <!-- Default -->
+        <div class="switcher-color-dot active" style="background:linear-gradient(135deg, #38bdf8, #f97316)" data-primary="#38bdf8" data-secondary="#f97316" title="Baloch Diamond"></div>
+        <!-- Ocean -->
+        <div class="switcher-color-dot" style="background:linear-gradient(135deg, #0ea5e9, #06b6d4)" data-primary="#0ea5e9" data-secondary="#06b6d4" title="Ocean Breeze"></div>
+        <!-- Desert -->
+        <div class="switcher-color-dot" style="background:linear-gradient(135deg, #f97316, #ef4444)" data-primary="#f97316" data-secondary="#ef4444" title="Desert Sunset"></div>
+        <!-- Forest -->
+        <div class="switcher-color-dot" style="background:linear-gradient(135deg, #10b981, #059669)" data-primary="#10b981" data-secondary="#059669" title="Forest Green"></div>
+        <!-- Royal -->
+        <div class="switcher-color-dot" style="background:linear-gradient(135deg, #8b5cf6, #ec4899)" data-primary="#8b5cf6" data-secondary="#ec4899" title="Royal Purple"></div>
+    </div>
+    <button class="btn-outline" id="resetSwitcherBtn" style="padding:6px 12px; font-size:0.75rem; border-radius:8px; justify-content:center;"><?php esc_html_e( 'Reset to Default', 'baloch-diamond' ); ?></button>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>
