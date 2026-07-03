@@ -9,7 +9,7 @@ A premium, highly-customizable WordPress theme inspired by the timeless beauty o
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
 [![License](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/Version-1.1.0-orange.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.1.1-orange.svg)](#)
 
 [Live Demo](#) • [Download](#) • [Documentation](#) • [Report Bug](../../issues)
 
@@ -27,18 +27,22 @@ A premium, highly-customizable WordPress theme inspired by the timeless beauty o
 - **Responsive Megamenu (New in v1.1.0)** — Style any drop-down menu into a stunning 4-column full-width grid menu decorated with elegant needlework motifs by simply adding the `megamenu` CSS class.
 - **Skeleton Shimmer Loading (New in v1.1.0)** — Shimmering skeletal animation placeholders that transition beautifully into loaded content to improve perceived performance.
 
-### 🔌 Advanced Integrations
-- **WooCommerce Marketplace Section (New in v1.1.0)** — Fully isolated shop showcase support. Highlights on-sale, recent, featured, or popular products in a grid or slider carousel layout with ratings and dynamic pricing.
-- **bbPress Discussion Board Section (New in v1.1.0)** — Display latest active forum topics with reply counters, author metadata, and categories, or toggle a high-converting community CTA statistics board.
+### 🔌 Advanced Integrations (Enhanced v1.1.1)
+- **WooCommerce Marketplace Section** — Fully isolated shop showcase support. Highlights on-sale, recent, featured, or popular products in a grid or slider carousel layout with ratings and dynamic pricing. **Filter fully functional** (Recent / On Sale / Featured / Popular).
+- **bbPress Discussion Board Section** — Display latest active forum topics with reply counters, author metadata, and categories, or toggle a high-converting community CTA statistics board. **5 display modes** + 6 fully editable stats.
+- **Community Members Showcase (New in v1.1.1)** — Lightweight, fully customizable members grid in the Customizer. Display up to 8 artisans/creators with name, role, avatar upload, and profile links.
+- **Header Account & Cart (New in v1.1.1)** — Quick-access icons for My Account and Shopping Cart (with live item count badge) when WooCommerce is active.
 
 ### 🌗 Dark/Light Mode
 - One-click theme toggle, saved locally in user's browser, respecting WooCommerce, bbPress, and custom blocks.
 
-### 🎛️ Extensive Customizer Options
-- **Theme Colors & Scheme Presets** — Primary/Secondary color control.
-- **Typography & Font Selector (New in v1.1.0)** — Choose Google Web Fonts (`Poppins`, `Roboto`, `Inter`, `Montserrat`, `Lora`, `Playfair Display`, `Merriweather`, etc.) and RTL-specific fonts (`Vazirmatn`, `Cairo`, `Tajawal`, `Amiri`) with full font-family overrides throughout headings and paragraph elements.
+### 🎛️ Extensive Customizer Options (v1.1.1)
+- **Theme Colors & Scheme Presets**
+- **Typography & Font Selector** — Full Google Font + RTL support.
 - **Shop & Forum Sections** — Toggle layouts, choose counts, and filters independently.
+- **Community Members Section** — 8 fully customizable member cards (name, role, avatar, link).
 - **Portfolio, Blog, Team, and Resources** — Tailor images, slide counts, post grids, and social icons.
+- **Header** — 5 display modes, solid/gradient headers.
 
 ### 🌐 Safety & Performance
 - **XSS Hardened** — Fully sanitizes search query strings and general template functions.
@@ -84,9 +88,10 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
 | 🎨 Theme Colors | Pre-designed scheme presets, custom color pickers |
 | 🔤 Typography & Fonts | Body font, Heading font, RTL-specific font selection |
 | 🚀 Advanced Core Features | Toggle animated patterns, Toggle skeleton shimmer loading |
-| 🛍️ Shop Showcase | Show/hide, layout type (grid/slider), query filter, product count |
-| 💬 Forum Showcase | Show/hide, display mode (latest topics/community CTA), count limit |
-| 📌 Header | 5 display modes, solid/gradient headers, gradient direction |
+| 🛍️ Shop Showcase | Show/hide, layout type (grid/slider), query filter (Recent/Sale/Featured/Popular), product count, 12 manual product selectors |
+| 💬 Forum Showcase | Show/hide, display mode (5 modes: topics/categories/featured/live-stats/cta), count limit, 6 editable stats, 4 featured discussions by ID, 3 quick action button texts |
+| 👥 Community Members (New) | Show/hide, title/badge, up to 8 custom members (name, role, avatar, profile link) |
+| 📌 Header | 5 display modes, solid/gradient headers, gradient direction + **Account & Cart icons** |
 | 🖼️ Hero Slider | Source selection, slide count limits, custom post IDs |
 | 💼 Portfolio | 10 custom items with featured image overrides, badges |
 | 📝 Blog | Web-grid post count, custom read-more labels |
@@ -104,7 +109,7 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
     ├── functions.php
     ├── index.php
     ├── front-page.php
-    ├── header.php
+    ├── header.php (Account + Cart icons)
     ├── footer.php
     ├── single.php
     ├── page.php
@@ -118,12 +123,13 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
     ├── CHANGELOG.md
     ├── update_pot.py
     ├── inc/
-    │   ├── customizer.php
+    │   ├── customizer.php (Shop + Forum + Members controls)
     │   └── template-functions.php
     ├── template-parts/
     │   ├── hero-slider.php
-    │   ├── section-shop.php
-    │   ├── section-forum.php
+    │   ├── section-shop.php (Filter fully active)
+    │   ├── section-forum.php (5 modes + 6 stats)
+    │   ├── section-members.php (NEW)
     │   ├── section-portfolio.php
     │   ├── section-blog.php
     │   ├── section-resources.php
