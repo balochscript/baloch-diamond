@@ -80,7 +80,7 @@ function bd_customize_register( $wp_customize ) {
         )
     ) );
 
-    // Text Shadow Color for Slider (New feature)
+    // Text Shadow Color for Slider
     $wp_customize->add_setting( 'bd_slider_shadow_color', array(
         'default'           => 'rgba(0,0,0,0.5)',
         'sanitize_callback' => 'sanitize_text_field',
@@ -321,7 +321,7 @@ function bd_customize_register( $wp_customize ) {
         'type'    => 'checkbox',
     ) );
 
-    // Slider Height (New Option)
+    // Slider Height
     $wp_customize->add_setting( 'bd_slider_height', array(
         'default'           => '55vh',
         'sanitize_callback' => 'sanitize_text_field',
@@ -421,8 +421,9 @@ function bd_customize_register( $wp_customize ) {
         'section' => 'bd_shop_section',
         'type'    => 'select',
         'choices' => array(
-            'grid'   => esc_html__( 'Product Grid', 'baloch-diamond' ),
-            'slider' => esc_html__( 'Product Slider (Carousels)', 'baloch-diamond' ),
+            'grid'   => esc_html__( 'Product Grid Layout', 'baloch-diamond' ),
+            'slider' => esc_html__( 'Scrollable Slider (Horizontal Scroll)', 'baloch-diamond' ),
+            'single' => esc_html__( 'Featured Single Product (Big Card)', 'baloch-diamond' ),
         ),
     ) );
 
@@ -454,6 +455,34 @@ function bd_customize_register( $wp_customize ) {
         'type'    => 'number',
         'input_attrs' => array( 'min' => 1, 'max' => 12 ),
     ) );
+
+    // --- Custom Dynamic Products Selection (1 to 12 Cards) ---
+    $wp_customize->add_setting( 'bd_shop_sep_custom', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new BD_Separator_Control(
+        $wp_customize,
+        'bd_shop_sep_custom',
+        array(
+            'label'   => esc_html__( '── Custom Products Cards (1-12) ──', 'baloch-diamond' ),
+            'section' => 'bd_shop_section',
+        )
+    ) );
+
+    // Generate 1 to 12 product customizer options dynamically
+    for ( $i = 1; $i <= 12; $i++ ) {
+        $wp_customize->add_setting( "bd_shop_custom_product_{$i}", array(
+            'default'           => 0,
+            'sanitize_callback' => 'absint',
+        ) );
+        $wp_customize->add_control( "bd_shop_custom_product_{$i}", array(
+            'label'       => sprintf( esc_html__( 'Card %d — Product ID', 'baloch-diamond' ), $i ),
+            'description' => esc_html__( 'Enter the WooCommerce Product ID to display in this card.', 'baloch-diamond' ),
+            'section'     => 'bd_shop_section',
+            'type'        => 'number',
+            'input_attrs' => array( 'min' => 0 ),
+        ) );
+    }
 
 
     // ================================================================
@@ -1266,7 +1295,7 @@ function bd_customize_register( $wp_customize ) {
     $wp_customize->add_control( 'bd_footer_about', array(
         'label'   => esc_html__( 'Footer About Text', 'baloch-diamond' ),
         'section' => 'bd_footer_section',
-        'type'    => 'textarea',
+        'type' => 'textarea',
     ) );
 
     // Column 1 Title

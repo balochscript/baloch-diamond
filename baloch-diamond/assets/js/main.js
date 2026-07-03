@@ -26,6 +26,9 @@
         return document.querySelector( selector );
     }
 
+    // ================================================================
+    //  UTILITY: Get Elements
+    // ================================================================
     function $$( selector ) {
         return document.querySelectorAll( selector );
     }
@@ -195,7 +198,6 @@
             var openBtn    = $( '#menuOpen' );
             var closeBtn   = $( '#menuClose' );
             var overlay    = $( '#menuOverlay' );
-            var settingsBtn = $( '#menuSettingsOpen' );
 
             if ( openBtn ) {
                 openBtn.addEventListener( 'click', function() {
@@ -212,17 +214,6 @@
             if ( overlay ) {
                 overlay.addEventListener( 'click', function() {
                     mobileMenu.close();
-                } );
-            }
-
-            // Settings from mobile menu
-            if ( settingsBtn ) {
-                settingsBtn.addEventListener( 'click', function( e ) {
-                    e.preventDefault();
-                    mobileMenu.close();
-                    setTimeout( function() {
-                        settingsPanel.open();
-                    }, 300 );
                 } );
             }
 
@@ -351,17 +342,12 @@
 
             // Check if bdData exists (WordPress localized data)
             if ( typeof bdData === 'undefined' ) {
-                // Fallback: just show "press enter to search"
-                results.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px 0;font-size:0.9rem">' +
-                    'Press Enter to search...' +
-                    '</p>';
+                results.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px 0;font-size:0.9rem">Press Enter to search...</p>';
                 return;
             }
 
             // Show loading
-            results.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px 0">' +
-                '<span style="display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--color-primary);border-radius:50%;animation:spin 0.6s linear infinite"></span>' +
-                '</p>';
+            results.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px 0"><span style="display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--color-primary);border-radius:50%;animation:spin 0.6s linear infinite"></span></p>';
 
             // AJAX request
             var formData = new FormData();
@@ -374,9 +360,7 @@
                 body: formData,
                 credentials: 'same-origin'
             } )
-            .then( function( response ) {
-                return response.json();
-            } )
+            .then( function( response ) { return response.json(); } )
             .then( function( data ) {
                 if ( data.success && data.data.length > 0 ) {
                     var html = '';
@@ -391,12 +375,8 @@
                     } );
                     results.innerHTML = html;
                 } else {
-                    var noResultsText = ( typeof bdData !== 'undefined' && bdData.i18n && bdData.i18n.noResults )
-                        ? bdData.i18n.noResults
-                        : 'No results found for';
-
-                    results.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px 0">' +
-                        noResultsText + ' "' + search.escapeHtml( query ) + '"</p>';
+                    var noResultsText = ( typeof bdData !== 'undefined' && bdData.i18n && bdData.i18n.noResults ) ? bdData.i18n.noResults : 'No results found for';
+                    results.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px 0">' + noResultsText + ' "' + search.escapeHtml( query ) + '"</p>';
                 }
             } )
             .catch( function() {
@@ -473,8 +453,6 @@
 
             if ( ! header ) return;
 
-            var lastScroll = 0;
-
             window.addEventListener( 'scroll', function() {
                 var scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -484,27 +462,8 @@
                 } else {
                     header.classList.remove( 'scrolled' );
                 }
-
-                lastScroll = scrollY;
             }, { passive: true } );
         }
-    };
-
-
-    // ================================================================
-    //  7. SETTINGS PANEL (Disabled in favor of WordPress Customizer)
-    // ================================================================
-    var settingsPanel = {
-        init: function() {},
-        open: function() {},
-        close: function() {},
-        updateColors: function() {},
-        loadSavedColors: function() {}
-    };
-
-    // Make open accessible globally (for menu button)
-    window.bdOpenSettings = function() {
-        settingsPanel.open();
     };
 
 
@@ -560,9 +519,7 @@
                 body: formData,
                 credentials: 'same-origin'
             } )
-            .then( function( response ) {
-                return response.json();
-            } )
+            .then( function( response ) { return response.json(); } )
             .then( function( data ) {
                 if ( data.success ) {
                     showNotify( data.data );
@@ -636,7 +593,6 @@
                 if ( e.key === 'Escape' ) {
                     search.close();
                     mobileMenu.close();
-                    settingsPanel.close();
                 }
 
                 // "/" key to open search (when not in input)
@@ -779,198 +735,110 @@
     var backToTop = {
 
         init: function() {
-            // The theme toggle button is at bottom-left
-            // We can use the logo click as back-to-top on front page
             var logo = $( '.site-logo' );
 
             if ( logo && document.body.classList.contains( 'is-front-page' ) ) {
-                logo.addEventListener( 'click', function( e ) {
-                    // Only if already on front page
-                    if ( window.location.pathname === '/' ||
-                         window.location.pathname === window.location.pathname ) {
-                        // Let the default link work, but also scroll to top
+                logo.addEventListener( 'click', function() {
+                    // Smooth scroll top fallback handled by anchor standard
+                } );
+            }
+        }
+    };
+
+
+    // ================================================================
+    //  16. SINGLE FEATURED PRODUCT MULTI-SLIDER (WooCommerce Single Mode)
+    // ================================================================
+    var singleProductSlider = {
+        init: function() {
+            var prevBtn = $( '#singlePrev' );
+            var nextBtn = $( '#singleNext' );
+            var container = $( '#shopSingleShowcase' );
+
+            if ( ! prevBtn || ! nextBtn || ! container ) return;
+
+            // Load products from JSON tag
+            var jsonEl = $( '#bd-single-products-json' );
+            if ( ! jsonEl ) return;
+
+            try {
+                var products = JSON.parse( jsonEl.textContent );
+                if ( ! products || products.length <= 1 ) return;
+
+                var currentIndex = 0;
+
+                function updateCard(index) {
+                    var prod = products[index];
+
+                    // Select elements
+                    var imgCol = container.querySelector( 'div:first-child' );
+                    var infoCol = container.querySelector( 'div:last-child' );
+
+                    if ( ! imgCol || ! infoCol ) return;
+
+                    // Update Image
+                    if ( prod.image ) {
+                        imgCol.innerHTML = '';
+                        var img = document.createElement( 'img' );
+                        img.src = prod.image;
+                        img.alt = prod.title;
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        imgCol.appendChild( img );
+                    } else {
+                        imgCol.innerHTML = '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><div style="opacity:0.15; transform:scale(2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></div>';
                     }
-                } );
-            }
-        }
-    };
 
-
-    // ================================================================
-    //  16. FRONTEND COLOR SWITCHER (Proposal 1)
-    // ================================================================
-    var frontendSwitcher = {
-        init: function() {
-            var toggleBtn = $( '#switcherToggleBtn' );
-            var switcher  = $( '#floatingSwitcher' );
-            var dots      = $$( '.switcher-color-dot' );
-            var resetBtn  = $( '#resetSwitcherBtn' );
-
-            if ( ! toggleBtn || ! switcher ) return;
-
-            // Toggle switcher visibility
-            toggleBtn.addEventListener( 'click', function( e ) {
-                e.stopPropagation();
-                switcher.classList.toggle( 'active' );
-            } );
-
-            // Close switcher on click outside
-            document.addEventListener( 'click', function( e ) {
-                if ( ! switcher.contains( e.target ) && e.target !== toggleBtn ) {
-                    switcher.classList.remove( 'active' );
-                }
-            } );
-
-            // Color dots click logic
-            dots.forEach( function( dot ) {
-                dot.addEventListener( 'click', function() {
-                    var primary   = this.getAttribute( 'data-primary' );
-                    var secondary = this.getAttribute( 'data-secondary' );
-
-                    // Remove active from all dots
-                    dots.forEach( function( d ) { d.classList.remove( 'active' ); } );
-                    this.classList.add( 'active' );
-
-                    // Apply styles
-                    document.documentElement.style.setProperty( '--color-primary', primary, 'important' );
-                    document.documentElement.style.setProperty( '--color-secondary', secondary, 'important' );
-                    document.documentElement.style.setProperty(
-                        '--gradient',
-                        'linear-gradient(135deg, ' + primary + ', ' + secondary + ')',
-                        'important'
-                    );
-                    document.documentElement.style.setProperty(
-                        '--gradient-reverse',
-                        'linear-gradient(135deg, ' + secondary + ', ' + primary + ')',
-                        'important'
-                    );
-
-                    // Save to localStorage
-                    localStorage.setItem( 'bd_temp_primary', primary );
-                    localStorage.setItem( 'bd_temp_secondary', secondary );
-                } );
-            } );
-
-            // Reset button click
-            if ( resetBtn ) {
-                resetBtn.addEventListener( 'click', function() {
-                    document.documentElement.style.removeProperty( '--color-primary' );
-                    document.documentElement.style.removeProperty( '--color-secondary' );
-                    document.documentElement.style.removeProperty( '--gradient' );
-                    document.documentElement.style.removeProperty( '--gradient-reverse' );
-
-                    dots.forEach( function( d ) { d.classList.remove( 'active' ); } );
-                    if ( dots[0] ) dots[0].classList.add( 'active' );
-
-                    localStorage.removeItem( 'bd_temp_primary' );
-                    localStorage.removeItem( 'bd_temp_secondary' );
-                    showNotify( 'Reset to Admin Colors!' );
-                } );
-            }
-
-            // Load temporary colors on page load if set
-            var tempPrimary   = localStorage.getItem( 'bd_temp_primary' );
-            var tempSecondary = localStorage.getItem( 'bd_temp_secondary' );
-
-            if ( tempPrimary && tempSecondary ) {
-                document.documentElement.style.setProperty( '--color-primary', tempPrimary, 'important' );
-                document.documentElement.style.setProperty( '--color-secondary', tempSecondary, 'important' );
-                document.documentElement.style.setProperty(
-                    '--gradient',
-                    'linear-gradient(135deg, ' + tempPrimary + ', ' + tempSecondary + ')',
-                    'important'
-                );
-                document.documentElement.style.setProperty(
-                    '--gradient-reverse',
-                    'linear-gradient(135deg, ' + tempSecondary + ', ' + tempPrimary + ')',
-                    'important'
-                );
-
-                // Set active dot
-                dots.forEach( function( d ) {
-                    var p = d.getAttribute( 'data-primary' );
-                    if ( p === tempPrimary ) {
-                        dots.forEach( function( other ) { other.classList.remove( 'active' ); } );
-                        d.classList.add( 'active' );
+                    // Add Sale Ribbon back if applicable
+                    if ( prod.on_sale && prod.discount > 0 ) {
+                        var ribbon = document.createElement( 'div' );
+                        ribbon.className = 'discount-ribbon';
+                        ribbon.style.cssText = 'position:absolute; top:20px; left:-10px; background:#ef4444; color:white; padding:6px 36px; transform:rotate(-45deg); font-size:0.8rem; font-weight:900; z-index:5; box-shadow:0 2px 10px rgba(0,0,0,0.25); text-transform:uppercase; letter-spacing:1px;';
+                        ribbon.textContent = prod.discount + '% OFF';
+                        imgCol.appendChild( ribbon );
                     }
-                } );
-            }
-        }
-    };
 
-    // ================================================================
-    //  17. SKELETON LOADER (Proposal 6)
-    // ================================================================
-    var skeletonLoader = {
-        init: function() {
-            var cards = $$( '.project-card, .post-card, .product-card' );
-            if ( cards.length === 0 ) return;
+                    // Update Title
+                    var titleEl = infoCol.querySelector( 'h3' );
+                    if ( titleEl ) titleEl.textContent = prod.title;
 
-            // Simple transition out after a brief moment to simulate elegant skeletal placeholder transitions
-            setTimeout( function() {
-                cards.forEach( function( card ) {
-                    card.style.transition = 'opacity 0.4s ease';
-                    card.style.opacity = '1';
-                } );
-            }, 800 );
-        }
-    };
+                    // Update Desc
+                    var descEl = infoCol.querySelector( 'p' );
+                    if ( descEl ) descEl.textContent = prod.desc;
 
-    // ================================================================
-    //  18. SHOP SLIDER INTERACTION (Proposal 1 / WooCommerce Slider)
-    // ================================================================
-    var shopSlider = {
-        init: function() {
-            var prevBtn = $( '#shopSliderPrev' );
-            var nextBtn = $( '#shopSliderNext' );
-            var wrapper = $( '#shopSliderWrapper' );
+                    // Update Price
+                    var priceEl = infoCol.querySelector( 'div:nth-child(4)' );
+                    if ( priceEl ) priceEl.innerHTML = prod.price;
 
-            if ( ! prevBtn || ! nextBtn || ! wrapper ) return;
+                    // Update Rating Stars
+                    var ratingEl = infoCol.querySelector( 'div:first-child' );
+                    if ( ratingEl ) {
+                        ratingEl.innerHTML = '';
+                        var fullStars = Math.floor( prod.rating );
+                        for ( var s = 1; s <= 5; s++ ) {
+                            ratingEl.innerHTML += s <= fullStars ? '★' : '☆';
+                        }
+                    }
 
-            var cards = $$( '.shop-product-card' );
-            if ( cards.length === 0 ) return;
-
-            var currentIndex = 0;
-            
-            function getVisibleCardsCount() {
-                var width = window.innerWidth;
-                if ( width > 1024 ) return 3;
-                if ( width > 768 ) return 2;
-                return 1;
-            }
-
-            function updateSliderPosition() {
-                var visibleCards = getVisibleCardsCount();
-                var maxIndex = Math.max(0, cards.length - visibleCards);
-                if ( currentIndex > maxIndex ) currentIndex = maxIndex;
-                if ( currentIndex < 0 ) currentIndex = 0;
-
-                var cardWidth = cards[0].getBoundingClientRect().width;
-                var offset = currentIndex * (cardWidth + 24); // card width + gap
-                wrapper.style.transform = 'translateX(-' + offset + 'px)';
-            }
-
-            nextBtn.addEventListener( 'click', function() {
-                var visibleCards = getVisibleCardsCount();
-                if ( currentIndex < cards.length - visibleCards ) {
-                    currentIndex++;
-                    updateSliderPosition();
+                    // Update Buy Link
+                    var linkBtn = infoCol.querySelector( '.btn-gradient' );
+                    if ( linkBtn ) linkBtn.href = prod.link;
                 }
-            } );
 
-            prevBtn.addEventListener( 'click', function() {
-                if ( currentIndex > 0 ) {
-                    currentIndex--;
-                    updateSliderPosition();
-                }
-            } );
+                nextBtn.addEventListener( 'click', function() {
+                    currentIndex = ( currentIndex + 1 ) % products.length;
+                    updateCard( currentIndex );
+                } );
 
-            window.addEventListener( 'resize', function() {
-                updateSliderPosition();
-            } );
+                prevBtn.addEventListener( 'click', function() {
+                    currentIndex = ( currentIndex - 1 + products.length ) % products.length;
+                    updateCard( currentIndex );
+                } );
 
-            // Initial call to set sizes correctly
-            setTimeout( updateSliderPosition, 100 );
+            } catch ( e ) {
+                console.error( "JSON Parse error on single mode slider", e );
+            }
         }
     };
 
@@ -989,16 +857,14 @@
         search.init();
         themeToggle.init();
         headerScroll.init();
-        settingsPanel.init();
         newsletter.init();
         scrollAnimations.init();
         keyboard.init();
         smoothScroll.init();
         lazyLoad.init();
         backToTop.init();
-        frontendSwitcher.init();
         skeletonLoader.init();
-        shopSlider.init();
+        singleProductSlider.init();
 
     } );
 

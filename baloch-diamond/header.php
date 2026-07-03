@@ -31,85 +31,6 @@ $header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
     <div class="notification-text" id="notificationText"></div>
 </div>
 
-<!-- Settings Panel Overlay -->
-<div class="settings-overlay" id="settingsOverlay"></div>
-
-<!-- Settings Panel -->
-<div class="settings-panel" id="settingsPanel">
-    <div class="settings-header">
-        <h3>
-            <?php echo bd_icon( 'settings', 20, 20 ); ?>
-            <?php esc_html_e( 'Theme Customizer', 'baloch-diamond' ); ?>
-        </h3>
-        <button class="menu-close" id="settingsClose" aria-label="<?php esc_attr_e( 'Close settings', 'baloch-diamond' ); ?>">
-            <?php echo bd_icon( 'close', 18, 18 ); ?>
-        </button>
-    </div>
-    <div class="settings-body">
-
-        <!-- Primary Color -->
-        <div class="setting-group">
-            <label class="setting-label"><?php esc_html_e( '🎨 Primary Color', 'baloch-diamond' ); ?></label>
-            <div class="color-picker-row">
-                <input type="color" id="primaryColor" value="<?php echo esc_attr( get_theme_mod( 'bd_primary_color', '#38bdf8' ) ); ?>">
-                <span id="primaryHex"><?php echo esc_attr( get_theme_mod( 'bd_primary_color', '#38bdf8' ) ); ?></span>
-            </div>
-            <div class="preset-colors" style="margin-top:10px">
-                <div class="preset-color" style="background:#38bdf8" data-color="#38bdf8" data-type="primary"></div>
-                <div class="preset-color" style="background:#818cf8" data-color="#818cf8" data-type="primary"></div>
-                <div class="preset-color" style="background:#10b981" data-color="#10b981" data-type="primary"></div>
-                <div class="preset-color" style="background:#ec4899" data-color="#ec4899" data-type="primary"></div>
-                <div class="preset-color" style="background:#14b8a6" data-color="#14b8a6" data-type="primary"></div>
-            </div>
-        </div>
-
-        <!-- Secondary Color -->
-        <div class="setting-group">
-            <label class="setting-label"><?php esc_html_e( '🔥 Secondary Color', 'baloch-diamond' ); ?></label>
-            <div class="color-picker-row">
-                <input type="color" id="secondaryColor" value="<?php echo esc_attr( get_theme_mod( 'bd_secondary_color', '#f97316' ) ); ?>">
-                <span id="secondaryHex"><?php echo esc_attr( get_theme_mod( 'bd_secondary_color', '#f97316' ) ); ?></span>
-            </div>
-            <div class="preset-colors" style="margin-top:10px">
-                <div class="preset-color" style="background:#f97316" data-color="#f97316" data-type="secondary"></div>
-                <div class="preset-color" style="background:#ef4444" data-color="#ef4444" data-type="secondary"></div>
-                <div class="preset-color" style="background:#eab308" data-color="#eab308" data-type="secondary"></div>
-                <div class="preset-color" style="background:#f43f5e" data-color="#f43f5e" data-type="secondary"></div>
-                <div class="preset-color" style="background:#a855f7" data-color="#a855f7" data-type="secondary"></div>
-            </div>
-        </div>
-
-        <!-- Color Presets -->
-        <div class="setting-group">
-            <label class="setting-label"><?php esc_html_e( '💎 Color Presets', 'baloch-diamond' ); ?></label>
-            <div style="display:flex;flex-direction:column;gap:8px">
-                <button class="btn-outline bd-preset-btn" style="width:100%;justify-content:center" data-primary="#0ea5e9" data-secondary="#06b6d4">🌊 <?php esc_html_e( 'Ocean Breeze', 'baloch-diamond' ); ?></button>
-                <button class="btn-outline bd-preset-btn" style="width:100%;justify-content:center" data-primary="#f97316" data-secondary="#ef4444">🌅 <?php esc_html_e( 'Desert Sunset', 'baloch-diamond' ); ?></button>
-                <button class="btn-outline bd-preset-btn" style="width:100%;justify-content:center" data-primary="#10b981" data-secondary="#059669">🌿 <?php esc_html_e( 'Forest Green', 'baloch-diamond' ); ?></button>
-                <button class="btn-outline bd-preset-btn" style="width:100%;justify-content:center" data-primary="#8b5cf6" data-secondary="#ec4899">👑 <?php esc_html_e( 'Royal Purple', 'baloch-diamond' ); ?></button>
-                <button class="btn-outline bd-preset-btn" style="width:100%;justify-content:center" data-primary="#38bdf8" data-secondary="#f97316">💎 <?php esc_html_e( 'Baloch Diamond (Default)', 'baloch-diamond' ); ?></button>
-            </div>
-        </div>
-
-        <!-- Translation Info -->
-        <div class="setting-group">
-            <label class="setting-label"><?php esc_html_e( '🌐 Language / Translation', 'baloch-diamond' ); ?></label>
-            <div style="display:flex;flex-direction:column;gap:8px">
-                <?php
-                $pot_url = BD_URI . '/languages/baloch-diamond.pot';
-                ?>
-                <a href="<?php echo esc_url( $pot_url ); ?>" class="btn-outline" style="width:100%;justify-content:center;text-decoration:none" download>
-                    📥 <?php esc_html_e( 'Download Translation File (.pot)', 'baloch-diamond' ); ?>
-                </a>
-                <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.5;margin-top:4px">
-                    <?php esc_html_e( 'Translate the .pot file using Poedit or Loco Translate plugin, then upload .mo file to /languages/ folder.', 'baloch-diamond' ); ?>
-                </p>
-            </div>
-        </div>
-
-    </div>
-</div>
-
 <!-- Header -->
 <header class="site-header" id="siteHeader">
     <div class="header-inner">
@@ -192,14 +113,6 @@ $header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
             ) );
         }
         ?>
-
-        <!-- Settings Link -->
-        <div style="padding:16px 24px;border-top:1px solid var(--border);margin-top:8px">
-            <a class="menu-item" style="padding:14px 0;color:var(--color-primary)" id="menuSettingsOpen">
-                <?php echo bd_icon( 'settings', 20, 20 ); ?>
-                <?php esc_html_e( 'Theme Customizer', 'baloch-diamond' ); ?>
-            </a>
-        </div>
 
     </div>
 </nav>

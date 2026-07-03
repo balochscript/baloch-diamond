@@ -952,3 +952,452 @@ msgstr ""
 #: inc/customizer.php
 msgid "🔗 Social Media"
 msgstr ""
+
+# New strings added in v1.1.0
+msgid "%d posts found"
+msgstr ""
+
+msgid "%d results found"
+msgstr ""
+
+msgid "%s Comments"
+msgstr ""
+
+msgid "Artisanal Shop"
+msgstr ""
+
+msgid "Browse Shop"
+msgstr ""
+
+msgid "Browse our curated catalog of hand-woven garments, digital pattern guides, and premium merchandise handcrafted to perfection."
+msgstr ""
+
+msgid "Color Scheme Preset"
+msgstr ""
+
+msgid "Community & Marketplace"
+msgstr ""
+
+msgid "Connect with our thriving community of creators or support local craftsmanship by browsing our premium product collections."
+msgstr ""
+
+msgid "Custom Gradient"
+msgstr ""
+
+msgid "Discussion Forums"
+msgstr ""
+
+msgid "Enter Forums"
+msgstr ""
+
+msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
+msgstr ""
+
+msgid "Explore Our Diamond Hub"
+msgstr ""
+
+msgid "Forum Button Text"
+msgstr ""
+
+msgid "Forum Description"
+msgstr ""
+
+msgid "Forum Link URL"
+msgstr ""
+
+msgid "Forum Title"
+msgstr ""
+
+msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
+msgstr ""
+
+msgid "Join the conversations, share ideas, and explore deep-dives into traditional Balochi needlework, culture, and modern art."
+msgstr ""
+
+msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
+msgstr ""
+
+msgid "Shop Button Text"
+msgstr ""
+
+msgid "Shop Description"
+msgstr ""
+
+msgid "Shop Link URL"
+msgstr ""
+
+msgid "Shop Title"
+msgstr ""
+
+msgid "Show Promo Hub Section"
+msgstr ""
+
+msgid "Sorry, no results were found for \"%s\". Try different keywords."
+msgstr ""
+
+msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
+msgstr ""
+
+msgid "Used when \"Gradient\" is selected."
+msgstr ""
+
+msgid "Used when \"Solid Color\" is selected."
+msgstr ""
+
+msgid "── Forum Box Settings ──"
+msgstr ""
+
+msgid "── Shop Box Settings ──"
+msgstr ""
+
+msgid "🌅 Desert Sunset"
+msgstr ""
+
+msgid "🌊 Ocean Breeze"
+msgstr ""
+
+msgid "🌿 Forest Green"
+msgstr ""
+
+msgid "🎨 Custom Colors (Set Below)"
+msgstr ""
+
+msgid "👑 Royal Purple"
+msgstr ""
+
+msgid "💎 Baloch Diamond (Default)"
+msgstr ""
+
+msgid "📣 Promo Hub (Forum & Shop)"
+msgstr ""
+
+
+
+# New strings added in v1.1.0
+msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
+msgstr ""
+
+msgid "Heading Font"
+msgstr ""
+
+msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
+msgstr ""
+
+msgid "Primary Font (Body Text)"
+msgstr ""
+
+msgid "RTL Font (Persian/Balochi)"
+msgstr ""
+
+msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
+msgstr ""
+
+msgid "Select the font family for Persian, Balochi, Arabic, and other Right-to-Left (RTL) scripts."
+msgstr ""
+
+msgid "Sorry, no results were found for \"%s\". Try different keywords."
+msgstr ""
+
+msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
+msgstr ""
+
+msgid "Used when \"Gradient\" is selected."
+msgstr ""
+
+msgid "Used when \"Solid Color\" is selected."
+msgstr ""
+
+msgid "🔤 Typography & Fonts"
+msgstr ""
+
+
+
+# New strings added in v1.1.0
+msgid "1 day ago"
+msgstr ""
+
+msgid "1 week ago"
+msgstr ""
+
+msgid "2 hours ago"
+msgstr ""
+
+msgid "3 days ago"
+msgstr ""
+
+msgid "Art & History"
+msgstr ""
+
+msgid "Artisanal Collections"
+msgstr ""
+
+msgid "Artisans"
+msgstr ""
+
+msgid "Best Selling / Popular Products"
+msgstr ""
+
+msgid "By"
+msgstr ""
+
+msgid "Connect with Fellow Creators"
+msgstr ""
+
+msgid "Design Help"
+msgstr ""
+
+msgid "Diamond Motif Handbag"
+msgstr ""
+
+msgid "Discussion Board"
+msgstr ""
+
+msgid "Discussions"
+msgstr ""
+
+msgid "Embroidered Pattern Guide"
+msgstr ""
+
+msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
+msgstr ""
+
+msgid "Exhibitions"
+msgstr ""
+
+msgid "Explore hand-embroidered apparel, authentic Baloch crafts, and modern designer goods made with exquisite attention to detail."
+msgstr ""
+
+msgid "Fabric Care"
+msgstr ""
+
+msgid "Featured Products (Recommended)"
+msgstr ""
+
+msgid "Forum Display Mode"
+msgstr ""
+
+msgid "Help Rate"
+msgstr ""
+
+msgid "How to clean vintage hand-woven fabrics safely"
+msgstr ""
+
+msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
+msgstr ""
+
+msgid "Join Discussions"
+msgstr ""
+
+msgid "Join the conversations with embroidery enthusiasts, local artisans, and history lovers from all around the world."
+msgstr ""
+
+msgid "List Latest Active Topics"
+msgstr ""
+
+msgid "New Arrivals / Recent Products"
+msgstr ""
+
+msgid "Number of Products to Show"
+msgstr ""
+
+msgid "Number of Topics to Show"
+msgstr ""
+
+msgid "On Sale (Discounted Products)"
+msgstr ""
+
+msgid "Patterns"
+msgstr ""
+
+msgid "Premium Marketplace"
+msgstr ""
+
+msgid "Product Grid"
+msgstr ""
+
+msgid "Product Layout Style"
+msgstr ""
+
+msgid "Product Showcase Filter"
+msgstr ""
+
+msgid "Product Slider (Carousels)"
+msgstr ""
+
+msgid "Replies"
+msgstr ""
+
+msgid "Royal Baloch Shawl"
+msgstr ""
+
+msgid "SALE"
+msgstr ""
+
+msgid "Secret meaning of different needlework stitches"
+msgstr ""
+
+msgid "Select Option"
+msgstr ""
+
+msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
+msgstr ""
+
+msgid "Show Forum Section"
+msgstr ""
+
+msgid "Show Shop Section"
+msgstr ""
+
+msgid "Show Styled Community Registration & Stats"
+msgstr ""
+
+msgid "Sign up today and get instant access to hundreds of topics. Explore patterns, share your design progress, get feedback from senior needlework masters, and join community workshops."
+msgstr ""
+
+msgid "Sorry, no results were found for \"%s\". Try different keywords."
+msgstr ""
+
+msgid "Subscribe to Invites"
+msgstr ""
+
+msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
+msgstr ""
+
+msgid "Thriving Community"
+msgstr ""
+
+msgid "Traditional Needlework Dress"
+msgstr ""
+
+msgid "Upcoming local artisans exhibition in Quetta 2026"
+msgstr ""
+
+msgid "Used when \"Gradient\" is selected."
+msgstr ""
+
+msgid "Used when \"Solid Color\" is selected."
+msgstr ""
+
+msgid "View Full Store"
+msgstr ""
+
+msgid "Visit Full Forums"
+msgstr ""
+
+msgid "Which colored threads work best with navy fabrics?"
+msgstr ""
+
+msgid "💬 Forum Showcase (bbPress)"
+msgstr ""
+
+msgid "🛍️ Shop Showcase (WooCommerce)"
+msgstr ""
+
+
+
+# New strings added in v1.1.0
+msgid "CTA Button Link"
+msgstr ""
+
+msgid "CTA Button Text"
+msgstr ""
+
+msgid "CTA Card Description"
+msgstr ""
+
+msgid "CTA Card Title"
+msgstr ""
+
+msgid "Check to activate slow, elegant stitch background scroll animations."
+msgstr ""
+
+msgid "Enable Animated Needlework Patterns"
+msgstr ""
+
+msgid "Enable Skeleton Shimmer Loading"
+msgstr ""
+
+msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
+msgstr ""
+
+msgid "Forum Section Badge"
+msgstr ""
+
+msgid "Forum Section Description"
+msgstr ""
+
+msgid "Forum Section Title"
+msgstr ""
+
+msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
+msgstr ""
+
+msgid "Open color settings"
+msgstr ""
+
+msgid "Palette Switcher"
+msgstr ""
+
+msgid "Pick a custom shadow color for the main hero slider titles."
+msgstr ""
+
+msgid "Reset to Default"
+msgstr ""
+
+msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
+msgstr ""
+
+msgid "Set the main hero slider height. e.g. 50vh, 55vh, 60vh or 500px."
+msgstr ""
+
+msgid "Simulate highly optimized content block transitions on slow networks."
+msgstr ""
+
+msgid "Slider Height (CSS height)"
+msgstr ""
+
+msgid "Slider Text Shadow Color"
+msgstr ""
+
+msgid "Sorry, no results were found for \"%s\". Try different keywords."
+msgstr ""
+
+msgid "Stat 1 Label"
+msgstr ""
+
+msgid "Stat 1 Number"
+msgstr ""
+
+msgid "Stat 2 Label"
+msgstr ""
+
+msgid "Stat 2 Number"
+msgstr ""
+
+msgid "Stat 3 Label"
+msgstr ""
+
+msgid "Stat 3 Number"
+msgstr ""
+
+msgid "Stat 4 Label"
+msgstr ""
+
+msgid "Stat 4 Number"
+msgstr ""
+
+msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
+msgstr ""
+
+msgid "Used when \"Gradient\" is selected."
+msgstr ""
+
+msgid "Used when \"Solid Color\" is selected."
+msgstr ""
+
+msgid "── CTA & Stats Customization ──"
+msgstr ""
+
+msgid "🚀 Advanced Core Features"
+msgstr ""
+

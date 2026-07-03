@@ -107,7 +107,8 @@ function bd_is_section_visible( $section ) {
 
 
 /**
- * Output section header (badge + title + divider + description)
+ * Output section header (badge + title + description)
+ * Modified: Removed the geometric dividers under titles as requested.
  */
 function bd_section_header( $section, $defaults = array() ) {
 
@@ -120,7 +121,7 @@ function bd_section_header( $section, $defaults = array() ) {
     $show_title = get_theme_mod( "bd_{$section}_show_title", true );
     $show_desc  = get_theme_mod( "bd_{$section}_show_desc", true );
 
-    echo '<div class="section-header" style="position:relative;z-index:1">';
+    echo '<div class="section-header" style="position:relative;z-index:1;margin-bottom:40px;">';
 
     if ( $show_badge && $badge ) {
         echo '<div class="section-badge">';
@@ -130,8 +131,7 @@ function bd_section_header( $section, $defaults = array() ) {
     }
 
     if ( $show_title && $title ) {
-        echo '<h2 class="section-title stitch-border">' . esc_html( $title ) . '</h2>';
-        echo '<div class="balochi-divider"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>';
+        echo '<h2 class="section-title stitch-border" style="margin-bottom:12px;">' . esc_html( $title ) . '</h2>';
     }
 
     if ( $show_desc && $desc ) {
