@@ -58,12 +58,28 @@ body {
     overflow-x: hidden;
 }
 
+/* Base support for Arabic / Persian script fallback */
+body:lang(ar),
+body:lang(fa),
+body:lang(ps),
+[lang="ar"], [lang="fa"], [lang="ps"] {
+    font-feature-settings: "kern" 1, "liga" 1, "tnum" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+}
+
 body.rtl, 
 body.rtl button, 
 body.rtl input, 
 body.rtl textarea, 
 body.rtl select {
     font-family: 'Vazirmatn', sans-serif;
+}
+
+/* Ensure Arabic/Persian characters render correctly across the site */
+body.rtl h1, body.rtl h2, body.rtl h3, body.rtl h4, body.rtl h5, body.rtl h6,
+body.rtl .site-name, body.rtl .section-title, body.rtl .post-card-title,
+body.rtl .project-card-title, body.rtl .product-title {
+    font-family: 'Vazirmatn', 'Noto Sans Arabic', 'Cairo', sans-serif !important;
 }
 
 /* ============================================
@@ -505,27 +521,7 @@ body.rtl select {
     line-height: 1.7;
 }
 
-/* Balochi Decorative Divider */
-.balochi-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 16px 0;
-}
-
-.balochi-divider .line {
-    width: 60px; height: 2px;
-    background: var(--gradient);
-    border-radius: 1px;
-}
-
-.balochi-divider .diamond {
-    width: 10px; height: 10px;
-    background: var(--gradient);
-    transform: rotate(45deg);
-    border-radius: 2px;
-}
+/* Decorative dividers removed per request */
 
 /* ============================================
    PROJECT CARDS
@@ -1555,19 +1551,7 @@ body.rtl select {
 /* ============================================
    STITCH BORDER
    ============================================ */
-.stitch-border {
-    position: relative;
-}
-
-.stitch-border::after {
-    content: '';
-    position: absolute;
-    bottom: -2px; left: 50%;
-    transform: translateX(-50%);
-    width: 200px; height: 12px;
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='12' viewBox='0 0 24 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6 L6 0 L12 6 L18 0 L24 6 L18 12 L12 6 L6 12Z' fill='none' stroke='%2338bdf8' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-}
+/*  removed as requested */
 
 /* ============================================
    ANIMATIONS
@@ -1639,6 +1623,119 @@ body.rtl select {
 /* ============================================
    RESPONSIVE
    ============================================ */
+/* ============================================
+   DESKTOP NAVIGATION
+   ============================================ */
+.desktop-nav {
+    display: none;
+}
+
+.desktop-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.desktop-menu > li > a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+
+.desktop-menu > li > a:hover {
+    background: var(--bg-alt);
+    color: var(--color-primary);
+}
+
+.desktop-menu .sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 8px 0;
+    z-index: 100;
+}
+
+.desktop-menu li {
+    position: relative;
+}
+
+.desktop-menu li:hover > .sub-menu {
+    display: block;
+}
+
+/* Megamenu support */
+@media (min-width: 1025px) {
+    .site-header .menu-item-has-children.megamenu {
+        position: static !important;
+    }
+
+    .site-header .megamenu .sub-menu {
+        position: absolute;
+        top: 100%;
+        left: 24px;
+        right: 24px;
+        width: calc(100% - 48px);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: var(--shadow);
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all 0.3s ease;
+    }
+
+    .site-header .megamenu:hover .sub-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .site-header .megamenu .sub-menu li {
+        display: block;
+    }
+
+    .site-header .megamenu .sub-menu a {
+        padding: 8px 0;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .site-header .megamenu .sub-menu a:hover {
+        color: var(--color-primary);
+    }
+}
+
+@media (min-width: 1025px) {
+    .desktop-nav {
+        display: block;
+    }
+
+    .header-actions .mobile-only {
+        display: none;
+    }
+}
+
 @media (max-width: 1024px) {
     .footer-inner { grid-template-columns: 1fr 1fr; }
 }
@@ -1977,4 +2074,32 @@ body.rtl select {
     width: 120px;
     margin: 16px 24px 24px;
     border-radius: 10px;
+}
+/* Header actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mobile-only {
+    display: block;
+}
+
+@media (min-width: 1025px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Horizontal Scroll Shop - RTL/LTR friendly */
+.shop-horizontal-scroll {
+    direction: ltr; /* base */
+}
+body.rtl .shop-horizontal-scroll {
+    direction: rtl;
+}
+.shop-horizontal-scroll > div {
+    display: flex;
+    gap: 22px;
 }

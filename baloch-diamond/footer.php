@@ -197,6 +197,31 @@ $contact_phone   = get_theme_mod( 'bd_contact_phone', '' );
     <span id="moonIcon"><?php echo bd_icon( 'moon' ); ?></span>
 </button>
 
+<!-- ============================================
+     FLOATING COLOR PALETTE SWITCHER (v1.1.1)
+     ============================================ -->
+<button class="switcher-toggle-btn" id="switcherToggle" aria-label="<?php esc_attr_e( 'Change color scheme', 'baloch-diamond' ); ?>" title="<?php esc_attr_e( 'Preview colors', 'baloch-diamond' ); ?>">
+    <?php echo bd_icon( 'settings', 20, 20 ); ?>
+</button>
+
+<div class="floating-switcher" id="floatingSwitcher">
+    <div style="font-size:0.85rem; font-weight:600; margin-bottom:8px; color:var(--text-muted);">
+        <?php esc_html_e( 'Preview Colors', 'baloch-diamond' ); ?>
+    </div>
+
+    <div class="switcher-palette-row">
+        <div class="switcher-color-dot" data-preset="default" style="background: linear-gradient(135deg, #38bdf8, #f97316);" title="Default"></div>
+        <div class="switcher-color-dot" data-preset="ocean"   style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);" title="Ocean Breeze"></div>
+        <div class="switcher-color-dot" data-preset="desert"  style="background: linear-gradient(135deg, #f97316, #ef4444);" title="Desert Sunset"></div>
+        <div class="switcher-color-dot" data-preset="forest"  style="background: linear-gradient(135deg, #10b981, #059669);" title="Forest Green"></div>
+        <div class="switcher-color-dot" data-preset="royal"   style="background: linear-gradient(135deg, #8b5cf6, #ec4899);" title="Royal Purple"></div>
+    </div>
+
+    <button id="switcherReset" style="margin-top:8px; font-size:0.75rem; background:transparent; border:1px solid var(--border); padding:4px 10px; border-radius:8px; cursor:pointer; color:var(--text-muted);">
+        <?php esc_html_e( 'Reset to Default', 'baloch-diamond' ); ?>
+    </button>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>

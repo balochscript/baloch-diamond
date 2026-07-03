@@ -19,14 +19,13 @@ get_header();
                 <?php esc_html_e( 'Search Results', 'baloch-diamond' ); ?>
             </div>
 
-            <h1 class="section-title stitch-border">
+            <h1 class="section-title">
                 <?php
                 /* translators: %s: Search query */
                 printf( esc_html__( 'Results for: %s', 'baloch-diamond' ), '<span style="color:var(--color-primary)">' . esc_html( get_search_query() ) . '</span>' );
                 ?>
             </h1>
 
-            <div class="balochi-divider">
                 <div class="line"></div>
                 <div class="diamond"></div>
                 <div class="line"></div>

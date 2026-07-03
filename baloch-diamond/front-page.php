@@ -50,6 +50,11 @@ get_header();
     if ( bd_is_section_visible( 'newsletter' ) ) {
         get_template_part( 'template-parts/section-newsletter' );
     }
+
+    // Members / Community Section
+    if ( get_theme_mod( 'bd_members_show', true ) ) {
+        get_template_part( 'template-parts/section-members' );
+    }
     ?>
 
 </main>

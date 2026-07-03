@@ -865,7 +865,133 @@
         backToTop.init();
         skeletonLoader.init();
         singleProductSlider.init();
+        paletteSwitcher.init();
+        paletteSwitcher.restore();
 
     } );
 
-} )();
+} )();var skeletonLoader = { init: function(){} }; var paletteSwitcher = { init: function(){}, restore: function(){} };
+
+    // ================================================
+    //  SKELETON SHIMMER LOADING (Complete)
+    // ================================================
+    var skeletonLoader = {
+        init: function() {
+            var enabled = document.body.classList.contains('skeleton-enabled');
+            if (!enabled) return;
+
+            var cards = $$('.project-card, .post-card, .doc-card, .team-card, .shop-product-card');
+
+            cards.forEach(function(card, i) {
+                if (card.querySelector('img') && !card.dataset.forceSkeleton) return;
+
+                card.classList.add('skeleton-card');
+
+                var shimmer = document.createElement('div');
+                shimmer.className = 'skeleton-shimmer';
+                shimmer.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;border-radius:20px;';
+
+                card.style.position = 'relative';
+                card.appendChild(shimmer);
+
+                setTimeout(function() {
+                    if (shimmer && shimmer.parentNode) shimmer.parentNode.removeChild(shimmer);
+                    card.classList.remove('skeleton-card');
+                }, 900 + (i * 120));
+            });
+        }
+    };
+
+    // ================================================
+    //  FLOATING COLOR PALETTE SWITCHER (Complete)
+    // ================================================
+    var paletteSwitcher = {
+        presets: {
+            'default': { primary: '#38bdf8', secondary: '#f97316' },
+            'ocean':   { primary: '#0ea5e9', secondary: '#06b6d4' },
+            'desert':  { primary: '#f97316', secondary: '#ef4444' },
+            'forest':  { primary: '#10b981', secondary: '#059669' },
+            'royal':   { primary: '#8b5cf6', secondary: '#ec4899' }
+        },
+
+        init: function() {
+            var toggle = $('#switcherToggle');
+            var panel  = $('#floatingSwitcher');
+
+            if (!toggle || !panel) return;
+
+            toggle.addEventListener('click', function(e) {
+                e.stopImmediatePropagation();
+                panel.classList.toggle('active');
+            });
+
+            var dots = $$('.switcher-color-dot');
+            var self = this;
+
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    var key = this.getAttribute('data-preset');
+                    if (self.presets[key]) {
+                        self.applyPreset(key);
+                        self.setActiveDot(this);
+                    }
+                });
+            });
+
+            var reset = $('#switcherReset');
+            if (reset) {
+                reset.addEventListener('click', function() {
+                    self.resetToDefault();
+                    self.clearActiveDots();
+                    panel.classList.remove('active');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (!panel.contains(e.target) && e.target !== toggle) {
+                    panel.classList.remove('active');
+                }
+            });
+        },
+
+        applyPreset: function(key) {
+            var c = this.presets[key];
+            if (!c) return;
+
+            var r = document.documentElement;
+            r.style.setProperty('--color-primary', c.primary);
+            r.style.setProperty('--color-secondary', c.secondary);
+            r.style.setProperty('--gradient', 'linear-gradient(135deg,' + c.primary + ',' + c.secondary + ')');
+            r.style.setProperty('--gradient-reverse', 'linear-gradient(135deg,' + c.secondary + ',' + c.primary + ')');
+
+            localStorage.setItem('bd_temp_palette', key);
+            if (window.bdShowNotify) window.bdShowNotify('Preview applied');
+        },
+
+        resetToDefault: function() {
+            var r = document.documentElement;
+            r.style.removeProperty('--color-primary');
+            r.style.removeProperty('--color-secondary');
+            r.style.removeProperty('--gradient');
+            r.style.removeProperty('--gradient-reverse');
+            localStorage.removeItem('bd_temp_palette');
+            if (window.bdShowNotify) window.bdShowNotify('Colors reset');
+        },
+
+        setActiveDot: function(dot) {
+            $$('.switcher-color-dot').forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
+        },
+
+        clearActiveDots: function() {
+            $$('.switcher-color-dot').forEach(d => d.classList.remove('active'));
+        },
+
+        restore: function() {
+            var saved = localStorage.getItem('bd_temp_palette');
+            if (saved && this.presets[saved]) {
+                this.applyPreset(saved);
+            }
+        }
+    };
+

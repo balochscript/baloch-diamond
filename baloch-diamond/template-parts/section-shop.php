@@ -1,321 +1,286 @@
 <?php
 /**
- * Shop (WooCommerce) Section Template Part
- *
- * @package Baloch_Diamond
- * @version 1.1.0
+ * Shop (WooCommerce) Section - Fully Dynamic + 3 Layouts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Customizer options
 $show_shop   = get_theme_mod( 'bd_shop_show', true );
-$layout      = get_theme_mod( 'bd_shop_layout', 'grid' ); // 'grid', 'slider', 'single'
-$filter      = get_theme_mod( 'bd_shop_filter', 'recent' ); // 'recent', 'sale', 'featured', 'popular'
+$layout      = get_theme_mod( 'bd_shop_layout', 'grid' );
 $count       = get_theme_mod( 'bd_shop_count', 4 );
+$filter      = get_theme_mod( 'bd_shop_filter', 'recent' );
 
-if ( ! $show_shop ) {
-    return;
+if ( ! $show_shop ) return;
+
+$products_list = array();
+$use_real_products = false;
+
+// Collect up to 12 selected products from customizer
+$selected_ids = array();
+for ( $i = 1; $i <= 12; $i++ ) {
+    $pid = (int) get_theme_mod( "bd_shop_custom_product_{$i}", 0 );
+    if ( $pid > 0 ) $selected_ids[] = $pid;
 }
 
-// WooCommerce query setup
-$products_found = false;
-$products_list  = array();
-
 if ( class_exists( 'WooCommerce' ) ) {
-    
-    // Check if Custom Selection is used
-    $selected_pids = array();
-    for ( $i = 1; $i <= 12; $i++ ) {
-        $pid = get_theme_mod( "bd_shop_custom_product_{$i}", 0 );
-        if ( $pid ) {
-            $selected_pids[] = intval( $pid );
-        }
-    }
-
-    if ( ! empty( $selected_pids ) ) {
-        // Query only user chosen custom products
+    if ( ! empty( $selected_ids ) ) {
+        // Manual selection takes priority
         $args = array(
-            'include' => $selected_pids,
-            'limit'   => count( $selected_pids ),
+            'include' => $selected_ids,
+            'limit'   => count( $selected_ids ),
             'status'  => 'publish',
+            'orderby' => 'post__in',
         );
     } else {
-        // Fallback to standard filters
+        // Apply filter from Customizer
         $args = array(
             'limit'   => $count,
             'status'  => 'publish',
-            'orderby' => 'date',
-            'order'   => 'DESC',
         );
 
-        // Apply filters
-        if ( $filter === 'sale' ) {
-            $args['on_sale'] = true;
-        } elseif ( $filter === 'featured' ) {
-            $args['featured'] = true;
-        } elseif ( $filter === 'popular' ) {
-            $args['orderby'] = 'popularity';
+        switch ( $filter ) {
+            case 'sale':
+                $sale_ids = wc_get_product_ids_on_sale();
+                if ( ! empty( $sale_ids ) ) {
+                    $args['include'] = $sale_ids;
+                    $args['orderby'] = 'post__in';
+                } else {
+                    $args['orderby'] = 'date';
+                    $args['order']   = 'DESC';
+                }
+                break;
+
+            case 'featured':
+                $featured_ids = wc_get_featured_product_ids();
+                if ( ! empty( $featured_ids ) ) {
+                    $args['include'] = $featured_ids;
+                    $args['orderby'] = 'post__in';
+                } else {
+                    $args['orderby'] = 'date';
+                    $args['order']   = 'DESC';
+                }
+                break;
+
+            case 'popular':
+                $args['orderby'] = 'popularity';
+                $args['order']   = 'DESC';
+                break;
+
+            case 'recent':
+            default:
+                $args['orderby'] = 'date';
+                $args['order']   = 'DESC';
+                break;
         }
     }
 
     $products = wc_get_products( $args );
 
     if ( ! empty( $products ) ) {
-        $products_found = true;
+        $use_real_products = true;
         foreach ( $products as $product ) {
-            // Get original and sale price
-            $reg_price = floatval( $product->get_regular_price() );
-            $sale_price = floatval( $product->get_sale_price() );
-            $discount_pct = 0;
-            if ( $product->is_on_sale() && $reg_price > 0 ) {
-                $discount_pct = round( ( ( $reg_price - $sale_price ) / $reg_price ) * 100 );
-            }
+            $reg  = (float) $product->get_regular_price();
+            $sale = (float) $product->get_sale_price();
+            $discount = ( $product->is_on_sale() && $reg > 0 ) ? round( ( ($reg - $sale) / $reg ) * 100 ) : 0;
 
             $products_list[] = array(
-                'id'         => $product->get_id(),
-                'title'      => $product->get_name(),
-                'price'      => $product->get_price_html(),
-                'link'       => get_permalink( $product->get_id() ),
-                'image'      => wp_get_attachment_image_url( $product->get_image_id(), 'bd-card' ),
-                'rating'     => $product->get_average_rating(),
-                'on_sale'    => $product->is_on_sale(),
-                'discount'   => $discount_pct,
-                'desc'       => wp_trim_words( $product->get_short_description(), 20 ),
+                'id'        => $product->get_id(),
+                'title'     => $product->get_name(),
+                'price'     => $product->get_price_html(),
+                'link'      => get_permalink( $product->get_id() ),
+                'image'     => wp_get_attachment_image_url( $product->get_image_id(), 'bd-card' ) ?: '',
+                'rating'    => (float) $product->get_average_rating(),
+                'on_sale'   => $product->is_on_sale(),
+                'discount'  => $discount,
+                'desc'      => wp_trim_words( $product->get_short_description(), 18 ),
             );
         }
     }
 }
 
-// Fallback Mock products if WooCommerce not active or empty
-if ( ! $products_found ) {
+// Fallback mock data (kept for demo when no WooCommerce)
+if ( empty( $products_list ) ) {
     $products_list = array(
-        array(
-            'id'      => 1,
-            'title'   => esc_html__( 'Royal Baloch Shawl', 'baloch-diamond' ),
-            'price'   => '<del><span class="amount">$150.00</span></del> <ins><span class="amount">$120.00</span></ins>',
-            'link'    => '#_shop',
-            'image'   => '',
-            'rating'  => 5,
-            'on_sale' => true,
-            'discount'=> 20,
-            'desc'    => esc_html__( 'A luxurious shawl featuring intricate hand-embroidered borders inspired by ancient Balochi geometric designs.', 'baloch-diamond' ),
-        ),
-        array(
-            'id'      => 2,
-            'title'   => esc_html__( 'Traditional Needlework Dress', 'baloch-diamond' ),
-            'price'   => '<span class="amount">$280.00</span>',
-            'link'    => '#_shop',
-            'image'   => '',
-            'rating'  => 5,
-            'on_sale' => false,
-            'discount'=> 0,
-            'desc'    => esc_html__( 'Authentic Balochi dress adorned with delicate red and gold patterns, completely hand-stitched by native masters.', 'baloch-diamond' ),
-        ),
-        array(
-            'id'      => 3,
-            'title'   => esc_html__( 'Embroidered Pattern Guide', 'baloch-diamond' ),
-            'price'   => '<del><span class="amount">$25.00</span></del> <ins><span class="amount">$19.99</span></ins>',
-            'link'    => '#_shop',
-            'image'   => '',
-            'rating'  => 4.5,
-            'on_sale' => true,
-            'discount'=> 20,
-            'desc'    => esc_html__( 'Comprehensive digital guide explaining the techniques, stitches, and maps of Balochi needlework art.', 'baloch-diamond' ),
-        ),
-        array(
-            'id'      => 4,
-            'title'   => esc_html__( 'Diamond Motif Handbag', 'baloch-diamond' ),
-            'price'   => '<span class="amount">$45.00</span>',
-            'link'    => '#_shop',
-            'image'   => '',
-            'rating'  => 4,
-            'on_sale' => false,
-            'discount'=> 0,
-            'desc'    => esc_html__( 'Modern canvas purse featuring traditional silk embroideries of the signature Baloch Diamond motif.', 'baloch-diamond' ),
-        ),
+        array('id'=>1,'title'=>'Royal Baloch Shawl','price'=>'<del>$150</del> <ins>$120</ins>','link'=>'#_shop','image'=>'','rating'=>5,'on_sale'=>true,'discount'=>20,'desc'=>'Luxurious hand-embroidered shawl.'),
+        array('id'=>2,'title'=>'Traditional Needlework Dress','price'=>'$280','link'=>'#_shop','image'=>'','rating'=>4.8,'on_sale'=>false,'discount'=>0,'desc'=>'Authentic Balochi dress.'),
+        array('id'=>3,'title'=>'Embroidered Pattern Guide','price'=>'$19.99','link'=>'#_shop','image'=>'','rating'=>4.5,'on_sale'=>true,'discount'=>20,'desc'=>'Digital guide to stitches.'),
     );
-    // Limit to user configured count
     $products_list = array_slice( $products_list, 0, $count );
 }
 ?>
 
 <section class="section shop-showcase-section" id="shop-showcase">
-    
-    <?php
-    bd_section_header( 'shop', array(
+    <?php bd_section_header( 'shop', array(
         'badge' => esc_html__( 'Premium Marketplace', 'baloch-diamond' ),
         'title' => esc_html__( 'Artisanal Collections', 'baloch-diamond' ),
-        'desc'  => esc_html__( 'Explore hand-embroidered apparel, authentic Baloch crafts, and modern designer goods made with exquisite attention to detail.', 'baloch-diamond' ),
+        'desc'  => esc_html__( 'Discover authentic Balochi crafts and modern designer goods.', 'baloch-diamond' ),
         'icon'  => 'tag',
-    ) );
-    ?>
+    ) ); ?>
 
-    <?php if ( $layout === 'single' && ! empty( $products_list ) ) : 
-        // Single Product Layout - Big Card Showcase with Slide Controls
-        $single_prod = $products_list[0];
-        ?>
-        <div class="shop-single-showcase" id="shopSingleShowcase" style="background:var(--card-bg); border:1px solid var(--border); border-radius:24px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-wrap:wrap; margin:20px auto; position:relative; max-width:960px;">
-            <!-- Left Column: Big Image & Ribbon -->
-            <div style="flex:1.2; min-width:300px; position:relative; overflow:hidden; height:400px; background:var(--bg-alt);">
-                <?php if ( $single_prod['on_sale'] && $single_prod['discount'] > 0 ) : ?>
-                    <!-- Red Ribbon Badge -->
-                    <div class="discount-ribbon" style="position:absolute; top:20px; left:-10px; background:#ef4444; color:white; padding:6px 36px; transform:rotate(-45deg); font-size:0.8rem; font-weight:900; z-index:5; box-shadow:0 2px 10px rgba(0,0,0,0.25); text-transform:uppercase; letter-spacing:1px;">
-                        <?php echo esc_html( $single_prod['discount'] ); ?>% OFF
+    <?php if ( $layout === 'single-big' && ! empty( $products_list ) ) : ?>
+        <!-- SINGLE BIG CARD + Mini Navigation -->
+        <?php $prod = $products_list[0]; ?>
+        <div class="shop-single-big" id="shopSingleBig" style="max-width:980px;margin:0 auto;background:var(--card-bg);border:1px solid var(--border);border-radius:24px;overflow:hidden;display:flex;flex-wrap:wrap;box-shadow:var(--shadow);">
+            
+            <!-- Image with ribbon -->
+            <div style="flex:1;min-width:320px;position:relative;height:420px;background:var(--bg-alt);">
+                <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
+                    <div style="position:absolute;top:18px;left:-8px;background:#ef4444;color:white;padding:7px 38px;font-size:0.8rem;font-weight:900;transform:rotate(-42deg);box-shadow:0 3px 12px rgba(0,0,0,0.25);z-index:3;letter-spacing:0.5px;">
+                        -<?php echo esc_html( $prod['discount'] ); ?>%
                     </div>
                 <?php endif; ?>
-
-                <?php if ( $single_prod['image'] ) : ?>
-                    <img src="<?php echo esc_url( $single_prod['image'] ); ?>" alt="<?php echo esc_attr( $single_prod['title'] ); ?>" style="width:100%; height:100%; object-fit:cover;">
+                
+                <?php if ( $prod['image'] ) : ?>
+                    <img src="<?php echo esc_url( $prod['image'] ); ?>" alt="<?php echo esc_attr( $prod['title'] ); ?>" style="width:100%;height:100%;object-fit:cover;">
                 <?php else : ?>
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-                        <div style="opacity:0.15; transform:scale(2);"><?php echo bd_icon( 'tag', 48, 48 ); ?></div>
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.15;">
+                        <?php echo bd_icon( 'tag', 80, 80 ); ?>
                     </div>
                 <?php endif; ?>
             </div>
 
-            <!-- Right Column: Info & Action Buttons -->
-            <div style="flex:1; min-width:300px; padding:40px; display:flex; flex-direction:column; justify-content:center; border-left:1px solid var(--border);">
-                <!-- Stars -->
-                <div style="display:flex; gap:4px; margin-bottom:12px; color:#fbbf24; font-size:1.1rem;">
-                    <?php
-                    $full_stars = floor( $single_prod['rating'] );
-                    for ( $s = 1; $s <= 5; $s++ ) {
-                        echo $s <= $full_stars ? '★' : '☆';
-                    }
-                    ?>
+            <!-- Info -->
+            <div style="flex:1;min-width:320px;padding:42px 38px;display:flex;flex-direction:column;justify-content:center;">
+                <div style="display:flex;gap:4px;margin-bottom:10px;color:#fbbf24;font-size:1.15rem;">
+                    <?php for ( $s=1; $s<=5; $s++ ) echo $s <= floor($prod['rating']) ? '★' : '☆'; ?>
                 </div>
 
-                <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; margin-bottom:12px; line-height:1.3; color:var(--text);">
-                    <?php echo esc_html( $single_prod['title'] ); ?>
-                </h3>
+                <h3 style="font-size:1.85rem;font-weight:900;margin-bottom:12px;line-height:1.2;color:var(--text);"><?php echo esc_html( $prod['title'] ); ?></h3>
+                
+                <p style="color:var(--text-muted);font-size:1rem;line-height:1.7;margin-bottom:22px;"><?php echo esc_html( $prod['desc'] ); ?></p>
 
-                <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.7; margin-bottom:24px;">
-                    <?php echo esc_html( $single_prod['desc'] ); ?>
-                </p>
-
-                <div style="font-size:1.5rem; font-weight:800; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:30px;">
-                    <?php echo $single_prod['price']; ?>
+                <div style="font-size:1.65rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:28px;">
+                    <?php echo $prod['price']; ?>
                 </div>
 
-                <div style="display:flex; gap:12px; flex-wrap:wrap; width:100%;">
-                    <a href="<?php echo esc_url( $single_prod['link'] ); ?>" class="btn-gradient" style="flex:2; justify-content:center; padding:12px 24px;">
-                        <?php echo bd_icon( 'tag', 16, 16 ); ?>
-                        <?php esc_html_e( 'View Product details', 'baloch-diamond' ); ?>
+                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                    <a href="<?php echo esc_url( $prod['link'] ); ?>" class="btn-gradient" style="flex:1;min-width:160px;justify-content:center;">
+                        <?php esc_html_e( 'View Product', 'baloch-diamond' ); ?>
                     </a>
 
                     <?php if ( count( $products_list ) > 1 ) : ?>
-                        <!-- Quick Mini Slider controls -->
-                        <div style="display:flex; gap:6px;">
-                            <button class="btn-outline" id="singlePrev" style="padding:12px; border-radius:12px; width:48px; height:48px; cursor:pointer;" title="<?php esc_attr_e( 'Previous Product', 'baloch-diamond' ); ?>">
-                                <?php echo bd_icon( 'arrow-left', 16, 16 ); ?>
-                            </button>
-                            <button class="btn-outline" id="singleNext" style="padding:12px; border-radius:12px; width:48px; height:48px; cursor:pointer;" title="<?php esc_attr_e( 'Next Product', 'baloch-diamond' ); ?>">
-                                <?php echo bd_icon( 'arrow-right-small', 16, 16 ); ?>
-                            </button>
+                        <div style="display:flex;gap:8px;">
+                            <button onclick="shopSingleBigPrev()" class="btn-outline" style="width:48px;height:48px;padding:0;border-radius:12px;" aria-label="Previous">←</button>
+                            <button onclick="shopSingleBigNext()" class="btn-outline" style="width:48px;height:48px;padding:0;border-radius:12px;" aria-label="Next">→</button>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
-        <!-- Render remaining products data for the JavaScript slider -->
-        <script id="bd-single-products-json" type="application/json">
-            <?php echo wp_json_encode( $products_list ); ?>
+        <script>
+        (function(){
+            var data = <?php echo wp_json_encode( $products_list ); ?>;
+            var idx = 0;
+            window.shopSingleBigNext = function(){ idx = (idx+1) % data.length; updateBigCard(idx); };
+            window.shopSingleBigPrev = function(){ idx = (idx-1+data.length) % data.length; updateBigCard(idx); };
+            
+            function updateBigCard(i){
+                var p = data[i];
+                var container = document.getElementById('shopSingleBig');
+                if(!container) return;
+                
+                // Update image
+                var imgWrap = container.children[0];
+                imgWrap.innerHTML = '';
+                if(p.image){
+                    var img = document.createElement('img');
+                    img.src = p.image; img.style.cssText='width:100%;height:100%;object-fit:cover;';
+                    imgWrap.appendChild(img);
+                } else {
+                    imgWrap.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.15;"><?php echo bd_icon("tag",80,80); ?></div>';
+                }
+                
+                // Ribbon
+                if(p.on_sale && p.discount > 0){
+                    var rib = document.createElement('div');
+                    rib.style.cssText='position:absolute;top:18px;left:-8px;background:#ef4444;color:white;padding:7px 38px;font-size:.8rem;font-weight:900;transform:rotate(-42deg);box-shadow:0 3px 12px rgba(0,0,0,0.25);z-index:3;letter-spacing:.5px;';
+                    rib.textContent = '-' + p.discount + '%';
+                    imgWrap.appendChild(rib);
+                }
+                
+                // Info
+                var info = container.children[1];
+                info.querySelector('h3').textContent = p.title;
+                info.querySelector('p').textContent = p.desc;
+                info.querySelector('div[style*="1.65rem"]').innerHTML = p.price;
+                
+                var stars = info.querySelector('div[style*="fbbf24"]');
+                if(stars){
+                    stars.innerHTML = '';
+                    for(var s=1;s<=5;s++) stars.innerHTML += (s <= Math.floor(p.rating)) ? '★' : '☆';
+                }
+            }
+        })();
         </script>
 
-    <?php elseif ( $layout === 'slider' ) : ?>
-        <!-- Modern Scrollable Native Horizontal Slider (LTR & RTL compatible) -->
-        <div class="shop-scroll-slider-container" style="position:relative; width:100%; padding:20px 0;">
-            <div class="shop-scroll-wrapper" id="shopScrollWrapper" style="display:flex; overflow-x:auto; gap:24px; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:16px; -webkit-overflow-scrolling:touch;">
+    <?php elseif ( $layout === 'horizontal-scroll' ) : ?>
+        <!-- HORIZONTAL SCROLLABLE SLIDER (RTL / LTR friendly) -->
+        <div class="shop-horizontal-scroll" style="overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:8px 0;">
+            <div style="display:flex;gap:22px;min-width:max-content;padding:0 8px;">
                 <?php foreach ( $products_list as $prod ) : ?>
-                    <div class="shop-product-card" style="flex:0 0 calc(33.333% - 16px); min-width:280px; scroll-snap-align:start; box-sizing:border-box;">
+                    <div style="flex:0 0 280px;scroll-snap-align:start;">
                         <?php bd_render_product_card_html( $prod ); ?>
                     </div>
                 <?php endforeach; ?>
             </div>
-            
-            <?php if ( count( $products_list ) > 1 ) : ?>
-                <!-- Simple CSS hints or arrows to help horizontal scrolling -->
-                <div style="display:flex; justify-content:center; gap:8px; margin-top:16px;">
-                    <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600; display:flex; align-items:center; gap:6px;">
-                        <?php echo bd_icon( 'arrow-left', 14, 14 ); ?>
-                        <?php esc_html_e( 'Scroll or Drag', 'baloch-diamond' ); ?>
-                        <?php echo bd_icon( 'arrow-right-small', 14, 14 ); ?>
-                    </span>
-                </div>
-            <?php endif; ?>
         </div>
+
     <?php else : ?>
-        <!-- Grid Layout -->
-        <div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:28px;">
+        <!-- GRID -->
+        <div class="products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:28px;">
             <?php foreach ( $products_list as $prod ) : ?>
-                <div class="shop-product-card">
-                    <?php bd_render_product_card_html( $prod ); ?>
-                </div>
+                <div class="shop-product-card"><?php bd_render_product_card_html( $prod ); ?></div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 
-    <div style="text-align:center; margin-top:40px;">
-        <a href="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'shop' ) : '#_shop' ); ?>" class="btn-gradient">
-            <?php echo bd_icon( 'tag', 16, 16 ); ?>
-            <?php esc_html_e( 'View Full Store', 'baloch-diamond' ); ?>
+    <div style="text-align:center;margin-top:44px;">
+        <a href="<?php echo esc_url( class_exists('WooCommerce') ? wc_get_page_permalink('shop') : '#_shop' ); ?>" class="btn-gradient">
+            <?php echo bd_icon( 'tag', 16, 16 ); ?> <?php esc_html_e( 'Browse Full Store', 'baloch-diamond' ); ?>
         </a>
     </div>
-
 </section>
 
 <?php
-/**
- * Helper function to render a product card
- */
+// Reusable clean product card (used by grid + horizontal)
 if ( ! function_exists( 'bd_render_product_card_html' ) ) {
     function bd_render_product_card_html( $prod ) {
         ?>
-        <div class="project-card product-card">
-            <div class="project-card-img-wrapper" style="position:relative; overflow:hidden; height:240px;">
+        <div class="project-card product-card" style="height:100%;">
+            <div class="project-card-img-wrapper" style="position:relative;height:240px;overflow:hidden;">
                 <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
-                    <!-- Red Ribbon Badge -->
-                    <div class="discount-ribbon" style="position:absolute; top:12px; left:-10px; background:#ef4444; color:white; padding:4px 24px; transform:rotate(-45deg); font-size:0.65rem; font-weight:900; z-index:2; box-shadow:0 1px 5px rgba(0,0,0,0.2); text-transform:uppercase;">
-                        <?php echo esc_html( $prod['discount'] ); ?>% OFF
+                    <div style="position:absolute;top:14px;left:-6px;background:#ef4444;color:#fff;font-weight:900;font-size:.68rem;padding:5px 28px;transform:rotate(-43deg);box-shadow:0 2px 8px rgba(239,68,68,.3);z-index:2;letter-spacing:.3px;">
+                        -<?php echo esc_html( $prod['discount'] ); ?>%
                     </div>
                 <?php endif; ?>
                 
                 <?php if ( $prod['image'] ) : ?>
-                    <img class="project-card-image" src="<?php echo esc_url( $prod['image'] ); ?>" alt="<?php echo esc_attr( $prod['title'] ); ?>" style="width:100%; height:100%; object-fit:cover;">
+                    <img class="project-card-image" src="<?php echo esc_url( $prod['image'] ); ?>" alt="<?php echo esc_attr( $prod['title'] ); ?>" style="width:100%;height:100%;object-fit:cover;">
                 <?php else : ?>
-                    <div style="width:100%; height:100%; background:var(--bg-alt); display:flex; align-items:center; justify-content:center;">
-                        <div style="opacity:0.15; transform:scale(1.5);"><?php echo bd_icon( 'tag', 48, 48 ); ?></div>
+                    <div style="width:100%;height:100%;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;opacity:.12;">
+                        <?php echo bd_icon( 'tag', 62, 62 ); ?>
                     </div>
                 <?php endif; ?>
             </div>
             
-            <div class="project-card-content" style="padding:24px; text-align:center; display:flex; flex-direction:column; align-items:center;">
-                <!-- Rating -->
-                <div class="product-rating" style="display:flex; gap:4px; margin-bottom:8px; color:#fbbf24;">
-                    <?php
-                    $full_stars = floor( $prod['rating'] );
-                    for ( $s = 1; $s <= 5; $s++ ) {
-                        echo $s <= $full_stars ? '★' : '☆';
-                    }
-                    ?>
+            <div class="project-card-content" style="padding:22px 20px 24px;text-align:center;">
+                <div style="color:#fbbf24;font-size:1rem;margin-bottom:6px;">
+                    <?php for ( $s=1; $s<=5; $s++ ) echo $s <= floor($prod['rating']) ? '★' : '☆'; ?>
                 </div>
                 
-                <h3 class="project-card-title" style="font-size:1.15rem; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">
-                    <a href="<?php echo esc_url( $prod['link'] ); ?>" style="text-decoration:none; color:inherit; transition:color 0.3s;" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='inherit'">
-                        <?php echo esc_html( $prod['title'] ); ?>
-                    </a>
+                <h3 class="project-card-title" style="font-size:1.1rem;margin-bottom:8px;">
+                    <a href="<?php echo esc_url( $prod['link'] ); ?>" style="color:inherit;text-decoration:none;"><?php echo esc_html( $prod['title'] ); ?></a>
                 </h3>
                 
-                <div class="product-price" style="font-size:1.2rem; font-weight:700; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:16px;">
+                <div style="font-size:1.18rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;">
                     <?php echo $prod['price']; ?>
                 </div>
                 
-                <a href="<?php echo esc_url( $prod['link'] ); ?>" class="btn-outline" style="width:100%; justify-content:center; border-radius:10px; padding:8px 16px;">
-                    <?php esc_html_e( 'Select Option', 'baloch-diamond' ); ?>
+                <a href="<?php echo esc_url( $prod['link'] ); ?>" class="btn-outline" style="width:100%;justify-content:center;border-radius:10px;">
+                    <?php esc_html_e( 'View Details', 'baloch-diamond' ); ?>
                 </a>
             </div>
         </div>

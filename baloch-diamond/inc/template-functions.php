@@ -131,7 +131,7 @@ function bd_section_header( $section, $defaults = array() ) {
     }
 
     if ( $show_title && $title ) {
-        echo '<h2 class="section-title stitch-border" style="margin-bottom:12px;">' . esc_html( $title ) . '</h2>';
+        echo '<h2 class="section-title" style="margin-bottom:12px;">' . esc_html( $title ) . '</h2>';
     }
 
     if ( $show_desc && $desc ) {
@@ -156,6 +156,11 @@ function bd_body_classes( $classes ) {
 
     if ( get_theme_mod( 'bd_animated_patterns', true ) ) {
         $classes[] = 'balochi-pattern-animated';
+    }
+
+    // Skeleton shimmer support
+    if ( get_theme_mod( 'bd_skeleton_loading', true ) ) {
+        $classes[] = 'skeleton-enabled';
     }
 
     return $classes;

@@ -19,11 +19,10 @@ get_header();
                     <?php echo bd_icon( 'tag', 16, 16 ); ?>
                     <?php esc_html_e( 'Category', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php single_cat_title(); ?>
                 </h1>
                 <?php if ( category_description() ) : ?>
-                    <div class="balochi-divider">
                         <div class="line"></div>
                         <div class="diamond"></div>
                         <div class="line"></div>
@@ -36,11 +35,10 @@ get_header();
                     <?php echo bd_icon( 'tag', 16, 16 ); ?>
                     <?php esc_html_e( 'Tag', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php single_tag_title(); ?>
                 </h1>
                 <?php if ( tag_description() ) : ?>
-                    <div class="balochi-divider">
                         <div class="line"></div>
                         <div class="diamond"></div>
                         <div class="line"></div>
@@ -75,7 +73,7 @@ get_header();
                     <?php echo bd_icon( 'calendar', 16, 16 ); ?>
                     <?php esc_html_e( 'Yearly Archive', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php echo get_the_date( 'Y' ); ?>
                 </h1>
 
@@ -84,7 +82,7 @@ get_header();
                     <?php echo bd_icon( 'calendar', 16, 16 ); ?>
                     <?php esc_html_e( 'Monthly Archive', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php echo get_the_date( 'F Y' ); ?>
                 </h1>
 
@@ -93,7 +91,7 @@ get_header();
                     <?php echo bd_icon( 'calendar', 16, 16 ); ?>
                     <?php esc_html_e( 'Daily Archive', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php echo get_the_date( 'F j, Y' ); ?>
                 </h1>
 
@@ -102,11 +100,10 @@ get_header();
                     <?php echo bd_icon( 'file-text', 16, 16 ); ?>
                     <?php esc_html_e( 'Archive', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php the_archive_title(); ?>
                 </h1>
                 <?php if ( get_the_archive_description() ) : ?>
-                    <div class="balochi-divider">
                         <div class="line"></div>
                         <div class="diamond"></div>
                         <div class="line"></div>

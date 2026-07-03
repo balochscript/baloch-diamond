@@ -22,7 +22,7 @@ get_header();
                     <?php echo bd_icon( 'file-text', 16, 16 ); ?>
                     <?php esc_html_e( 'Blog', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php single_post_title(); ?>
                 </h1>
 
@@ -31,10 +31,9 @@ get_header();
                     <?php echo bd_icon( 'file-text', 16, 16 ); ?>
                     <?php esc_html_e( 'Blog', 'baloch-diamond' ); ?>
                 </div>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php esc_html_e( 'Latest Updates', 'baloch-diamond' ); ?>
                 </h1>
-                <div class="balochi-divider">
                     <div class="line"></div>
                     <div class="diamond"></div>
                     <div class="line"></div>
@@ -44,7 +43,7 @@ get_header();
                 </p>
 
             <?php else : ?>
-                <h1 class="section-title stitch-border">
+                <h1 class="section-title">
                     <?php esc_html_e( 'Latest Posts', 'baloch-diamond' ); ?>
                 </h1>
             <?php endif; ?>

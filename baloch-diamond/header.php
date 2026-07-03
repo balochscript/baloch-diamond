@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Header customizer settings
 $header_display   = get_theme_mod( 'bd_header_display', 'icon_title' );
 $header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
+$header_bg_color  = get_theme_mod( 'bd_header_bg_color', '' );
+$header_grad_1    = get_theme_mod( 'bd_header_gradient_1', '#38bdf8' );
+$header_grad_2    = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
+$header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> data-theme="light">
@@ -19,6 +23,7 @@ $header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php wp_head(); ?>
+<style>.cart-icon{position:relative}.cart-icon .cart-count{position:absolute;top:-6px;right:-6px;background:var(--color-primary);color:white;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}</style>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
@@ -32,7 +37,13 @@ $header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
 </div>
 
 <!-- Header -->
-<header class="site-header" id="siteHeader">
+<header class="site-header" id="siteHeader"
+    <?php if ( $header_bg_type === 'solid' && $header_bg_color ) : ?>
+        style="background: <?php echo esc_attr( $header_bg_color ); ?> !important;"
+    <?php elseif ( $header_bg_type === 'gradient' ) : ?>
+        style="background: linear-gradient(<?php echo esc_attr( $header_grad_dir ); ?>, <?php echo esc_attr( $header_grad_1 ); ?>, <?php echo esc_attr( $header_grad_2 ); ?>) !important;"
+    <?php endif; ?>
+>
     <div class="header-inner">
 
         <!-- Search Button (Left) -->
@@ -74,10 +85,54 @@ $header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
 
         </a>
 
-        <!-- Menu Button (Right) -->
-        <button class="header-icon" id="menuOpen" aria-label="<?php esc_attr_e( 'Menu', 'baloch-diamond' ); ?>">
-            <?php echo bd_icon( 'menu' ); ?>
-        </button>
+        <!-- Desktop Primary Menu -->
+        <nav class="desktop-nav" aria-label="<?php esc_attr_e( 'Primary Navigation', 'baloch-diamond' ); ?>">
+            <?php
+            if ( has_nav_menu( 'primary' ) ) {
+                wp_nav_menu( array(
+                    'theme_location' => 'primary',
+                    'container'      => false,
+                    'menu_class'     => 'desktop-menu',
+                    'depth'          => 3,
+                    'fallback_cb'    => false,
+                ) );
+            } else {
+                // Fallback menu for when no menu is assigned
+                echo '<ul class="desktop-menu">';
+                echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'baloch-diamond' ) . '</a></li>';
+                $pages = get_pages( array( 'number' => 4 ) );
+                foreach ( $pages as $pg ) {
+                    echo '<li><a href="' . esc_url( get_permalink( $pg->ID ) ) . '">' . esc_html( $pg->post_title ) . '</a></li>';
+                }
+                echo '</ul>';
+            }
+            ?>
+        </nav>
+
+        <!-- Right side: Theme Toggle + Menu Button -->
+        <div class="header-actions">
+            <!-- Account + Cart (WooCommerce + User) -->
+            <?php if ( class_exists( 'WooCommerce' ) ) : ?>
+                <a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="header-icon" aria-label="<?php esc_attr_e( 'Account', 'baloch-diamond' ); ?>">
+                    <?php echo bd_icon( 'user', 20, 20 ); ?>
+                </a>
+
+                <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon cart-icon" aria-label="<?php esc_attr_e( 'Cart', 'baloch-diamond' ); ?>">
+                    <?php echo bd_icon( 'shopping-cart', 20, 20 ); ?>
+                    <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                </a>
+            <?php else : ?>
+                <!-- Fallback when no WooCommerce -->
+                <a href="<?php echo esc_url( home_url( '/my-account' ) ); ?>" class="header-icon" aria-label="<?php esc_attr_e( 'Account', 'baloch-diamond' ); ?>">
+                    <?php echo bd_icon( 'user', 20, 20 ); ?>
+                </a>
+            <?php endif; ?>
+
+            <!-- Menu Button (Mobile) -->
+            <button class="header-icon mobile-only" id="menuOpen" aria-label="<?php esc_attr_e( 'Menu', 'baloch-diamond' ); ?>">
+                <?php echo bd_icon( 'menu' ); ?>
+            </button>
+        </div>
 
     </div>
 </header>
