@@ -2,7 +2,7 @@
  * Baloch Diamond Theme - Main JavaScript
  *
  * @package Baloch_Diamond
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 ( function() {
@@ -916,6 +916,64 @@
         }
     };
 
+    // ================================================================
+    //  18. SHOP SLIDER INTERACTION (Proposal 1 / WooCommerce Slider)
+    // ================================================================
+    var shopSlider = {
+        init: function() {
+            var prevBtn = $( '#shopSliderPrev' );
+            var nextBtn = $( '#shopSliderNext' );
+            var wrapper = $( '#shopSliderWrapper' );
+
+            if ( ! prevBtn || ! nextBtn || ! wrapper ) return;
+
+            var cards = $$( '.shop-product-card' );
+            if ( cards.length === 0 ) return;
+
+            var currentIndex = 0;
+            
+            function getVisibleCardsCount() {
+                var width = window.innerWidth;
+                if ( width > 1024 ) return 3;
+                if ( width > 768 ) return 2;
+                return 1;
+            }
+
+            function updateSliderPosition() {
+                var visibleCards = getVisibleCardsCount();
+                var maxIndex = Math.max(0, cards.length - visibleCards);
+                if ( currentIndex > maxIndex ) currentIndex = maxIndex;
+                if ( currentIndex < 0 ) currentIndex = 0;
+
+                var cardWidth = cards[0].getBoundingClientRect().width;
+                var offset = currentIndex * (cardWidth + 24); // card width + gap
+                wrapper.style.transform = 'translateX(-' + offset + 'px)';
+            }
+
+            nextBtn.addEventListener( 'click', function() {
+                var visibleCards = getVisibleCardsCount();
+                if ( currentIndex < cards.length - visibleCards ) {
+                    currentIndex++;
+                    updateSliderPosition();
+                }
+            } );
+
+            prevBtn.addEventListener( 'click', function() {
+                if ( currentIndex > 0 ) {
+                    currentIndex--;
+                    updateSliderPosition();
+                }
+            } );
+
+            window.addEventListener( 'resize', function() {
+                updateSliderPosition();
+            } );
+
+            // Initial call to set sizes correctly
+            setTimeout( updateSliderPosition, 100 );
+        }
+    };
+
 
     // ================================================================
     //  INITIALIZE EVERYTHING
@@ -940,6 +998,7 @@
         backToTop.init();
         frontendSwitcher.init();
         skeletonLoader.init();
+        shopSlider.init();
 
     } );
 
