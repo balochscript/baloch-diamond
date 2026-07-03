@@ -6,6 +6,34 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.1.1] - 2026-07-03
+
+### Added
+- **Community Members Section** (`template-parts/section-members.php`): New lightweight, fully customizable members grid. Supports up to 8 members with name, role, avatar upload, and profile link. Fully controlled via Customizer (👥 Community Members).
+- **Header Account & Cart Icons**: Added quick-access icons for My Account and Shopping Cart in the header. Cart shows live item count badge when WooCommerce is active. Graceful fallback when WooCommerce is not installed.
+- **Members Section in Front Page**: Integrated optional Community Members showcase on the homepage (controlled via Customizer).
+
+### Enhanced
+- **WooCommerce Shop Filter**: The `bd_shop_filter` setting (Recent / On Sale / Featured / Popular) is now **fully functional** in `template-parts/section-shop.php`. Manual product selection still takes priority.
+- **Forum Section**: All previous enhancements preserved (5 display modes, 6 editable statistics, 4 featured discussions by Post ID, 3 quick action buttons, rich bbPress + mock fallback support).
+- **Customizer**: New dedicated section "👥 Community Members" with controls for badge, title, count, and 8 individual member cards.
+
+### Changed
+- **Version Bump**: Upgraded theme version from `1.1.0` to `1.1.1`.
+- **README & Documentation**: Updated with new features, Customizer table, and file structure.
+- **Header Structure**: Right-side actions now include Account + Cart icons before the mobile menu button.
+
+### Fixed
+- **Shop Filter Logic**: Previously defined but ignored `bd_shop_filter` now correctly filters products using `wc_get_product_ids_on_sale()`, `wc_get_featured_product_ids()`, and popularity ordering.
+- **Minor template cleanups** and improved front-page conditional rendering.
+
+### Notes
+- All changes are **non-breaking** and fully backward-compatible.
+- Recommended plugins for full user system: WooCommerce (already supported), bbPress (already supported), and optionally Paid Memberships Pro or Ultimate Member for advanced membership features.
+- Theme continues to use only lightweight, theme-level enhancements for user/account UI (no heavy custom auth systems).
+
+---
+
 ## [1.1.0] - 2026-07-02
 
 ### Added
