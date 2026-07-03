@@ -3,7 +3,7 @@
  * Baloch Diamond Theme Functions
  *
  * @package Baloch_Diamond
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -397,6 +397,10 @@ function bd_dynamic_css() {
     $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
 
     $rtl_family = $rtl_font === 'system' ? 'sans-serif' : "'{$rtl_font}', sans-serif";
+
+    // New slider options
+    $slider_height       = get_theme_mod( 'bd_slider_height', '55vh' );
+    $slider_shadow_color = get_theme_mod( 'bd_slider_shadow_color', 'rgba(0,0,0,0.5)' );
     ?>
     <style id="bd-dynamic-css">
         :root {
@@ -404,6 +408,7 @@ function bd_dynamic_css() {
             --color-secondary: <?php echo esc_attr( $secondary ); ?>;
             --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?>, <?php echo esc_attr( $secondary ); ?>);
             --gradient-reverse: linear-gradient(135deg, <?php echo esc_attr( $secondary ); ?>, <?php echo esc_attr( $primary ); ?>);
+            --bd-slider-height: <?php echo esc_attr( $slider_height ); ?>;
         }
 
         body {
@@ -428,6 +433,14 @@ function bd_dynamic_css() {
         .comment-author,
         .comment-form-wrapper h4 {
             font-family: '<?php echo esc_attr( $heading_font ); ?>', serif !important;
+        }
+
+        .slide-title {
+            text-shadow: 0 2px 10px <?php echo esc_attr( $slider_shadow_color ); ?>, 0 4px 20px rgba(0,0,0,0.3) !important;
+        }
+
+        .hero-slider {
+            height: var(--bd-slider-height) !important;
         }
 
         body.rtl, 
@@ -548,7 +561,7 @@ function bd_icon( $name, $width = 24, $height = 24 ) {
 
         'alert' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="' . $width . '" height="' . $height . '"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
 
-        'settings' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="' . $width . '" height="' . $height . '"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
+        'settings' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="' . $width . '" height="' . $height . '"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2 2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
 
         'twitter' => '<svg viewBox="0 0 24 24" fill="currentColor" width="' . $width . '" height="' . $height . '"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>',
 
