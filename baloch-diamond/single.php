@@ -28,7 +28,7 @@ get_header();
                 <a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>"
                    class="btn-outline"
                    style="flex:1;min-width:200px;text-decoration:none">
-                    <?php echo bd_icon( 'arrow-left', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'arrow-left', 16, 16 ); ?>
                     <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px">
                         <small style="font-size:0.7rem;opacity:0.7;text-transform:uppercase;letter-spacing:1px">
                             <?php esc_html_e( 'Previous', 'baloch-diamond' ); ?>
@@ -52,7 +52,7 @@ get_header();
                             <?php echo esc_html( get_the_title( $next_post->ID ) ); ?>
                         </span>
                     </span>
-                    <?php echo bd_icon( 'arrow-right-small', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'arrow-right-small', 16, 16 ); ?>
                 </a>
             <?php endif; ?>
         </div>

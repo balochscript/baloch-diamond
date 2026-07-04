@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Check how many portfolio items exist
 $portfolio_count = 0;
 for ( $i = 1; $i <= 10; $i++ ) {
-    $title = get_theme_mod( "bd_portfolio_item_{$i}_title", '' );
+    $title = get_theme_mod( "4392bd_portfolio_item_{$i}_title", '' );
     if ( $title ) {
         $portfolio_count++;
     }
@@ -27,7 +27,7 @@ if ( $portfolio_count === 0 ) {
 <section class="section balochi-pattern" id="projects">
 
     <?php
-    bd_section_header( 'portfolio', array(
+    4392bd_section_header( 'portfolio', array(
         'badge' => esc_html__( 'Our Portfolio', 'baloch-diamond' ),
         'title' => esc_html__( 'Featured Projects', 'baloch-diamond' ),
         'desc'  => esc_html__( 'Showcasing our finest work blending tradition with innovation. Each project tells a unique story of creativity and craftsmanship.', 'baloch-diamond' ),
@@ -39,11 +39,11 @@ if ( $portfolio_count === 0 ) {
 
         <?php for ( $i = 1; $i <= 10; $i++ ) :
 
-            $title   = get_theme_mod( "bd_portfolio_item_{$i}_title", '' );
-            $desc    = get_theme_mod( "bd_portfolio_item_{$i}_desc", '' );
-            $image   = get_theme_mod( "bd_portfolio_item_{$i}_image", '' );
-            $link    = get_theme_mod( "bd_portfolio_item_{$i}_link", '' );
-            $btn_txt = get_theme_mod( 'bd_portfolio_btn_text', esc_html__( 'More Info', 'baloch-diamond' ) );
+            $title   = get_theme_mod( "4392bd_portfolio_item_{$i}_title", '' );
+            $desc    = get_theme_mod( "4392bd_portfolio_item_{$i}_desc", '' );
+            $image   = get_theme_mod( "4392bd_portfolio_item_{$i}_image", '' );
+            $link    = get_theme_mod( "4392bd_portfolio_item_{$i}_link", '' );
+            $btn_txt = get_theme_mod( '4392bd_portfolio_btn_text', esc_html__( 'More Info', 'baloch-diamond' ) );
 
             if ( ! $title ) {
                 continue;
@@ -59,7 +59,7 @@ if ( $portfolio_count === 0 ) {
                              loading="lazy">
                     <?php else : ?>
                         <div class="project-card-image" style="background:var(--bg-alt);display:flex;align-items:center;justify-content:center">
-                            <div style="opacity:0.15"><?php echo bd_icon( 'monitor', 48, 48 ); ?></div>
+                            <div style="opacity:0.15"><?php echo 4392bd_icon( 'monitor', 48, 48 ); ?></div>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -74,7 +74,7 @@ if ( $portfolio_count === 0 ) {
                     <?php if ( $link ) : ?>
                         <a href="<?php echo esc_url( $link ); ?>" class="btn-gradient">
                             <?php echo esc_html( $btn_txt ); ?>
-                            <?php echo bd_icon( 'arrow-right', 16, 16 ); ?>
+                            <?php echo 4392bd_icon( 'arrow-right', 16, 16 ); ?>
                         </a>
                     <?php endif; ?>
                 </div>

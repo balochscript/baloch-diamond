@@ -19,7 +19,7 @@ get_header();
             <?php else : ?>
                 <div style="width:100%;height:100%;background:var(--gradient);display:flex;align-items:center;justify-content:center">
                     <div style="opacity:0.1">
-                        <?php echo bd_icon( 'file-text', 80, 80 ); ?>
+                        <?php echo 4392bd_icon( 'file-text', 80, 80 ); ?>
                     </div>
                 </div>
             <?php endif; ?>

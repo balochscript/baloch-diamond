@@ -16,7 +16,7 @@ get_header();
 
             <?php if ( is_category() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'tag', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'tag', 16, 16 ); ?>
                     <?php esc_html_e( 'Category', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -32,7 +32,7 @@ get_header();
 
             <?php elseif ( is_tag() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'tag', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'tag', 16, 16 ); ?>
                     <?php esc_html_e( 'Tag', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -49,7 +49,7 @@ get_header();
             <?php elseif ( is_author() ) : ?>
                 <?php $author = get_queried_object(); ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'user', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'user', 16, 16 ); ?>
                     <?php esc_html_e( 'Author', 'baloch-diamond' ); ?>
                 </div>
 
@@ -70,7 +70,7 @@ get_header();
 
             <?php elseif ( is_year() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'calendar', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'calendar', 16, 16 ); ?>
                     <?php esc_html_e( 'Yearly Archive', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -79,7 +79,7 @@ get_header();
 
             <?php elseif ( is_month() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'calendar', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'calendar', 16, 16 ); ?>
                     <?php esc_html_e( 'Monthly Archive', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -88,7 +88,7 @@ get_header();
 
             <?php elseif ( is_day() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'calendar', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'calendar', 16, 16 ); ?>
                     <?php esc_html_e( 'Daily Archive', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -97,7 +97,7 @@ get_header();
 
             <?php else : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'file-text', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'file-text', 16, 16 ); ?>
                     <?php esc_html_e( 'Archive', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -139,7 +139,7 @@ get_header();
             </div>
 
             <!-- Pagination -->
-            <?php bd_pagination(); ?>
+            <?php 4392bd_pagination(); ?>
 
         <?php else : ?>
             <?php get_template_part( 'template-parts/content-none' ); ?>

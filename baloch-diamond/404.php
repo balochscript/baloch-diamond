@@ -36,7 +36,7 @@ get_header();
         <!-- Buttons -->
         <div class="error-buttons">
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn-gradient">
-                <?php echo bd_icon( 'home', 18, 18 ); ?>
+                <?php echo 4392bd_icon( 'home', 18, 18 ); ?>
                 <?php esc_html_e( 'Back to Home', 'baloch-diamond' ); ?>
             </a>
         </div>

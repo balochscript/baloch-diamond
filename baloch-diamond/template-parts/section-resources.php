@@ -28,7 +28,7 @@ $icon_keys = array_keys( $resource_icons );
 // Check how many resources exist
 $resource_count = 0;
 for ( $i = 1; $i <= 10; $i++ ) {
-    $title = get_theme_mod( "bd_resource_item_{$i}_title", '' );
+    $title = get_theme_mod( "4392bd_resource_item_{$i}_title", '' );
     if ( $title ) {
         $resource_count++;
     }
@@ -38,13 +38,13 @@ if ( $resource_count === 0 ) {
     return;
 }
 
-$link_text = get_theme_mod( 'bd_resources_link_text', esc_html__( 'Read Documentation', 'baloch-diamond' ) );
+$link_text = get_theme_mod( '4392bd_resources_link_text', esc_html__( 'Read Documentation', 'baloch-diamond' ) );
 ?>
 
 <section class="section" id="docs">
 
     <?php
-    bd_section_header( 'resources', array(
+    4392bd_section_header( 'resources', array(
         'badge' => esc_html__( 'Resources', 'baloch-diamond' ),
         'title' => esc_html__( 'Project Documentation', 'baloch-diamond' ),
         'desc'  => esc_html__( 'Comprehensive documentation to help you get started and make the most of our projects.', 'baloch-diamond' ),
@@ -56,10 +56,10 @@ $link_text = get_theme_mod( 'bd_resources_link_text', esc_html__( 'Read Document
 
         <?php for ( $i = 1; $i <= 10; $i++ ) :
 
-            $title      = get_theme_mod( "bd_resource_item_{$i}_title", '' );
-            $desc       = get_theme_mod( "bd_resource_item_{$i}_desc", '' );
-            $link       = get_theme_mod( "bd_resource_item_{$i}_link", '' );
-            $icon_index = get_theme_mod( "bd_resource_item_{$i}_icon", 'file' );
+            $title      = get_theme_mod( "4392bd_resource_item_{$i}_title", '' );
+            $desc       = get_theme_mod( "4392bd_resource_item_{$i}_desc", '' );
+            $link       = get_theme_mod( "4392bd_resource_item_{$i}_link", '' );
+            $icon_index = get_theme_mod( "4392bd_resource_item_{$i}_icon", 'file' );
 
             if ( ! $title ) {
                 continue;
@@ -82,7 +82,7 @@ $link_text = get_theme_mod( 'bd_resources_link_text', esc_html__( 'Read Document
                 <?php if ( $link ) : ?>
                     <a href="<?php echo esc_url( $link ); ?>" class="doc-link">
                         <?php echo esc_html( $link_text ); ?>
-                        <?php echo bd_icon( 'arrow-right', 14, 14 ); ?>
+                        <?php echo 4392bd_icon( 'arrow-right', 14, 14 ); ?>
                     </a>
                 <?php endif; ?>
             </div>

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$blog_count = get_theme_mod( 'bd_blog_count', 6 );
+$blog_count = get_theme_mod( '4392bd_blog_count', 6 );
 
 $blog_query = new WP_Query( array(
     'post_type'      => 'post',
@@ -23,13 +23,13 @@ if ( ! $blog_query->have_posts() ) {
     return;
 }
 
-$read_more_text = get_theme_mod( 'bd_blog_readmore_text', esc_html__( 'Read More', 'baloch-diamond' ) );
+$read_more_text = get_theme_mod( '4392bd_blog_readmore_text', esc_html__( 'Read More', 'baloch-diamond' ) );
 ?>
 
 <section class="section" id="updates" style="background:var(--bg-alt)">
 
     <?php
-    bd_section_header( 'blog', array(
+    4392bd_section_header( 'blog', array(
         'badge' => esc_html__( 'Blog', 'baloch-diamond' ),
         'title' => esc_html__( 'Latest Updates', 'baloch-diamond' ),
         'desc'  => esc_html__( 'Stay updated with our latest articles, tutorials, and industry insights. Fresh content delivered regularly.', 'baloch-diamond' ),
@@ -51,7 +51,7 @@ $read_more_text = get_theme_mod( 'bd_blog_readmore_text', esc_html__( 'Read More
                         </a>
                     <?php else : ?>
                         <a href="<?php the_permalink(); ?>" style="display:block;height:100%;background:var(--bg);display:flex;align-items:center;justify-content:center">
-                            <div style="opacity:0.15"><?php echo bd_icon( 'file-text', 48, 48 ); ?></div>
+                            <div style="opacity:0.15"><?php echo 4392bd_icon( 'file-text', 48, 48 ); ?></div>
                         </a>
                     <?php endif; ?>
 
@@ -67,11 +67,11 @@ $read_more_text = get_theme_mod( 'bd_blog_readmore_text', esc_html__( 'Read More
                     <!-- Meta -->
                     <div class="post-meta">
                         <span class="post-meta-item">
-                            <?php echo bd_icon( 'user', 14, 14 ); ?>
+                            <?php echo 4392bd_icon( 'user', 14, 14 ); ?>
                             <?php the_author(); ?>
                         </span>
                         <span class="post-meta-item">
-                            <?php echo bd_icon( 'comment', 14, 14 ); ?>
+                            <?php echo 4392bd_icon( 'comment', 14, 14 ); ?>
                             <?php
                             printf(
                                 esc_html( _n( '%s Comment', '%s Comments', get_comments_number(), 'baloch-diamond' ) ),
@@ -94,7 +94,7 @@ $read_more_text = get_theme_mod( 'bd_blog_readmore_text', esc_html__( 'Read More
                     <!-- Read More -->
                     <a href="<?php the_permalink(); ?>" class="read-more">
                         <?php echo esc_html( $read_more_text ); ?>
-                        <?php echo bd_icon( 'arrow-right', 16, 16 ); ?>
+                        <?php echo 4392bd_icon( 'arrow-right', 16, 16 ); ?>
                     </a>
 
                 </div>

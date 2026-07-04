@@ -9,24 +9,24 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$show_members = get_theme_mod( 'bd_members_show', true );
+$show_members = get_theme_mod( '4392bd_members_show', true );
 if ( ! $show_members ) {
     return;
 }
 
-$members_title   = get_theme_mod( 'bd_members_title', esc_html__( 'Our Community', 'baloch-diamond' ) );
-$members_badge   = get_theme_mod( 'bd_members_badge', esc_html__( 'Join the Circle', 'baloch-diamond' ) );
-$members_count   = get_theme_mod( 'bd_members_count', 6 );
+$members_title   = get_theme_mod( '4392bd_members_title', esc_html__( 'Our Community', 'baloch-diamond' ) );
+$members_badge   = get_theme_mod( '4392bd_members_badge', esc_html__( 'Join the Circle', 'baloch-diamond' ) );
+$members_count   = get_theme_mod( '4392bd_members_count', 6 );
 
 $members = array();
 for ( $i = 1; $i <= 8; $i++ ) {
-    $name = get_theme_mod( "bd_member_{$i}_name", '' );
+    $name = get_theme_mod( "4392bd_member_{$i}_name", '' );
     if ( $name ) {
         $members[] = array(
             'name'   => $name,
-            'role'   => get_theme_mod( "bd_member_{$i}_role", '' ),
-            'avatar' => get_theme_mod( "bd_member_{$i}_avatar", '' ),
-            'link'   => get_theme_mod( "bd_member_{$i}_link", '#' ),
+            'role'   => get_theme_mod( "4392bd_member_{$i}_role", '' ),
+            'avatar' => get_theme_mod( "4392bd_member_{$i}_avatar", '' ),
+            'link'   => get_theme_mod( "4392bd_member_{$i}_link", '#' ),
         );
     }
 }
@@ -48,7 +48,7 @@ $members = array_slice( $members, 0, $members_count );
 
 <section class="section members-showcase" id="community-members" style="background:var(--bg-alt); padding:60px 24px; margin-top:30px; margin-bottom:30px; border-radius:24px;">
     <?php
-    bd_section_header( 'members', array(
+    4392bd_section_header( 'members', array(
         'badge' => $members_badge,
         'title' => $members_title,
         'desc'  => esc_html__( 'Meet some of the passionate artisans and creators in our growing community.', 'baloch-diamond' ),

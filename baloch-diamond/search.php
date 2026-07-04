@@ -15,7 +15,7 @@ get_header();
         <div class="section-header">
 
             <div class="section-badge">
-                <?php echo bd_icon( 'search', 16, 16 ); ?>
+                <?php echo 4392bd_icon( 'search', 16, 16 ); ?>
                 <?php esc_html_e( 'Search Results', 'baloch-diamond' ); ?>
             </div>
 
@@ -70,9 +70,9 @@ get_header();
                                     <div style="opacity:0.15">
                                         <?php
                                         if ( get_post_type() === 'page' ) {
-                                            echo bd_icon( 'file-text', 48, 48 );
+                                            echo 4392bd_icon( 'file-text', 48, 48 );
                                         } else {
-                                            echo bd_icon( 'file-text', 48, 48 );
+                                            echo 4392bd_icon( 'file-text', 48, 48 );
                                         }
                                         ?>
                                     </div>
@@ -96,11 +96,11 @@ get_header();
                             <!-- Meta -->
                             <div class="post-meta">
                                 <span class="post-meta-item">
-                                    <?php echo bd_icon( 'user', 14, 14 ); ?>
+                                    <?php echo 4392bd_icon( 'user', 14, 14 ); ?>
                                     <?php the_author(); ?>
                                 </span>
                                 <span class="post-meta-item">
-                                    <?php echo bd_icon( 'calendar', 14, 14 ); ?>
+                                    <?php echo 4392bd_icon( 'calendar', 14, 14 ); ?>
                                     <?php echo get_the_date( 'M j, Y' ); ?>
                                 </span>
                             </div>
@@ -120,7 +120,7 @@ get_header();
                             <!-- Read More -->
                             <a href="<?php the_permalink(); ?>" class="read-more">
                                 <?php esc_html_e( 'View', 'baloch-diamond' ); ?>
-                                <?php echo bd_icon( 'arrow-right', 16, 16 ); ?>
+                                <?php echo 4392bd_icon( 'arrow-right', 16, 16 ); ?>
                             </a>
 
                         </div>
@@ -130,7 +130,7 @@ get_header();
             </div>
 
             <!-- Pagination -->
-            <?php bd_pagination(); ?>
+            <?php 4392bd_pagination(); ?>
 
         <?php else : ?>
             <?php get_template_part( 'template-parts/content-none' ); ?>

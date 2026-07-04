@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$category = bd_get_first_category();
+$category = 4392bd_get_first_category();
 ?>
 
 <!-- Hero -->
@@ -18,7 +18,7 @@ $category = bd_get_first_category();
         <?php the_post_thumbnail( 'bd-slider', array( 'alt' => get_the_title() ) ); ?>
     <?php else : ?>
         <div style="width:100%;height:100%;background:var(--gradient);display:flex;align-items:center;justify-content:center">
-            <div style="opacity:0.15"><?php echo bd_icon( 'file-text', 80, 80 ); ?></div>
+            <div style="opacity:0.15"><?php echo 4392bd_icon( 'file-text', 80, 80 ); ?></div>
         </div>
     <?php endif; ?>
 
@@ -33,18 +33,18 @@ $category = bd_get_first_category();
 
         <div style="display:flex;gap:16px;margin-top:16px;color:rgba(255,255,255,0.8);font-size:0.9rem;flex-wrap:wrap">
             <span style="display:flex;align-items:center;gap:6px">
-                <?php echo bd_icon( 'user', 14, 14 ); ?>
+                <?php echo 4392bd_icon( 'user', 14, 14 ); ?>
                 <?php
                 /* translators: %s: Author name */
                 printf( esc_html__( 'By %s', 'baloch-diamond' ), get_the_author() );
                 ?>
             </span>
             <span style="display:flex;align-items:center;gap:6px">
-                <?php echo bd_icon( 'calendar', 14, 14 ); ?>
+                <?php echo 4392bd_icon( 'calendar', 14, 14 ); ?>
                 <?php echo get_the_date(); ?>
             </span>
             <span style="display:flex;align-items:center;gap:6px">
-                <?php echo bd_icon( 'comment', 14, 14 ); ?>
+                <?php echo 4392bd_icon( 'comment', 14, 14 ); ?>
                 <?php
                 printf(
                     esc_html( _n( '%s Comment', '%s Comments', get_comments_number(), 'baloch-diamond' ) ),
@@ -53,8 +53,8 @@ $category = bd_get_first_category();
                 ?>
             </span>
             <span style="display:flex;align-items:center;gap:6px">
-                <?php echo bd_icon( 'clock', 14, 14 ); ?>
-                <?php echo bd_reading_time(); ?>
+                <?php echo 4392bd_icon( 'clock', 14, 14 ); ?>
+                <?php echo 4392bd_reading_time(); ?>
             </span>
         </div>
     </div>
@@ -80,7 +80,7 @@ $category = bd_get_first_category();
     if ( $tags ) :
     ?>
         <div class="post-tags">
-            <?php echo bd_icon( 'tag', 16, 16 ); ?>
+            <?php echo 4392bd_icon( 'tag', 16, 16 ); ?>
             <?php foreach ( $tags as $tag ) : ?>
                 <a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>" class="post-tag">
                     <?php echo esc_html( $tag->name ); ?>
@@ -126,7 +126,7 @@ $category = bd_get_first_category();
                             <?php the_post_thumbnail( 'bd-related' ); ?>
                         <?php else : ?>
                             <div style="height:130px;background:var(--bg-alt);display:flex;align-items:center;justify-content:center">
-                                <div style="opacity:0.15"><?php echo bd_icon( 'file-text', 32, 32 ); ?></div>
+                                <div style="opacity:0.15"><?php echo 4392bd_icon( 'file-text', 32, 32 ); ?></div>
                             </div>
                         <?php endif; ?>
                         <h4><?php the_title(); ?></h4>

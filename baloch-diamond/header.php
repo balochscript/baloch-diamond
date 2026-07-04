@@ -10,12 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Header customizer settings
-$header_display   = get_theme_mod( 'bd_header_display', 'icon_title' );
-$header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
-$header_bg_color  = get_theme_mod( 'bd_header_bg_color', '' );
-$header_grad_1    = get_theme_mod( 'bd_header_gradient_1', '#38bdf8' );
-$header_grad_2    = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
-$header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
+$header_display   = get_theme_mod( '4392bd_header_display', 'icon_title' );
+$header_bg_type   = get_theme_mod( '4392bd_header_bg_type', 'default' );
+$header_bg_color  = get_theme_mod( '4392bd_header_bg_color', '' );
+$header_grad_1    = get_theme_mod( '4392bd_header_gradient_1', '#38bdf8' );
+$header_grad_2    = get_theme_mod( '4392bd_header_gradient_2', '#f97316' );
+$header_grad_dir  = get_theme_mod( '4392bd_header_gradient_direction', '135deg' );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> data-theme="light">
@@ -31,7 +31,7 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 <!-- Notification -->
 <div class="notification" id="notification">
     <div class="notification-icon">
-        <?php echo bd_icon( 'check-circle' ); ?>
+        <?php echo 4392bd_icon( 'check-circle' ); ?>
     </div>
     <div class="notification-text" id="notificationText"></div>
 </div>
@@ -48,7 +48,7 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 
         <!-- Search Button (Left) -->
         <button class="header-icon" id="searchOpen" aria-label="<?php esc_attr_e( 'Search', 'baloch-diamond' ); ?>">
-            <?php echo bd_icon( 'search' ); ?>
+            <?php echo 4392bd_icon( 'search' ); ?>
         </button>
 
         <!-- Center: Logo Area -->
@@ -65,7 +65,7 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
                     </div>
                 <?php else : ?>
                     <div class="logo-diamond">
-                        <?php echo bd_get_logo_svg(); ?>
+                        <?php echo 4392bd_get_logo_svg(); ?>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
@@ -114,23 +114,23 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
             <!-- Account + Cart (WooCommerce + User) -->
             <?php if ( class_exists( 'WooCommerce' ) ) : ?>
                 <a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="header-icon" aria-label="<?php esc_attr_e( 'Account', 'baloch-diamond' ); ?>">
-                    <?php echo bd_icon( 'user', 20, 20 ); ?>
+                    <?php echo 4392bd_icon( 'user', 20, 20 ); ?>
                 </a>
 
                 <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon cart-icon" aria-label="<?php esc_attr_e( 'Cart', 'baloch-diamond' ); ?>">
-                    <?php echo bd_icon( 'shopping-cart', 20, 20 ); ?>
+                    <?php echo 4392bd_icon( 'shopping-cart', 20, 20 ); ?>
                     <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
                 </a>
             <?php else : ?>
                 <!-- Fallback when no WooCommerce -->
                 <a href="<?php echo esc_url( home_url( '/my-account' ) ); ?>" class="header-icon" aria-label="<?php esc_attr_e( 'Account', 'baloch-diamond' ); ?>">
-                    <?php echo bd_icon( 'user', 20, 20 ); ?>
+                    <?php echo 4392bd_icon( 'user', 20, 20 ); ?>
                 </a>
             <?php endif; ?>
 
             <!-- Menu Button (Mobile) -->
             <button class="header-icon mobile-only" id="menuOpen" aria-label="<?php esc_attr_e( 'Menu', 'baloch-diamond' ); ?>">
-                <?php echo bd_icon( 'menu' ); ?>
+                <?php echo 4392bd_icon( 'menu' ); ?>
             </button>
         </div>
 
@@ -145,14 +145,14 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
     <div class="menu-header">
         <span style="font-weight:700;font-size:1.1rem"><?php esc_html_e( 'Navigation', 'baloch-diamond' ); ?></span>
         <button class="menu-close" id="menuClose" aria-label="<?php esc_attr_e( 'Close menu', 'baloch-diamond' ); ?>">
-            <?php echo bd_icon( 'close', 18, 18 ); ?>
+            <?php echo 4392bd_icon( 'close', 18, 18 ); ?>
         </button>
     </div>
     <div class="menu-items">
 
         <!-- Home Link (always shown) -->
         <a class="menu-item" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-            <?php echo bd_icon( 'home', 20, 20 ); ?>
+            <?php echo 4392bd_icon( 'home', 20, 20 ); ?>
             <?php esc_html_e( 'Home', 'baloch-diamond' ); ?>
         </a>
 
@@ -163,7 +163,7 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
                 'theme_location' => 'primary',
                 'container'      => false,
                 'items_wrap'     => '%3$s',
-                'walker'         => new BD_Mobile_Menu_Walker(),
+                'walker'         => new 4392BD_Mobile_Menu_Walker(),
                 'depth'          => 2,
             ) );
         }
@@ -186,7 +186,7 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
                        autocomplete="off">
             </form>
             <button class="search-close" id="searchClose" aria-label="<?php esc_attr_e( 'Close search', 'baloch-diamond' ); ?>">
-                <?php echo bd_icon( 'close', 18, 18 ); ?>
+                <?php echo 4392bd_icon( 'close', 18, 18 ); ?>
             </button>
         </div>
         <div class="search-results" id="searchResults"></div>

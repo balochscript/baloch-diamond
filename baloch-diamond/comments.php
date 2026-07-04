@@ -39,7 +39,7 @@ $commenter = wp_get_current_commenter();
                 'style'       => 'div',
                 'short_ping'  => true,
                 'avatar_size' => 44,
-                'callback'    => 'bd_comment_callback',
+                'callback'    => '4392bd_comment_callback',
                 'max_depth'   => 3,
             ) );
             ?>
@@ -50,8 +50,8 @@ $commenter = wp_get_current_commenter();
             <div class="pagination" style="margin-bottom:32px">
                 <?php
                 paginate_comments_links( array(
-                    'prev_text' => bd_icon( 'arrow-left', 16, 16 ),
-                    'next_text' => bd_icon( 'arrow-right-small', 16, 16 ),
+                    'prev_text' => 4392bd_icon( 'arrow-left', 16, 16 ),
+                    'next_text' => 4392bd_icon( 'arrow-right-small', 16, 16 ),
                 ) );
                 ?>
             </div>
@@ -148,7 +148,7 @@ $commenter = wp_get_current_commenter();
                 <?php do_action( 'comment_form', get_the_ID() ); ?>
 
                 <button type="submit" class="btn-gradient">
-                    <?php echo bd_icon( 'send', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'send', 16, 16 ); ?>
                     <?php esc_html_e( 'Post Comment', 'baloch-diamond' ); ?>
                 </button>
 

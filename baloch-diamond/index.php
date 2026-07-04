@@ -19,7 +19,7 @@ get_header();
 
             <?php if ( is_home() && ! is_front_page() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'file-text', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'file-text', 16, 16 ); ?>
                     <?php esc_html_e( 'Blog', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -28,7 +28,7 @@ get_header();
 
             <?php elseif ( is_home() ) : ?>
                 <div class="section-badge">
-                    <?php echo bd_icon( 'file-text', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'file-text', 16, 16 ); ?>
                     <?php esc_html_e( 'Blog', 'baloch-diamond' ); ?>
                 </div>
                 <h1 class="section-title">
@@ -73,7 +73,7 @@ get_header();
                             </div>
                         <?php else : ?>
                             <div class="post-card-img-wrapper" style="height:220px;background:var(--bg-alt);display:flex;align-items:center;justify-content:center">
-                                <div style="opacity:0.2"><?php echo bd_icon( 'file-text', 48, 48 ); ?></div>
+                                <div style="opacity:0.2"><?php echo 4392bd_icon( 'file-text', 48, 48 ); ?></div>
                                 <div class="post-date-badge">
                                     <span class="day"><?php echo get_the_date( 'j' ); ?></span>
                                     <span class="month"><?php echo get_the_date( 'M' ); ?></span>
@@ -87,11 +87,11 @@ get_header();
                             <!-- Meta -->
                             <div class="post-meta">
                                 <span class="post-meta-item">
-                                    <?php echo bd_icon( 'user', 14, 14 ); ?>
+                                    <?php echo 4392bd_icon( 'user', 14, 14 ); ?>
                                     <?php the_author(); ?>
                                 </span>
                                 <span class="post-meta-item">
-                                    <?php echo bd_icon( 'comment', 14, 14 ); ?>
+                                    <?php echo 4392bd_icon( 'comment', 14, 14 ); ?>
                                     <?php
                                     printf(
                                         /* translators: %s: Number of comments */
@@ -117,7 +117,7 @@ get_header();
                             <!-- Read More -->
                             <a href="<?php the_permalink(); ?>" class="read-more">
                                 <?php esc_html_e( 'Read More', 'baloch-diamond' ); ?>
-                                <?php echo bd_icon( 'arrow-right', 16, 16 ); ?>
+                                <?php echo 4392bd_icon( 'arrow-right', 16, 16 ); ?>
                             </a>
 
                         </div>
@@ -127,7 +127,7 @@ get_header();
             </div>
 
             <!-- Pagination -->
-            <?php bd_pagination(); ?>
+            <?php 4392bd_pagination(); ?>
 
         <?php else : ?>
 
@@ -140,7 +140,7 @@ get_header();
                 </p>
                 <div class="error-buttons">
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn-gradient">
-                        <?php echo bd_icon( 'home', 18, 18 ); ?>
+                        <?php echo 4392bd_icon( 'home', 18, 18 ); ?>
                         <?php esc_html_e( 'Back to Home', 'baloch-diamond' ); ?>
                     </a>
                 </div>

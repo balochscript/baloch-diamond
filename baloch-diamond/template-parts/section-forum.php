@@ -10,30 +10,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // All Customizer options
-$show_forum       = get_theme_mod( 'bd_forum_show', true );
-$mode             = get_theme_mod( 'bd_forum_mode', 'topics' );
-$count            = get_theme_mod( 'bd_forum_count', 4 );
-$show_stats       = get_theme_mod( 'bd_forum_show_stats', true );
+$show_forum       = get_theme_mod( '4392bd_forum_show', true );
+$mode             = get_theme_mod( '4392bd_forum_mode', 'topics' );
+$count            = get_theme_mod( '4392bd_forum_count', 4 );
+$show_stats       = get_theme_mod( '4392bd_forum_show_stats', true );
 
-$forum_badge      = get_theme_mod( 'bd_forum_badge', esc_html__( 'Join the Circle', 'baloch-diamond' ) );
-$forum_title      = get_theme_mod( 'bd_forum_title', esc_html__( 'Community Hub', 'baloch-diamond' ) );
-$forum_desc       = get_theme_mod( 'bd_forum_desc', esc_html__( 'Connect with fellow artisans, ask questions, and share your creations.', 'baloch-diamond' ) );
+$forum_badge      = get_theme_mod( '4392bd_forum_badge', esc_html__( 'Join the Circle', 'baloch-diamond' ) );
+$forum_title      = get_theme_mod( '4392bd_forum_title', esc_html__( 'Community Hub', 'baloch-diamond' ) );
+$forum_desc       = get_theme_mod( '4392bd_forum_desc', esc_html__( 'Connect with fellow artisans, ask questions, and share your creations.', 'baloch-diamond' ) );
 
 // Quick action buttons
-$btn_ask          = get_theme_mod( 'bd_forum_btn_ask', esc_html__( 'Ask a Question', 'baloch-diamond' ) );
-$btn_share        = get_theme_mod( 'bd_forum_btn_share', esc_html__( 'Share Your Pattern', 'baloch-diamond' ) );
-$btn_workshop     = get_theme_mod( 'bd_forum_btn_workshop', esc_html__( 'Join Workshop', 'baloch-diamond' ) );
+$btn_ask          = get_theme_mod( '4392bd_forum_btn_ask', esc_html__( 'Ask a Question', 'baloch-diamond' ) );
+$btn_share        = get_theme_mod( '4392bd_forum_btn_share', esc_html__( 'Share Your Pattern', 'baloch-diamond' ) );
+$btn_workshop     = get_theme_mod( '4392bd_forum_btn_workshop', esc_html__( 'Join Workshop', 'baloch-diamond' ) );
 
 // CTA mode specific texts
-$cta_title        = get_theme_mod( 'bd_forum_cta_title', esc_html__( 'Connect with Fellow Creators', 'baloch-diamond' ) );
-$cta_desc         = get_theme_mod( 'bd_forum_cta_desc', esc_html__( 'Sign up today and get instant access to hundreds of topics.', 'baloch-diamond' ) );
-$cta_btn_text     = get_theme_mod( 'bd_forum_cta_btn_text', esc_html__( 'Join Discussions', 'baloch-diamond' ) );
+$cta_title        = get_theme_mod( '4392bd_forum_cta_title', esc_html__( 'Connect with Fellow Creators', 'baloch-diamond' ) );
+$cta_desc         = get_theme_mod( '4392bd_forum_cta_desc', esc_html__( 'Sign up today and get instant access to hundreds of topics.', 'baloch-diamond' ) );
+$cta_btn_text     = get_theme_mod( '4392bd_forum_cta_btn_text', esc_html__( 'Join Discussions', 'baloch-diamond' ) );
 
 // Featured Discussions heading label (customizable)
-$featured_label   = get_theme_mod( 'bd_forum_featured_label', esc_html__( 'Featured Discussions', 'baloch-diamond' ) );
+$featured_label   = get_theme_mod( '4392bd_forum_featured_label', esc_html__( 'Featured Discussions', 'baloch-diamond' ) );
 
 // Bottom link text (fully customizable)
-$visit_full_text  = get_theme_mod( 'bd_forum_visit_text', esc_html__( 'Visit Full Community Forums →', 'baloch-diamond' ) );
+$visit_full_text  = get_theme_mod( '4392bd_forum_visit_text', esc_html__( 'Visit Full Community Forums →', 'baloch-diamond' ) );
 if ( ! $show_forum ) {
     return;
 }
@@ -41,8 +41,8 @@ if ( ! $show_forum ) {
 // Collect 6 statistics
 $stats = array();
 for ( $s = 1; $s <= 6; $s++ ) {
-    $num   = get_theme_mod( "bd_forum_stat{$s}_num", '' );
-    $label = get_theme_mod( "bd_forum_stat{$s}_label", '' );
+    $num   = get_theme_mod( "4392bd_forum_stat{$s}_num", '' );
+    $label = get_theme_mod( "4392bd_forum_stat{$s}_label", '' );
     if ( $num && $label ) {
         $stats[] = array( 'num' => $num, 'label' => $label );
     }
@@ -51,7 +51,7 @@ for ( $s = 1; $s <= 6; $s++ ) {
 // Featured discussions
 $featured = array();
 for ( $f = 1; $f <= 4; $f++ ) {
-    $post_id = get_theme_mod( "bd_forum_featured_{$f}", 0 );
+    $post_id = get_theme_mod( "4392bd_forum_featured_{$f}", 0 );
     if ( $post_id && get_post( $post_id ) ) {
         $featured[] = array(
             'id'    => $post_id,
@@ -122,7 +122,7 @@ $categories = array(
 <section class="section forum-showcase-section" id="forum-showcase" style="background:var(--bg-alt); padding:80px 24px; border-radius:30px; margin-top:40px; margin-bottom:40px;">
 
     <?php
-    bd_section_header( 'forum', array(
+    4392bd_section_header( 'forum', array(
         'badge' => $forum_badge,
         'title' => $forum_title,
         'desc'  => $forum_desc,
@@ -143,7 +143,7 @@ $categories = array(
                 </p>
                 <div style="display:flex; gap:12px; flex-wrap:wrap;">
                     <a href="<?php echo esc_url( class_exists( 'bbPress' ) ? '#bbpress-forums' : '#_forum' ); ?>" class="btn-gradient">
-                        <?php echo bd_icon( 'users', 16, 16 ); ?>
+                        <?php echo 4392bd_icon( 'users', 16, 16 ); ?>
                         <?php echo esc_html( $cta_btn_text ); ?>
                     </a>
                 </div>
@@ -172,7 +172,7 @@ $categories = array(
             <?php foreach ( $categories as $cat ) : ?>
                 <div class="forum-category-card" style="background:var(--card-bg); border:1px solid var(--border); border-radius:18px; padding:24px; text-align:center; transition:transform .3s;">
                     <div style="width:52px;height:52px;margin:0 auto 12px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;">
-                        <?php echo bd_icon( $cat['icon'], 24, 24 ); ?>
+                        <?php echo 4392bd_icon( $cat['icon'], 24, 24 ); ?>
                     </div>
                     <h4 style="margin:0 0 4px;font-size:1.05rem;font-weight:700;"><?php echo esc_html( $cat['name'] ); ?></h4>
                     <span style="font-size:0.9rem;color:var(--text-muted);"><?php echo esc_html( $cat['count'] ); ?> <?php esc_html_e( 'topics', 'baloch-diamond' ); ?></span>
@@ -251,7 +251,7 @@ $categories = array(
                 <div class="forum-topic-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; padding:20px 28px; background:var(--card-bg); border:1px solid var(--border); border-radius:16px; transition:transform .3s;">
                     <div style="display:flex; align-items:center; gap:16px; flex:2; min-width:260px;">
                         <div style="width:48px; height:44px; border-radius:12px; background:var(--gradient); display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0;">
-                            <?php echo bd_icon( 'users', 22, 22 ); ?>
+                            <?php echo 4392bd_icon( 'users', 22, 22 ); ?>
                         </div>
                         <div>
                             <a href="<?php echo esc_url( $topic['link'] ); ?>" style="font-weight:700; font-size:1.02rem; color:var(--text); text-decoration:none;">
@@ -282,7 +282,7 @@ $categories = array(
         <div style="text-align:center; margin-top:36px;">
             <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
                 <a href="#forum" class="btn-gradient">
-                    <?php echo bd_icon( 'users', 16, 16 ); ?>
+                    <?php echo 4392bd_icon( 'users', 16, 16 ); ?>
                     <?php echo esc_html( $btn_ask ); ?>
                 </a>
                 <a href="#forum" class="btn-outline">

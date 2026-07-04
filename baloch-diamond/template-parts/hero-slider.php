@@ -10,15 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Get slider settings
-$slider_source = get_theme_mod( 'bd_slider_source', 'recent' );
-$slider_count  = get_theme_mod( 'bd_slider_count', 5 );
+$slider_source = get_theme_mod( '4392bd_slider_source', 'recent' );
+$slider_count  = get_theme_mod( '4392bd_slider_count', 5 );
 
 // Build query
 if ( $slider_source === 'custom' ) {
     // Custom selected posts
     $custom_ids = array();
     for ( $i = 1; $i <= 7; $i++ ) {
-        $pid = get_theme_mod( "bd_slider_post_{$i}", 0 );
+        $pid = get_theme_mod( "4392bd_slider_post_{$i}", 0 );
         if ( $pid ) {
             $custom_ids[] = intval( $pid );
         }
@@ -74,7 +74,7 @@ $total_slides = $slider_query->post_count;
     <?php while ( $slider_query->have_posts() ) : $slider_query->the_post(); ?>
 
         <?php
-        $category = bd_get_first_category();
+        $category = 4392bd_get_first_category();
         $has_thumb = has_post_thumbnail();
         ?>
 
@@ -84,7 +84,7 @@ $total_slides = $slider_query->post_count;
                 <?php the_post_thumbnail( 'bd-slider', array( 'class' => 'slide-image', 'alt' => get_the_title() ) ); ?>
             <?php else : ?>
                 <div class="slide-image" style="width:100%;height:100%;background:var(--gradient);display:flex;align-items:center;justify-content:center">
-                    <div style="opacity:0.2"><?php echo bd_icon( 'monitor', 80, 80 ); ?></div>
+                    <div style="opacity:0.2"><?php echo 4392bd_icon( 'monitor', 80, 80 ); ?></div>
                 </div>
             <?php endif; ?>
 
@@ -109,10 +109,10 @@ $total_slides = $slider_query->post_count;
 
         <!-- Arrows -->
         <button class="slider-arrow prev" id="sliderPrev" aria-label="<?php esc_attr_e( 'Previous slide', 'baloch-diamond' ); ?>">
-            <?php echo bd_icon( 'arrow-left', 20, 20 ); ?>
+            <?php echo 4392bd_icon( 'arrow-left', 20, 20 ); ?>
         </button>
         <button class="slider-arrow next" id="sliderNext" aria-label="<?php esc_attr_e( 'Next slide', 'baloch-diamond' ); ?>">
-            <?php echo bd_icon( 'arrow-right-small', 20, 20 ); ?>
+            <?php echo 4392bd_icon( 'arrow-right-small', 20, 20 ); ?>
         </button>
 
         <!-- Dots -->

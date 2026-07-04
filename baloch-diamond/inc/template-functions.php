@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Estimated reading time for a post
  */
-function bd_reading_time( $post_id = null ) {
+function 4392bd_reading_time( $post_id = null ) {
     if ( ! $post_id ) {
         $post_id = get_the_ID();
     }
@@ -31,7 +31,7 @@ function bd_reading_time( $post_id = null ) {
 /**
  * Get first category of a post
  */
-function bd_get_first_category( $post_id = null ) {
+function 4392bd_get_first_category( $post_id = null ) {
     if ( ! $post_id ) {
         $post_id = get_the_ID();
     }
@@ -55,7 +55,7 @@ function bd_get_first_category( $post_id = null ) {
 /**
  * Custom pagination for archives
  */
-function bd_pagination() {
+function 4392bd_pagination() {
     global $wp_query;
 
     if ( $wp_query->max_num_pages <= 1 ) {
@@ -69,7 +69,7 @@ function bd_pagination() {
 
     // Previous
     if ( $paged > 1 ) {
-        echo '<a href="' . esc_url( get_pagenum_link( $paged - 1 ) ) . '">' . bd_icon( 'arrow-left', 16, 16 ) . '</a>';
+        echo '<a href="' . esc_url( get_pagenum_link( $paged - 1 ) ) . '">' . 4392bd_icon( 'arrow-left', 16, 16 ) . '</a>';
     }
 
     // Page numbers
@@ -83,7 +83,7 @@ function bd_pagination() {
 
     // Next
     if ( $paged < $max ) {
-        echo '<a href="' . esc_url( get_pagenum_link( $paged + 1 ) ) . '">' . bd_icon( 'arrow-right-small', 16, 16 ) . '</a>';
+        echo '<a href="' . esc_url( get_pagenum_link( $paged + 1 ) ) . '">' . 4392bd_icon( 'arrow-right-small', 16, 16 ) . '</a>';
     }
 
     echo '</div>';
@@ -93,16 +93,16 @@ function bd_pagination() {
 /**
  * Get customizer setting with default fallback
  */
-function bd_get_mod( $key, $default = '' ) {
-    return get_theme_mod( 'bd_' . $key, $default );
+function 4392bd_get_mod( $key, $default = '' ) {
+    return get_theme_mod( '4392bd_' . $key, $default );
 }
 
 
 /**
  * Check if a section should be visible
  */
-function bd_is_section_visible( $section ) {
-    return get_theme_mod( 'bd_' . $section . '_show', true );
+function 4392bd_is_section_visible( $section ) {
+    return get_theme_mod( '4392bd_' . $section . '_show', true );
 }
 
 
@@ -110,22 +110,22 @@ function bd_is_section_visible( $section ) {
  * Output section header (badge + title + description)
  * Modified: Removed the geometric dividers under titles as requested.
  */
-function bd_section_header( $section, $defaults = array() ) {
+function 4392bd_section_header( $section, $defaults = array() ) {
 
-    $badge = get_theme_mod( "bd_{$section}_badge", isset( $defaults['badge'] ) ? $defaults['badge'] : '' );
-    $title = get_theme_mod( "bd_{$section}_title", isset( $defaults['title'] ) ? $defaults['title'] : '' );
-    $desc  = get_theme_mod( "bd_{$section}_desc", isset( $defaults['desc'] ) ? $defaults['desc'] : '' );
+    $badge = get_theme_mod( "4392bd_{$section}_badge", isset( $defaults['badge'] ) ? $defaults['badge'] : '' );
+    $title = get_theme_mod( "4392bd_{$section}_title", isset( $defaults['title'] ) ? $defaults['title'] : '' );
+    $desc  = get_theme_mod( "4392bd_{$section}_desc", isset( $defaults['desc'] ) ? $defaults['desc'] : '' );
     $icon  = isset( $defaults['icon'] ) ? $defaults['icon'] : 'file-text';
 
-    $show_badge = get_theme_mod( "bd_{$section}_show_badge", true );
-    $show_title = get_theme_mod( "bd_{$section}_show_title", true );
-    $show_desc  = get_theme_mod( "bd_{$section}_show_desc", true );
+    $show_badge = get_theme_mod( "4392bd_{$section}_show_badge", true );
+    $show_title = get_theme_mod( "4392bd_{$section}_show_title", true );
+    $show_desc  = get_theme_mod( "4392bd_{$section}_show_desc", true );
 
     echo '<div class="section-header" style="position:relative;z-index:1;margin-bottom:40px;">';
 
     if ( $show_badge && $badge ) {
         echo '<div class="section-badge">';
-        echo bd_icon( $icon, 16, 16 );
+        echo 4392bd_icon( $icon, 16, 16 );
         echo esc_html( $badge );
         echo '</div>';
     }
@@ -145,7 +145,7 @@ function bd_section_header( $section, $defaults = array() ) {
 /**
  * Body classes
  */
-function bd_body_classes( $classes ) {
+function 4392bd_body_classes( $classes ) {
     if ( is_front_page() ) {
         $classes[] = 'is-front-page';
     }
@@ -154,27 +154,27 @@ function bd_body_classes( $classes ) {
         $classes[] = 'is-singular';
     }
 
-    if ( get_theme_mod( 'bd_animated_patterns', true ) ) {
+    if ( get_theme_mod( '4392bd_animated_patterns', true ) ) {
         $classes[] = 'balochi-pattern-animated';
     }
 
     // Skeleton shimmer support
-    if ( get_theme_mod( 'bd_skeleton_loading', true ) ) {
+    if ( get_theme_mod( '4392bd_skeleton_loading', true ) ) {
         $classes[] = 'skeleton-enabled';
     }
 
     return $classes;
 }
-add_filter( 'body_class', 'bd_body_classes' );
+add_filter( 'body_class', '4392bd_body_classes' );
 
 
 /**
  * Add custom CSS class to menu items
  */
-function bd_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
+function 4392bd_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
     if ( isset( $args->theme_location ) && $args->theme_location === 'footer' ) {
         // Footer menu styling handled by CSS
     }
     return $atts;
 }
-add_filter( 'nav_menu_link_attributes', 'bd_nav_menu_link_attributes', 10, 4 );
+add_filter( 'nav_menu_link_attributes', '4392bd_nav_menu_link_attributes', 10, 4 );

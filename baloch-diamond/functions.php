@@ -11,19 +11,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme version constant
-define( 'BD_VERSION', '1.1.1' );
-define( 'BD_DIR', get_template_directory() );
-define( 'BD_URI', get_template_directory_uri() );
+define( '4392BD_VERSION', '1.1.1' );
+define( '4392BD_DIR', get_template_directory() );
+define( '4392BD_URI', get_template_directory_uri() );
 
 /**
  * ============================================
  * THEME SETUP
  * ============================================
  */
-function bd_theme_setup() {
+function 4392bd_theme_setup() {
 
     // Make theme available for translation
-    load_theme_textdomain( 'baloch-diamond', BD_DIR . '/languages' );
+    load_theme_textdomain( 'baloch-diamond', 4392BD_DIR . '/languages' );
 
     // Add support for post thumbnails
     add_theme_support( 'post-thumbnails' );
@@ -83,32 +83,32 @@ function bd_theme_setup() {
         'footer'      => esc_html__( 'Footer Menu', 'baloch-diamond' ),
     ) );
 }
-add_action( 'after_setup_theme', 'bd_theme_setup' );
+add_action( 'after_setup_theme', '4392bd_theme_setup' );
 
 /**
  * ============================================
  * CONTENT WIDTH
  * ============================================
  */
-function bd_content_width() {
-    $GLOBALS['content_width'] = apply_filters( 'bd_content_width', 800 );
+function 4392bd_content_width() {
+    $GLOBALS['content_width'] = apply_filters( '4392bd_content_width', 800 );
 }
-add_action( 'after_setup_theme', 'bd_content_width', 0 );
+add_action( 'after_setup_theme', '4392bd_content_width', 0 );
 
 /**
  * ============================================
  * ENQUEUE STYLES & SCRIPTS
  * ============================================
  */
-function bd_enqueue_scripts() {
+function 4392bd_enqueue_scripts() {
 
     // Retrieve customizer fonts
-    $primary_font = get_theme_mod( 'bd_primary_font', 'Poppins' );
-    $heading_font = get_theme_mod( 'bd_heading_font', 'Playfair Display' );
-    $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
-    $custom_primary_font_url = get_theme_mod( 'bd_custom_primary_font', '' );
-    $custom_heading_font_url = get_theme_mod( 'bd_custom_heading_font', '' );
-    $custom_rtl_font_url = get_theme_mod( 'bd_custom_rtl_font', '' );
+    $primary_font = get_theme_mod( '4392bd_primary_font', 'Poppins' );
+    $heading_font = get_theme_mod( '4392bd_heading_font', 'Playfair Display' );
+    $rtl_font     = get_theme_mod( '4392bd_rtl_font', 'Vazirmatn' );
+    $custom_primary_font_url = get_theme_mod( '4392bd_custom_primary_font', '' );
+    $custom_heading_font_url = get_theme_mod( '4392bd_custom_heading_font', '' );
+    $custom_rtl_font_url = get_theme_mod( '4392bd_custom_rtl_font', '' );
 
     $font_families = array();
 
@@ -192,24 +192,24 @@ function bd_enqueue_scripts() {
         'bd-style',
         get_stylesheet_uri(),
         array( 'bd-google-fonts' ),
-        BD_VERSION
+        4392BD_VERSION
     );
 
     // Main JavaScript
     wp_enqueue_script(
         'bd-main',
-        BD_URI . '/assets/js/main.js',
+        4392BD_URI . '/assets/js/main.js',
         array(),
-        BD_VERSION,
+        4392BD_VERSION,
         true
     );
 
     // Pass PHP data to JavaScript
     wp_localize_script( 'bd-main', 'bdData', array(
         'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-        'nonce'     => wp_create_nonce( 'bd_nonce' ),
+        'nonce'     => wp_create_nonce( '4392bd_nonce' ),
         'homeUrl'   => home_url( '/' ),
-        'themeUrl'  => BD_URI,
+        'themeUrl'  => 4392BD_URI,
         'i18n'      => array(
             'searchPlaceholder' => esc_html__( 'Search posts, projects, docs...', 'baloch-diamond' ),
             'noResults'         => esc_html__( 'No results found for', 'baloch-diamond' ),
@@ -222,14 +222,14 @@ function bd_enqueue_scripts() {
         wp_enqueue_script( 'comment-reply' );
     }
 }
-add_action( 'wp_enqueue_scripts', 'bd_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', '4392bd_enqueue_scripts' );
 
 /**
  * ============================================
  * REGISTER WIDGET AREAS
  * ============================================
  */
-function bd_widgets_init() {
+function 4392bd_widgets_init() {
 
     register_sidebar( array(
         'name'          => esc_html__( 'Footer Column 1', 'baloch-diamond' ),
@@ -261,23 +261,23 @@ function bd_widgets_init() {
         'after_title'   => '</h4>',
     ) );
 }
-add_action( 'widgets_init', 'bd_widgets_init' );
+add_action( 'widgets_init', '4392bd_widgets_init' );
 
 /**
  * ============================================
  * CUSTOMIZER
  * ============================================
  */
-require_once BD_DIR . '/inc/customizer.php';
+require_once 4392BD_DIR . '/inc/customizer.php';
 
 /**
  * ============================================
  * DYNAMIC CSS OUTPUT (Colors from Customizer)
  * ============================================
  */
-function bd_dynamic_css() {
+function 4392bd_dynamic_css() {
 
-    $preset = get_theme_mod( 'bd_color_preset', 'default' );
+    $preset = get_theme_mod( '4392bd_color_preset', 'default' );
 
     $presets = array(
         'default' => array( 'primary' => '#38bdf8', 'secondary' => '#f97316' ),
@@ -291,23 +291,23 @@ function bd_dynamic_css() {
         $primary   = $presets[ $preset ]['primary'];
         $secondary = $presets[ $preset ]['secondary'];
     } else {
-        $primary   = get_theme_mod( 'bd_primary_color', '#38bdf8' );
-        $secondary = get_theme_mod( 'bd_secondary_color', '#f97316' );
+        $primary   = get_theme_mod( '4392bd_primary_color', '#38bdf8' );
+        $secondary = get_theme_mod( '4392bd_secondary_color', '#f97316' );
     }
 
     // Header settings
-    $header_bg_type = get_theme_mod( 'bd_header_bg_type', 'default' );
-    $header_bg_color = get_theme_mod( 'bd_header_bg_color', '' );
-    $header_grad_1 = get_theme_mod( 'bd_header_gradient_1', '#38bdf8' );
-    $header_grad_2 = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
-    $header_grad_direction = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
+    $header_bg_type = get_theme_mod( '4392bd_header_bg_type', 'default' );
+    $header_bg_color = get_theme_mod( '4392bd_header_bg_color', '' );
+    $header_grad_1 = get_theme_mod( '4392bd_header_gradient_1', '#38bdf8' );
+    $header_grad_2 = get_theme_mod( '4392bd_header_gradient_2', '#f97316' );
+    $header_grad_direction = get_theme_mod( '4392bd_header_gradient_direction', '135deg' );
 
-    $primary_font = get_theme_mod( 'bd_primary_font', 'Poppins' );
-    $heading_font = get_theme_mod( 'bd_heading_font', 'Playfair Display' );
-    $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
-    $custom_rtl_font_url = get_theme_mod( 'bd_custom_rtl_font', '' );
-    $custom_primary_font_url = get_theme_mod( 'bd_custom_primary_font', '' );
-    $custom_heading_font_url = get_theme_mod( 'bd_custom_heading_font', '' );
+    $primary_font = get_theme_mod( '4392bd_primary_font', 'Poppins' );
+    $heading_font = get_theme_mod( '4392bd_heading_font', 'Playfair Display' );
+    $rtl_font     = get_theme_mod( '4392bd_rtl_font', 'Vazirmatn' );
+    $custom_rtl_font_url = get_theme_mod( '4392bd_custom_rtl_font', '' );
+    $custom_primary_font_url = get_theme_mod( '4392bd_custom_primary_font', '' );
+    $custom_heading_font_url = get_theme_mod( '4392bd_custom_heading_font', '' );
 
     // Build proper RTL font family fallback
     $rtl_font_fallback = 'sans-serif';
@@ -321,8 +321,8 @@ function bd_dynamic_css() {
     $rtl_family = $rtl_font === 'system' ? 'sans-serif' : $rtl_font_fallback;
 
     // New slider options
-    $slider_height       = get_theme_mod( 'bd_slider_height', '55vh' );
-    $slider_shadow_color = get_theme_mod( 'bd_slider_shadow_color', 'rgba(0,0,0,0.5)' );
+    $slider_height       = get_theme_mod( '4392bd_slider_height', '55vh' );
+    $slider_shadow_color = get_theme_mod( '4392bd_slider_shadow_color', 'rgba(0,0,0,0.5)' );
     ?>
     <style id="bd-dynamic-css">
         :root {
@@ -453,7 +453,7 @@ function bd_dynamic_css() {
     </style>
     <?php
 }
-add_action( 'wp_head', 'bd_dynamic_css', 100 );
+add_action( 'wp_head', '4392bd_dynamic_css', 100 );
 
 /**
  * ============================================
@@ -464,7 +464,7 @@ add_action( 'wp_head', 'bd_dynamic_css', 100 );
 /**
  * Get Diamond Logo SVG
  */
-function bd_get_logo_svg() {
+function 4392bd_get_logo_svg() {
     return '<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -483,7 +483,7 @@ function bd_get_logo_svg() {
 /**
  * Get Footer Logo SVG (smaller)
  */
-function bd_get_footer_logo_svg() {
+function 4392bd_get_footer_logo_svg() {
     return '<svg width="36" height="36" viewBox="0 0 60 60" fill="none">
         <path d="M30 4 L50 22 L30 56 L10 22Z" stroke="var(--color-primary)" stroke-width="2.5" fill="none"/>
         <path d="M30 12 L42 22 L30 46 L18 22Z" stroke="var(--color-secondary)" stroke-width="1.5" fill="none" opacity="0.6"/>
@@ -494,7 +494,7 @@ function bd_get_footer_logo_svg() {
 /**
  * SVG Icons helper
  */
-function bd_icon( $name, $width = 24, $height = 24 ) {
+function 4392bd_icon( $name, $width = 24, $height = 24 ) {
 
     $icons = array(
         'search' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="' . $width . '" height="' . $height . '"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
@@ -516,7 +516,7 @@ function bd_icon( $name, $width = 24, $height = 24 ) {
  * BODY CLASSES
  * ============================================
  */
-function bd_body_classes( $classes ) {
+function 4392bd_body_classes( $classes ) {
     if ( is_front_page() ) {
         $classes[] = 'is-front-page';
     }
@@ -525,32 +525,32 @@ function bd_body_classes( $classes ) {
         $classes[] = 'is-singular';
     }
 
-    if ( get_theme_mod( 'bd_animated_patterns', true ) ) {
+    if ( get_theme_mod( '4392bd_animated_patterns', true ) ) {
         $classes[] = 'balochi-pattern-animated';
     }
 
     // Skeleton shimmer support
-    if ( get_theme_mod( 'bd_skeleton_loading', true ) ) {
+    if ( get_theme_mod( '4392bd_skeleton_loading', true ) ) {
         $classes[] = 'skeleton-enabled';
     }
 
     return $classes;
 }
-add_filter( 'body_class', 'bd_body_classes' );
+add_filter( 'body_class', '4392bd_body_classes' );
 
 /**
  * ============================================
  * REMOVE "CUSTOMIZE" / "THEME CUSTOMIZER" FROM MENUS
  * ============================================
  */
-add_action( 'admin_bar_menu', 'bd_remove_customize_from_admin_bar', 999 );
-function bd_remove_customize_from_admin_bar( $wp_admin_bar ) {
+add_action( 'admin_bar_menu', '4392bd_remove_customize_from_admin_bar', 999 );
+function 4392bd_remove_customize_from_admin_bar( $wp_admin_bar ) {
     $wp_admin_bar->remove_node( 'customize' );
     $wp_admin_bar->remove_node( 'customize-site' );
 }
 
-add_action( 'admin_menu', 'bd_remove_customize_from_appearance', 999 );
-function bd_remove_customize_from_appearance() {
+add_action( 'admin_menu', '4392bd_remove_customize_from_appearance', 999 );
+function 4392bd_remove_customize_from_appearance() {
     global $submenu;
     if ( isset( $submenu['themes.php'] ) ) {
         foreach ( $submenu['themes.php'] as $index => $item ) {
@@ -566,7 +566,7 @@ function bd_remove_customize_from_appearance() {
  * MOBILE MENU WALKER
  * ============================================
  */
-class BD_Mobile_Menu_Walker extends Walker_Nav_Menu {
+class 4392BD_Mobile_Menu_Walker extends Walker_Nav_Menu {
     public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
         $classes = empty( $item->classes ) ? array() : (array) $item->classes;
         $classes[] = 'menu-item-' . $item->ID;
@@ -589,7 +589,7 @@ class BD_Mobile_Menu_Walker extends Walker_Nav_Menu {
 /**
  * Get current user display name (for header)
  */
-function bd_get_user_display_name() {
+function 4392bd_get_user_display_name() {
     if ( is_user_logged_in() ) {
         $current_user = wp_get_current_user();
         return $current_user->display_name ?: $current_user->user_login;
@@ -600,7 +600,7 @@ function bd_get_user_display_name() {
 /**
  * Simple account link helper
  */
-function bd_get_account_url() {
+function 4392bd_get_account_url() {
     if ( class_exists( 'WooCommerce' ) ) {
         return wc_get_page_permalink( 'myaccount' );
     }
