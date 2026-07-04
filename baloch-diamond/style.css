@@ -4,7 +4,7 @@ Theme URI: https://balochscript.com/baloch-diamond
 Author: Baloch Script Team
 Author URI: https://balochscript.com
 Description: A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence. Features include customizable colors, hero slider, portfolio showcase, team section, and full dark/light mode support.
-Version: 1.1.1
+Version: 1.1.2
 Tested up to: 6.7
 Requires at least: 6.0
 Requires PHP: 7.4
@@ -29,6 +29,10 @@ Tags: blog, portfolio, custom-colors, custom-logo, custom-menu, featured-images,
     --card-bg: #ffffff;
     --border: #e2e8f0;
     --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    /* Font variables — overridden by dynamic CSS from Customizer */
+    --font-body:    'Poppins', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-rtl:     'Vazirmatn', sans-serif;
 }
 
 [data-theme="dark"] {
@@ -51,7 +55,7 @@ Tags: blog, portfolio, custom-colors, custom-logo, custom-menu, featured-images,
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     background: var(--bg);
     color: var(--text);
     transition: background 0.4s, color 0.4s;
@@ -72,14 +76,14 @@ body.rtl button,
 body.rtl input, 
 body.rtl textarea, 
 body.rtl select {
-    font-family: 'Vazirmatn', sans-serif;
+    font-family: var(--font-rtl);
 }
 
 /* Ensure Arabic/Persian characters render correctly across the site */
 body.rtl h1, body.rtl h2, body.rtl h3, body.rtl h4, body.rtl h5, body.rtl h6,
 body.rtl .site-name, body.rtl .section-title, body.rtl .post-card-title,
 body.rtl .project-card-title, body.rtl .product-title {
-    font-family: 'Vazirmatn', 'Noto Sans Arabic', 'Cairo', sans-serif !important;
+    font-family: var(--font-rtl) !important;
 }
 
 /* ============================================
@@ -171,7 +175,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 .logo-diamond svg { width: 100%; height: 100%; }
 
 .site-name {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-weight: 900;
     font-size: 1.3rem;
     background: var(--gradient);
@@ -300,7 +304,7 @@ body.rtl .project-card-title, body.rtl .product-title {
     font-size: 1.2rem;
     background: var(--card-bg);
     color: var(--text);
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     outline: none;
     transition: border-color 0.3s;
 }
@@ -392,7 +396,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .slide-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 2.5rem;
     font-weight: 900;
     color: white;
@@ -449,22 +453,35 @@ body.rtl .project-card-title, body.rtl .product-title {
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    width: 50px; height: 50px;
+    width: 36px; height: 36px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.18);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: opacity 0.3s, background 0.3s;
+    color: rgba(255,255,255,0.7);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Only show arrows on hover of the slider container — hidden by default */
+.hero-slider:hover .slider-arrow {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.slider-arrow:hover {
+    background: rgba(255,255,255,0.22);
     color: white;
 }
 
-.slider-arrow:hover { background: rgba(255,255,255,0.3); }
-.slider-arrow.prev { left: 20px; }
-.slider-arrow.next { right: 20px; }
+.slider-arrow svg { width: 16px; height: 16px; }
+.slider-arrow.prev { left: 14px; }
+.slider-arrow.next { right: 14px; }
 
 /* ============================================
    SECTIONS
@@ -503,7 +520,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 .section-badge svg { width: 16px; height: 16px; }
 
 .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 2.5rem;
     font-weight: 900;
     margin-bottom: 16px;
@@ -572,7 +589,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 .project-card-content { padding: 24px; }
 
 .project-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 10px;
@@ -714,7 +731,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 .post-meta-item svg { width: 14px; height: 14px; }
 
 .post-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 10px;
@@ -876,7 +893,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .team-name {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.15rem;
     margin-bottom: 4px;
@@ -949,7 +966,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .newsletter-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 2.5rem;
     font-weight: 900;
     color: white;
@@ -978,7 +995,7 @@ body.rtl .project-card-title, body.rtl .product-title {
     border: 2px solid rgba(255,255,255,0.3);
     background: rgba(255,255,255,0.15);
     color: white;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.95rem;
     outline: none;
     backdrop-filter: blur(10px);
@@ -1000,7 +1017,7 @@ body.rtl .project-card-title, body.rtl .product-title {
     font-weight: 700;
     border: none;
     cursor: pointer;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.95rem;
     transition: all 0.3s;
     white-space: nowrap;
@@ -1041,7 +1058,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .footer-about .footer-logo-text {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-weight: 900;
     font-size: 1.3rem;
     background: var(--gradient);
@@ -1259,7 +1276,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .single-post-content h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 1.6rem;
     margin: 32px 0 16px;
     color: var(--text);
@@ -1450,7 +1467,7 @@ body.rtl .project-card-title, body.rtl .product-title {
     border-radius: 10px;
     background: var(--card-bg);
     color: var(--text);
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     outline: none;
     width: 100%;
 }
@@ -1470,7 +1487,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .error-number {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 10rem;
     font-weight: 900;
     background: var(--gradient);
@@ -1490,7 +1507,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .error-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 2rem;
     margin-bottom: 16px;
 }
@@ -1746,7 +1763,7 @@ body.rtl .project-card-title, body.rtl .product-title {
     .section-title { font-size: 1.8rem; }
     .hero-slider { height: var(--bd-slider-height, 55vh); min-height: 400px; }
     .footer-inner { grid-template-columns: 1fr; gap: 30px; }
-    .slider-arrow { display: none; }
+    .slider-arrow { display: none !important; } /* always hidden on mobile — swipe only */
     .projects-grid,
     .posts-grid,
     .docs-grid,
@@ -1847,7 +1864,7 @@ body.rtl .project-card-title, body.rtl .product-title {
 }
 
 .promo-card-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 1.6rem;
     font-weight: 900;
     margin-bottom: 12px;
@@ -1865,74 +1882,21 @@ body.rtl .project-card-title, body.rtl .product-title {
     margin-top: auto;
 }
 
-/* ============================================
-   PROPOSAL 1: FLOATING COLOR SWITCHER
-   ============================================ */
-.floating-switcher {
-    position: fixed;
-    bottom: 90px;
-    left: 24px;
-    z-index: 999;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transform: translateX(-180%);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.floating-switcher.active {
-    transform: translateX(0);
-}
 
-.switcher-toggle-btn {
-    position: fixed;
-    bottom: 90px;
-    left: 24px;
-    z-index: 1000;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--gradient);
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba(56,189,248,0.3);
-    transition: all 0.3s;
-}
 
-.switcher-toggle-btn:hover {
-    transform: scale(1.1);
-}
 
-.switcher-palette-row {
-    display: flex;
-    gap: 8px;
-}
 
-.switcher-color-dot {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform 0.2s;
-}
 
-.switcher-color-dot:hover {
-    transform: scale(1.15);
-}
 
-.switcher-color-dot.active {
-    border-color: var(--text);
-}
+
+
+
+
+
+
+
+
 
 /* ============================================
    PROPOSAL 2: ANIMATED NEEDLEWORK BACKGROUNDS
@@ -2102,4 +2066,186 @@ body.rtl .shop-horizontal-scroll {
 .shop-horizontal-scroll > div {
     display: flex;
     gap: 22px;
+}
+
+/* ============================================
+   DISCOUNT BADGE — Clean Brand-Style Tag
+   ============================================ */
+
+/* Container must have position:relative */
+.bd-discount-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 4;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    min-height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45),
+                0 1px 4px rgba(0,0,0,0.12);
+    text-align: center;
+    line-height: 1;
+    padding: 6px;
+    pointer-events: none;
+    animation: bd-badge-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes bd-badge-pop {
+    0%   { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+.bd-discount-badge__value {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    font-family: var(--font-body);
+}
+
+.bd-discount-badge__label {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    opacity: 0.88;
+    margin-top: 2px;
+}
+
+/* Compact variant — for smaller cards */
+.bd-discount-badge--sm {
+    min-width: 42px;
+    min-height: 42px;
+}
+
+.bd-discount-badge--sm .bd-discount-badge__value {
+    font-size: 0.8rem;
+}
+
+.bd-discount-badge--sm .bd-discount-badge__label {
+    font-size: 0.44rem;
+}
+
+/* Dark mode tweak */
+[data-theme="dark"] .bd-discount-badge {
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.55),
+                0 1px 4px rgba(0,0,0,0.3);
+}
+
+
+/* ============================================
+   BLOG SECTION — NAVIGATION & FOOTER
+   ============================================ */
+
+/* Outer wrapper: nav + view-all stacked */
+.bd-blog-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 48px;
+}
+
+/* Prev / Next row */
+.bd-blog-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Buttons — reuse theme btn classes, just tweak sizing */
+.bd-blog-nav__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.25s;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.bd-blog-nav__btn svg {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+}
+
+/* Disabled state */
+.bd-blog-nav__btn--disabled {
+    opacity: 0.32;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Page counter  "2 / 7" */
+.bd-blog-nav__counter {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    min-width: 52px;
+    justify-content: center;
+    letter-spacing: 0.3px;
+}
+
+.bd-blog-nav__sep {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* View All link */
+.bd-blog-viewall {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.25s, gap 0.25s;
+}
+
+.bd-blog-viewall:hover {
+    color: var(--color-primary);
+    gap: 10px;
+}
+
+.bd-blog-viewall svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .bd-blog-nav {
+        gap: 8px;
+    }
+    .bd-blog-nav__btn {
+        padding: 10px 14px;
+        font-size: 0.82rem;
+    }
+    .bd-blog-nav__btn span {
+        display: none; /* icon only on very small screens */
+    }
+    .bd-blog-nav__btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    .bd-blog-nav__counter {
+        min-width: 40px;
+        font-size: 0.9rem;
+    }
 }

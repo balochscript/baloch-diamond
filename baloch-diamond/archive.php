@@ -57,7 +57,7 @@ get_header();
                 <div class="author-box" style="max-width:600px;margin:0 auto 24px;justify-content:center;text-align:center;flex-direction:column;align-items:center">
                     <?php echo get_avatar( $author->ID, 80, '', $author->display_name ); ?>
                     <div class="author-box-content" style="text-align:center">
-                        <h1 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px">
+                        <h1 style="font-family:var(--font-heading);font-size:2rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px">
                             <?php echo esc_html( $author->display_name ); ?>
                         </h1>
                         <?php if ( $author->description ) : ?>

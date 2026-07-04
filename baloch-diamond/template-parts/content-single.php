@@ -27,7 +27,7 @@ $category = bd_get_first_category();
             <?php echo esc_html( $category['name'] ); ?>
         </a>
 
-        <h1 style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,0,0,0.5);max-width:700px;line-height:1.3">
+        <h1 style="font-family:var(--font-heading);font-size:2.2rem;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,0,0,0.5);max-width:700px;line-height:1.3">
             <?php the_title(); ?>
         </h1>
 
@@ -116,7 +116,7 @@ $category = bd_get_first_category();
         if ( $related_query->have_posts() ) :
     ?>
         <div style="margin-top:48px">
-            <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:24px">
+            <h3 style="font-family:var(--font-heading);font-size:1.4rem;margin-bottom:24px">
                 <?php esc_html_e( 'Related Posts', 'baloch-diamond' ); ?>
             </h3>
             <div class="related-posts-grid">

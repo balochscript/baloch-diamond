@@ -22,7 +22,7 @@ $commenter = wp_get_current_commenter();
     <?php if ( have_comments() ) : ?>
 
         <!-- Comments Title -->
-        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:24px">
+        <h3 style="font-family:var(--font-heading);font-size:1.4rem;margin-bottom:24px">
             <?php
             printf(
                 /* translators: %s: Number of comments */
@@ -134,7 +134,7 @@ $commenter = wp_get_current_commenter();
                            id="url"
                            placeholder="<?php esc_attr_e( 'Website (optional)', 'baloch-diamond' ); ?>"
                            value="<?php echo esc_attr( $commenter['comment_author_url'] ?? '' ); ?>"
-                           style="padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--card-bg);color:var(--text);font-family:'Poppins',sans-serif;outline:none;width:100%;margin-bottom:12px">
+                           style="padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--card-bg);color:var(--text);font-family:var(--font-body);outline:none;width:100%;margin-bottom:12px">
 
                 <?php endif; ?>
 

@@ -165,8 +165,9 @@ function bd_render_product_card_html( $prod ) {
     <div class="project-card product-card" style="height:100%;">
         <div class="project-card-img-wrapper" style="position:relative;height:240px;overflow:hidden;">
             <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
-                <div style="position:absolute;top:14px;left:-6px;background:#ef4444;color:#fff;font-weight:900;font-size:.68rem;padding:5px 28px;transform:rotate(-43deg);box-shadow:0 2px 8px rgba(239,68,68,.3);z-index:2;letter-spacing:.3px;">
-                    -<?php echo esc_html( $prod['discount'] ); ?>%
+                <div class="bd-discount-badge bd-discount-badge--sm">
+                    <span class="bd-discount-badge__value">-<?php echo esc_html( $prod['discount'] ); ?>%</span>
+                    <span class="bd-discount-badge__label"><?php esc_html_e( 'OFF', 'baloch-diamond' ); ?></span>
                 </div>
             <?php endif; ?>
 

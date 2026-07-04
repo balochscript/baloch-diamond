@@ -25,7 +25,7 @@ get_header();
             <?php endif; ?>
 
             <div class="overlay">
-                <h1 style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,0,0,0.5);max-width:700px;line-height:1.3">
+                <h1 style="font-family:var(--font-heading);font-size:2.5rem;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,0,0,0.5);max-width:700px;line-height:1.3">
                     <?php the_title(); ?>
                 </h1>
             </div>

@@ -2,7 +2,7 @@
  * Baloch Diamond Theme - Main JavaScript
  *
  * @package Baloch_Diamond
- * @version 1.1.0
+ * @version 1.1.2
  */
 
 ( function() {
@@ -108,17 +108,35 @@
                 } );
             } );
 
-            // Touch support
-            heroSlider.addEventListener( 'touchstart', function( e ) {
-                slider.touchStartX = e.changedTouches[0].screenX;
+            // Touch + Mouse drag (Pointer Events API covers both)
+            var pointerStartX = 0;
+            var pointerMoved  = false;
+
+            heroSlider.addEventListener( 'pointerdown', function( e ) {
+                pointerStartX = e.clientX;
+                pointerMoved  = false;
+                heroSlider.setPointerCapture( e.pointerId );
             }, { passive: true } );
 
-            heroSlider.addEventListener( 'touchend', function( e ) {
-                var diff = slider.touchStartX - e.changedTouches[0].screenX;
-                if ( Math.abs( diff ) > 50 ) {
-                    slider.change( diff > 0 ? 1 : -1 );
+            heroSlider.addEventListener( 'pointermove', function( e ) {
+                if ( Math.abs( e.clientX - pointerStartX ) > 8 ) {
+                    pointerMoved = true;
                 }
             }, { passive: true } );
+
+            heroSlider.addEventListener( 'pointerup', function( e ) {
+                if ( ! pointerMoved ) return;
+                var diff = pointerStartX - e.clientX;
+                if ( Math.abs( diff ) > 40 ) {
+                    slider.change( diff > 0 ? 1 : -1 );
+                    slider.resetAutoplay();
+                }
+            }, { passive: true } );
+
+            // Prevent image ghost drag
+            heroSlider.addEventListener( 'dragstart', function( e ) {
+                e.preventDefault();
+            } );
 
             // Pause on hover
             heroSlider.addEventListener( 'mouseenter', function() {
@@ -865,14 +883,10 @@
         backToTop.init();
         skeletonLoader.init();
         singleProductSlider.init();
-        paletteSwitcher.init();
-        paletteSwitcher.restore();
+} );
 
-    } );
-
-} )();var skeletonLoader = { init: function(){} }; var paletteSwitcher = { init: function(){}, restore: function(){} };
-
-    // ================================================
+} )();var skeletonLoader = { init: function(){} };
+// ================================================
     //  SKELETON SHIMMER LOADING (Complete)
     // ================================================
     var skeletonLoader = {
@@ -899,99 +913,6 @@
                     card.classList.remove('skeleton-card');
                 }, 900 + (i * 120));
             });
-        }
-    };
-
-    // ================================================
-    //  FLOATING COLOR PALETTE SWITCHER (Complete)
-    // ================================================
-    var paletteSwitcher = {
-        presets: {
-            'default': { primary: '#38bdf8', secondary: '#f97316' },
-            'ocean':   { primary: '#0ea5e9', secondary: '#06b6d4' },
-            'desert':  { primary: '#f97316', secondary: '#ef4444' },
-            'forest':  { primary: '#10b981', secondary: '#059669' },
-            'royal':   { primary: '#8b5cf6', secondary: '#ec4899' }
-        },
-
-        init: function() {
-            var toggle = $('#switcherToggle');
-            var panel  = $('#floatingSwitcher');
-
-            if (!toggle || !panel) return;
-
-            toggle.addEventListener('click', function(e) {
-                e.stopImmediatePropagation();
-                panel.classList.toggle('active');
-            });
-
-            var dots = $$('.switcher-color-dot');
-            var self = this;
-
-            dots.forEach(function(dot) {
-                dot.addEventListener('click', function() {
-                    var key = this.getAttribute('data-preset');
-                    if (self.presets[key]) {
-                        self.applyPreset(key);
-                        self.setActiveDot(this);
-                    }
-                });
-            });
-
-            var reset = $('#switcherReset');
-            if (reset) {
-                reset.addEventListener('click', function() {
-                    self.resetToDefault();
-                    self.clearActiveDots();
-                    panel.classList.remove('active');
-                });
-            }
-
-            document.addEventListener('click', function(e) {
-                if (!panel.contains(e.target) && e.target !== toggle) {
-                    panel.classList.remove('active');
-                }
-            });
-        },
-
-        applyPreset: function(key) {
-            var c = this.presets[key];
-            if (!c) return;
-
-            var r = document.documentElement;
-            r.style.setProperty('--color-primary', c.primary);
-            r.style.setProperty('--color-secondary', c.secondary);
-            r.style.setProperty('--gradient', 'linear-gradient(135deg,' + c.primary + ',' + c.secondary + ')');
-            r.style.setProperty('--gradient-reverse', 'linear-gradient(135deg,' + c.secondary + ',' + c.primary + ')');
-
-            localStorage.setItem('bd_temp_palette', key);
-            if (window.bdShowNotify) window.bdShowNotify('Preview applied');
-        },
-
-        resetToDefault: function() {
-            var r = document.documentElement;
-            r.style.removeProperty('--color-primary');
-            r.style.removeProperty('--color-secondary');
-            r.style.removeProperty('--gradient');
-            r.style.removeProperty('--gradient-reverse');
-            localStorage.removeItem('bd_temp_palette');
-            if (window.bdShowNotify) window.bdShowNotify('Colors reset');
-        },
-
-        setActiveDot: function(dot) {
-            $$('.switcher-color-dot').forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
-        },
-
-        clearActiveDots: function() {
-            $$('.switcher-color-dot').forEach(d => d.classList.remove('active'));
-        },
-
-        restore: function() {
-            var saved = localStorage.getItem('bd_temp_palette');
-            if (saved && this.presets[saved]) {
-                this.applyPreset(saved);
-            }
         }
     };
 

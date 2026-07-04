@@ -9,6 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Hide/Show toggle
+if ( ! get_theme_mod( 'bd_newsletter_show', true ) ) {
+    return;
+}
+
 $nl_title       = get_theme_mod( 'bd_newsletter_title', esc_html__( 'Stay Connected', 'baloch-diamond' ) );
 $nl_desc        = get_theme_mod( 'bd_newsletter_desc', esc_html__( 'Subscribe to our newsletter and never miss an update. Get exclusive content, project news, and insights delivered to your inbox.', 'baloch-diamond' ) );
 $nl_placeholder = get_theme_mod( 'bd_newsletter_placeholder', esc_html__( 'Enter your email...', 'baloch-diamond' ) );

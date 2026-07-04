@@ -3,7 +3,7 @@
  * Baloch Diamond Theme Functions
  *
  * @package Baloch_Diamond
- * @version 1.1.1
+ * @version 1.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme version constant
-define( 'BD_VERSION', '1.1.1' );
+define( 'BD_VERSION', '1.1.2' );
 define( 'BD_DIR', get_template_directory() );
 define( 'BD_URI', get_template_directory_uri() );
 
@@ -102,98 +102,93 @@ add_action( 'after_setup_theme', 'bd_content_width', 0 );
  */
 function bd_enqueue_scripts() {
 
-    // Retrieve customizer fonts
-    $primary_font = get_theme_mod( 'bd_primary_font', 'Poppins' );
-    $heading_font = get_theme_mod( 'bd_heading_font', 'Playfair Display' );
-    $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
+    // Retrieve customizer font keys
+    $primary_font            = get_theme_mod( 'bd_primary_font',        'Poppins' );
+    $heading_font            = get_theme_mod( 'bd_heading_font',        'Playfair Display' );
+    $rtl_font                = get_theme_mod( 'bd_rtl_font',            'Vazirmatn' );
     $custom_primary_font_url = get_theme_mod( 'bd_custom_primary_font', '' );
     $custom_heading_font_url = get_theme_mod( 'bd_custom_heading_font', '' );
-    $custom_rtl_font_url = get_theme_mod( 'bd_custom_rtl_font', '' );
+    $custom_rtl_font_url     = get_theme_mod( 'bd_custom_rtl_font',     '' );
 
-    $font_families = array();
+    // ---------------------------------------------------------------
+    // Font map: Customizer key => [ 'slug' => Google Fonts slug,
+    //                               'css'  => exact CSS font-family name ]
+    // slug: used directly in the Google Fonts URL (no rawurlencode needed)
+    // css:  written into --font-body / --font-heading / --font-rtl
+    // ---------------------------------------------------------------
+    $body_fonts = array(
+        'Poppins'          => array( 'slug' => 'Poppins:wght@300;400;500;600;700;800;900',          'css' => 'Poppins' ),
+        'Roboto'           => array( 'slug' => 'Roboto:wght@300;400;500;700;900',                   'css' => 'Roboto' ),
+        'Inter'            => array( 'slug' => 'Inter:wght@300;400;500;600;700;800;900',            'css' => 'Inter' ),
+        'Montserrat'       => array( 'slug' => 'Montserrat:wght@300;400;500;600;700;800;900',       'css' => 'Montserrat' ),
+        'Lora'             => array( 'slug' => 'Lora:wght@400;500;600;700',                         'css' => 'Lora' ),
+        'OpenSans'         => array( 'slug' => 'Open+Sans:wght@300;400;500;600;700;800',            'css' => 'Open Sans' ),
+        'Nunito'           => array( 'slug' => 'Nunito:wght@300;400;500;600;700;800;900',           'css' => 'Nunito' ),
+        'Rubik'            => array( 'slug' => 'Rubik:wght@300;400;500;600;700;800',               'css' => 'Rubik' ),
+        'WorkSans'         => array( 'slug' => 'Work+Sans:wght@300;400;500;600;700;800',            'css' => 'Work Sans' ),
+        'DM Sans'          => array( 'slug' => 'DM+Sans:wght@300;400;500;600;700',                 'css' => 'DM Sans' ),
+        'Outfit'           => array( 'slug' => 'Outfit:wght@300;400;500;600;700;800',               'css' => 'Outfit' ),
+    );
 
-    // Map body font
+    $heading_fonts = array(
+        'Playfair Display' => array( 'slug' => 'Playfair+Display:wght@400;700;900',                'css' => 'Playfair Display' ),
+        'PlayfairDisplay'  => array( 'slug' => 'Playfair+Display:wght@400;700;900',                'css' => 'Playfair Display' ),
+        'Poppins'          => array( 'slug' => 'Poppins:wght@400;700;900',                         'css' => 'Poppins' ),
+        'Montserrat'       => array( 'slug' => 'Montserrat:wght@400;700;900',                      'css' => 'Montserrat' ),
+        'Merriweather'     => array( 'slug' => 'Merriweather:wght@300;400;700;900',                'css' => 'Merriweather' ),
+        'EBGaramond'       => array( 'slug' => 'EB+Garamond:wght@400;500;600;700',                 'css' => 'EB Garamond' ),
+        'Oswald'           => array( 'slug' => 'Oswald:wght@400;500;600;700',                      'css' => 'Oswald' ),
+        'BebasNeue'        => array( 'slug' => 'Bebas+Neue',                                       'css' => 'Bebas Neue' ),
+    );
+
+    $rtl_fonts = array(
+        'Vazirmatn'      => array( 'slug' => 'Vazirmatn:wght@300;400;500;700;900',                  'css' => 'Vazirmatn' ),
+        'Cairo'          => array( 'slug' => 'Cairo:wght@300;400;500;700;900',                      'css' => 'Cairo' ),
+        'Tajawal'        => array( 'slug' => 'Tajawal:wght@300;400;500;700;900',                    'css' => 'Tajawal' ),
+        'Amiri'          => array( 'slug' => 'Amiri:wght@400;700',                                  'css' => 'Amiri' ),
+        'NotoSansArabic' => array( 'slug' => 'Noto+Sans+Arabic:wght@400;500;600;700',               'css' => 'Noto Sans Arabic' ),
+        'Almarai'        => array( 'slug' => 'Almarai:wght@300;400;700;800',                        'css' => 'Almarai' ),
+    );
+
+    // ---------------------------------------------------------------
+    // Build Google Fonts URL — collect unique slugs
+    // ---------------------------------------------------------------
+    $font_slugs = array();
+
+    // Body font
     if ( $primary_font === 'custom' && ! empty( $custom_primary_font_url ) ) {
-        // handled via @font-face below
-    } elseif ( $primary_font === 'Poppins' ) {
-        $font_families[] = 'Poppins:wght@300;400;500;600;700;800;900';
-    } elseif ( $primary_font === 'Roboto' ) {
-        $font_families[] = 'Roboto:wght@300;400;500;700;900';
-    } elseif ( $primary_font === 'Inter' ) {
-        $font_families[] = 'Inter:wght@300;400;500;600;700;800;900';
-    } elseif ( $primary_font === 'Montserrat' ) {
-        $font_families[] = 'Montserrat:wght@300;400;500;600;700;800;900';
-    } elseif ( $primary_font === 'Lora' ) {
-        $font_families[] = 'Lora:wght@400;500;600;700';
-    } elseif ( $primary_font === 'OpenSans' ) {
-        $font_families[] = 'Open+Sans:wght@300;400;500;600;700;800';
-    } elseif ( $primary_font === 'Nunito' ) {
-        $font_families[] = 'Nunito:wght@300;400;500;600;700;800;900';
-    } elseif ( $primary_font === 'Rubik' ) {
-        $font_families[] = 'Rubik:wght@300;400;500;600;700;800';
-    } elseif ( $primary_font === 'WorkSans' ) {
-        $font_families[] = 'Work+Sans:wght@300;400;500;600;700;800';
-    } elseif ( $primary_font === 'DM Sans' ) {
-        $font_families[] = 'DM+Sans:wght@300;400;500;600;700';
-    } elseif ( $primary_font === 'Outfit' ) {
-        $font_families[] = 'Outfit:wght@300;400;500;600;700;800';
+        // Custom upload — no Google Fonts needed, handled via @font-face
+    } elseif ( isset( $body_fonts[ $primary_font ] ) ) {
+        $font_slugs[] = $body_fonts[ $primary_font ]['slug'];
     }
 
-    // Map heading font
+    // Heading font
     if ( $heading_font === 'custom' && ! empty( $custom_heading_font_url ) ) {
-        // handled via @font-face in dynamic CSS
-    } elseif ( $heading_font === 'Playfair Display' || $heading_font === 'PlayfairDisplay' ) {
-        $font_families[] = 'Playfair+Display:wght@400;700;900';
-    } elseif ( $heading_font === 'Poppins' && $primary_font !== 'Poppins' ) {
-        $font_families[] = 'Poppins:wght@400;700;900';
-    } elseif ( $heading_font === 'Montserrat' && $primary_font !== 'Montserrat' ) {
-        $font_families[] = 'Montserrat:wght@400;700;900';
-    } elseif ( $heading_font === 'Merriweather' ) {
-        $font_families[] = 'Merriweather:wght@300;400;700;900';
-    } elseif ( $heading_font === 'EBGaramond' ) {
-        $font_families[] = 'EB+Garamond:wght@400;500;600;700';
-    } elseif ( $heading_font === 'Oswald' ) {
-        $font_families[] = 'Oswald:wght@400;500;600;700';
-    } elseif ( $heading_font === 'BebasNeue' ) {
-        $font_families[] = 'Bebas+Neue:wght@400';
-    }
-
-    // Map RTL font (Persian/Arabic)
-    // Skip if using custom upload (handled in dynamic CSS)
-    if ( $rtl_font !== 'custom' && $rtl_font !== 'system' ) {
-        if ( $rtl_font === 'Vazirmatn' ) {
-            $font_families[] = 'Vazirmatn:wght@300;400;500;700;900';
-        } elseif ( $rtl_font === 'Cairo' ) {
-            $font_families[] = 'Cairo:wght@300;400;500;700;900';
-        } elseif ( $rtl_font === 'Tajawal' ) {
-            $font_families[] = 'Tajawal:wght@300;400;500;700;900';
-        } elseif ( $rtl_font === 'Amiri' ) {
-            $font_families[] = 'Amiri:wght@400;700';
-        } elseif ( $rtl_font === 'NotoSansArabic' ) {
-            $font_families[] = 'Noto+Sans+Arabic:wght@400;500;600;700';
-        } elseif ( $rtl_font === 'Almarai' ) {
-            $font_families[] = 'Almarai:wght@300;400;700;800';
+        // Custom upload — handled via @font-face
+    } elseif ( isset( $heading_fonts[ $heading_font ] ) ) {
+        $slug = $heading_fonts[ $heading_font ]['slug'];
+        // Avoid duplicating if same as body
+        if ( ! in_array( $slug, $font_slugs, true ) ) {
+            $font_slugs[] = $slug;
         }
     }
 
-    if ( ! empty( $font_families ) ) {
-        $fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', array_map( 'rawurlencode', $font_families ) ) . '&display=swap';
-        
-        wp_enqueue_style(
-            'bd-google-fonts',
-            $fonts_url,
-            array(),
-            null
-        );
+    // RTL font
+    if ( $rtl_font !== 'custom' && $rtl_font !== 'system' && isset( $rtl_fonts[ $rtl_font ] ) ) {
+        $slug = $rtl_fonts[ $rtl_font ]['slug'];
+        if ( ! in_array( $slug, $font_slugs, true ) ) {
+            $font_slugs[] = $slug;
+        }
+    }
+
+    // Enqueue Google Fonts (slugs go directly in URL — no rawurlencode)
+    if ( ! empty( $font_slugs ) ) {
+        $fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $font_slugs ) . '&display=swap';
+        wp_enqueue_style( 'bd-google-fonts', $fonts_url, array(), null );
     }
 
     // Main theme stylesheet
-    wp_enqueue_style(
-        'bd-style',
-        get_stylesheet_uri(),
-        array( 'bd-google-fonts' ),
-        BD_VERSION
-    );
+    wp_enqueue_style( 'bd-style', get_stylesheet_uri(), array(), BD_VERSION );
 
     // Main JavaScript
     wp_enqueue_script(
@@ -309,59 +304,162 @@ function bd_dynamic_css() {
     $header_grad_2 = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
     $header_grad_direction = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 
-    $primary_font = get_theme_mod( 'bd_primary_font', 'Poppins' );
-    $heading_font = get_theme_mod( 'bd_heading_font', 'Playfair Display' );
-    $rtl_font     = get_theme_mod( 'bd_rtl_font', 'Vazirmatn' );
-    $custom_rtl_font_url = get_theme_mod( 'bd_custom_rtl_font', '' );
+    // Resolve font CSS names directly — no dependency on $GLOBALS
+    $primary_font_key        = get_theme_mod( 'bd_primary_font',        'Poppins' );
+    $heading_font_key        = get_theme_mod( 'bd_heading_font',        'Playfair Display' );
+    $rtl_font_key            = get_theme_mod( 'bd_rtl_font',            'Vazirmatn' );
     $custom_primary_font_url = get_theme_mod( 'bd_custom_primary_font', '' );
     $custom_heading_font_url = get_theme_mod( 'bd_custom_heading_font', '' );
+    $custom_rtl_font_url     = get_theme_mod( 'bd_custom_rtl_font',     '' );
 
-    // Build proper RTL font family fallback
-    $rtl_font_fallback = 'sans-serif';
-    if ( $rtl_font === 'Vazirmatn' || $rtl_font === 'Cairo' || $rtl_font === 'Tajawal' || $rtl_font === 'Amiri' || $rtl_font === 'NotoSansArabic' || $rtl_font === 'Almarai' ) {
-        $rtl_font_fallback = "'" . str_replace('+', ' ', $rtl_font) . "', sans-serif";
-    } elseif ( $rtl_font === 'custom' && ! empty( $custom_rtl_font_url ) ) {
-        $rtl_font_fallback = 'CustomRTLFont, sans-serif';
-    } elseif ( $rtl_font === 'system' ) {
-        $rtl_font_fallback = 'sans-serif';
+    // Map Customizer key → exact CSS font-family name
+    $body_font_names = array(
+        'Poppins'    => 'Poppins',
+        'Roboto'     => 'Roboto',
+        'Inter'      => 'Inter',
+        'Montserrat' => 'Montserrat',
+        'Lora'       => 'Lora',
+        'OpenSans'   => 'Open Sans',
+        'Nunito'     => 'Nunito',
+        'Rubik'      => 'Rubik',
+        'WorkSans'   => 'Work Sans',
+        'DM Sans'    => 'DM Sans',
+        'Outfit'     => 'Outfit',
+    );
+    $heading_font_names = array(
+        'Playfair Display' => 'Playfair Display',
+        'PlayfairDisplay'  => 'Playfair Display',
+        'Poppins'          => 'Poppins',
+        'Montserrat'       => 'Montserrat',
+        'Merriweather'     => 'Merriweather',
+        'EBGaramond'       => 'EB Garamond',
+        'Oswald'           => 'Oswald',
+        'BebasNeue'        => 'Bebas Neue',
+    );
+    $rtl_font_names = array(
+        'Vazirmatn'      => 'Vazirmatn',
+        'Cairo'          => 'Cairo',
+        'Tajawal'        => 'Tajawal',
+        'Amiri'          => 'Amiri',
+        'NotoSansArabic' => 'Noto Sans Arabic',
+        'Almarai'        => 'Almarai',
+    );
+
+    // Resolve final CSS names
+    if ( $primary_font_key === 'custom' && ! empty( $custom_primary_font_url ) ) {
+        $font_body = 'CustomPrimaryFont';
+    } else {
+        $font_body = isset( $body_font_names[ $primary_font_key ] ) ? $body_font_names[ $primary_font_key ] : 'Poppins';
     }
-    $rtl_family = $rtl_font === 'system' ? 'sans-serif' : $rtl_font_fallback;
 
-    // New slider options
-    $slider_height       = get_theme_mod( 'bd_slider_height', '55vh' );
+    if ( $heading_font_key === 'custom' && ! empty( $custom_heading_font_url ) ) {
+        $font_heading = 'CustomHeadingFont';
+    } else {
+        $font_heading = isset( $heading_font_names[ $heading_font_key ] ) ? $heading_font_names[ $heading_font_key ] : 'Playfair Display';
+    }
+
+    if ( $rtl_font_key === 'system' ) {
+        $font_rtl = null;
+    } elseif ( $rtl_font_key === 'custom' && ! empty( $custom_rtl_font_url ) ) {
+        $font_rtl = 'CustomRTLFont';
+    } else {
+        $font_rtl = isset( $rtl_font_names[ $rtl_font_key ] ) ? $rtl_font_names[ $rtl_font_key ] : 'Vazirmatn';
+    }
+
+    // Slider options
+    $slider_height       = get_theme_mod( 'bd_slider_height',       '55vh' );
     $slider_shadow_color = get_theme_mod( 'bd_slider_shadow_color', 'rgba(0,0,0,0.5)' );
     ?>
     <style id="bd-dynamic-css">
         :root {
-            --color-primary: <?php echo esc_attr( $primary ); ?>;
+            --color-primary:   <?php echo esc_attr( $primary ); ?>;
             --color-secondary: <?php echo esc_attr( $secondary ); ?>;
-            --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?>, <?php echo esc_attr( $secondary ); ?>);
-            --gradient-reverse: linear-gradient(135deg, <?php echo esc_attr( $secondary ); ?>, <?php echo esc_attr( $primary ); ?>);
-            --bd-slider-height: <?php echo esc_attr( $slider_height ); ?>;
+            --gradient:        linear-gradient(135deg, <?php echo esc_attr( $primary ); ?>, <?php echo esc_attr( $secondary ); ?>);
+            --gradient-reverse:linear-gradient(135deg, <?php echo esc_attr( $secondary ); ?>, <?php echo esc_attr( $primary ); ?>);
+            --bd-slider-height:<?php echo esc_attr( $slider_height ); ?>;
+
+            /* Font variables — resolved CSS names from Customizer selection */
+            --font-body:    '<?php echo esc_attr( $font_body ); ?>', sans-serif;
+            --font-heading: '<?php echo esc_attr( $font_heading ); ?>', serif;
+            --font-rtl:     <?php echo $font_rtl ? "'" . esc_attr( $font_rtl ) . "', sans-serif" : 'sans-serif'; ?>;
         }
 
-        body {
-            font-family: '<?php echo esc_attr( $primary_font ); ?>', sans-serif !important;
+        /* ---- Body font: applied universally ---- */
+        /* Using * catches every element that doesn't have its own rule */
+        *,
+        body,
+        p,
+        a,
+        span,
+        li,
+        td,
+        th,
+        label,
+        input,
+        button,
+        select,
+        textarea,
+        blockquote,
+        figcaption,
+        .menu-item,
+        .footer-links a,
+        .post-card-excerpt,
+        .post-card-title a,
+        .project-card-excerpt,
+        .doc-desc,
+        .team-bio,
+        .team-role,
+        .slide-excerpt,
+        .read-more,
+        .btn-gradient,
+        .btn-outline,
+        .section-desc,
+        .search-input,
+        .newsletter-input,
+        .newsletter-btn,
+        .comment-text,
+        .comment-body,
+        .wp-block-paragraph,
+        .entry-content p,
+        .entry-content li,
+        .entry-content a,
+        .single-post-content p,
+        .single-post-content li,
+        .single-post-content a:not(.btn-gradient):not(.btn-outline) {
+            font-family: var(--font-body) !important;
         }
 
+        /* ---- Heading font: titles, headings, logos ---- */
         h1, h2, h3, h4, h5, h6,
         .site-name,
         .slide-title,
         .section-title,
-        .project-card-title,
         .post-card-title,
+        .post-card-title a,
+        .project-card-title,
+        .project-card-title a,
         .doc-title,
         .team-name,
         .newsletter-title,
         .footer-logo-text,
         .error-number,
         .error-title,
+        .single-post-content h1,
         .single-post-content h2,
         .single-post-content h3,
         .single-post-content h4,
+        .single-post-content h5,
+        .single-post-content h6,
         .comment-author,
-        .comment-form-wrapper h4 {
-            font-family: '<?php echo esc_attr( $heading_font ); ?>', serif !important;
+        .comment-form-wrapper h4,
+        .entry-content h1,
+        .entry-content h2,
+        .entry-content h3,
+        .entry-content h4,
+        .entry-content h5,
+        .entry-content h6,
+        .wp-block-heading {
+            font-family: var(--font-heading) !important;
         }
 
         .slide-title {
@@ -372,74 +470,69 @@ function bd_dynamic_css() {
             height: var(--bd-slider-height) !important;
         }
 
-        body.rtl, 
-        body.rtl button, 
-        body.rtl input, 
-        body.rtl textarea, 
+        /* RTL font override — covers all elements when site is RTL */
+        body.rtl *,
+        body.rtl,
+        body.rtl p,
+        body.rtl a,
+        body.rtl span,
+        body.rtl li,
+        body.rtl button,
+        body.rtl input,
         body.rtl select,
+        body.rtl textarea,
+        body.rtl h1, body.rtl h2, body.rtl h3,
+        body.rtl h4, body.rtl h5, body.rtl h6,
+        body.rtl .site-name,
         body.rtl .section-title,
+        body.rtl .section-desc,
         body.rtl .post-card-title,
+        body.rtl .post-card-excerpt,
         body.rtl .project-card-title,
+        body.rtl .project-card-excerpt,
+        body.rtl .doc-title,
+        body.rtl .doc-desc,
+        body.rtl .team-name,
+        body.rtl .team-role,
+        body.rtl .team-bio,
         body.rtl .product-title,
-        body.rtl .team-name {
-            font-family: <?php echo $rtl_family; ?> !important;
+        body.rtl .slide-title,
+        body.rtl .slide-excerpt,
+        body.rtl .newsletter-title,
+        body.rtl .footer-links a,
+        body.rtl .menu-item,
+        body.rtl .entry-content {
+            font-family: var(--font-rtl) !important;
         }
 
-        <?php if ( $rtl_font === 'custom' && ! empty( $custom_rtl_font_url ) ) : ?>
-        @font-face {
-            font-family: 'CustomRTLFont';
-            src: url('<?php echo esc_url( $custom_rtl_font_url ); ?>') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-        <?php endif; ?>
-
-        <?php if ( $primary_font === 'custom' && ! empty( $custom_primary_font_url ) ) : ?>
+        /* @font-face for custom uploaded fonts */
+        <?php if ( ! empty( $custom_primary_font_url ) ) : ?>
         @font-face {
             font-family: 'CustomPrimaryFont';
             src: url('<?php echo esc_url( $custom_primary_font_url ); ?>') format('woff2');
-            font-weight: 400;
+            font-weight: 100 900;
             font-style: normal;
             font-display: swap;
         }
         <?php endif; ?>
 
-        <?php if ( $heading_font === 'custom' && ! empty( $custom_heading_font_url ) ) : ?>
+        <?php if ( ! empty( $custom_heading_font_url ) ) : ?>
         @font-face {
             font-family: 'CustomHeadingFont';
             src: url('<?php echo esc_url( $custom_heading_font_url ); ?>') format('woff2');
-            font-weight: 700;
+            font-weight: 100 900;
             font-style: normal;
             font-display: swap;
         }
         <?php endif; ?>
 
-        <?php if ( $primary_font === 'custom' && ! empty( $custom_primary_font_url ) ) : ?>
-        body {
-            font-family: 'CustomPrimaryFont', sans-serif !important;
-        }
-        <?php endif; ?>
-
-        <?php if ( $heading_font === 'custom' && ! empty( $custom_heading_font_url ) ) : ?>
-        h1, h2, h3, h4, h5, h6,
-        .site-name,
-        .slide-title,
-        .section-title,
-        .project-card-title,
-        .post-card-title,
-        .doc-title,
-        .team-name,
-        .newsletter-title,
-        .footer-logo-text,
-        .error-number,
-        .error-title,
-        .single-post-content h2,
-        .single-post-content h3,
-        .single-post-content h4,
-        .comment-author,
-        .comment-form-wrapper h4 {
-            font-family: 'CustomHeadingFont', serif !important;
+        <?php if ( ! empty( $custom_rtl_font_url ) ) : ?>
+        @font-face {
+            font-family: 'CustomRTLFont';
+            src: url('<?php echo esc_url( $custom_rtl_font_url ); ?>') format('woff2');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
         }
         <?php endif; ?>
 

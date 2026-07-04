@@ -124,11 +124,12 @@ if ( empty( $products_list ) ) {
         <?php $prod = $products_list[0]; ?>
         <div class="shop-single-big" id="shopSingleBig" style="max-width:980px;margin:0 auto;background:var(--card-bg);border:1px solid var(--border);border-radius:24px;overflow:hidden;display:flex;flex-wrap:wrap;box-shadow:var(--shadow);">
             
-            <!-- Image with ribbon -->
+            <!-- Image with discount badge -->
             <div style="flex:1;min-width:320px;position:relative;height:420px;background:var(--bg-alt);">
                 <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
-                    <div style="position:absolute;top:18px;left:-8px;background:#ef4444;color:white;padding:7px 38px;font-size:0.8rem;font-weight:900;transform:rotate(-42deg);box-shadow:0 3px 12px rgba(0,0,0,0.25);z-index:3;letter-spacing:0.5px;">
-                        -<?php echo esc_html( $prod['discount'] ); ?>%
+                    <div class="bd-discount-badge">
+                        <span class="bd-discount-badge__value">-<?php echo esc_html( $prod['discount'] ); ?>%</span>
+                        <span class="bd-discount-badge__label"><?php esc_html_e( 'OFF', 'baloch-diamond' ); ?></span>
                     </div>
                 <?php endif; ?>
                 
@@ -161,9 +162,14 @@ if ( empty( $products_list ) ) {
                     </a>
 
                     <?php if ( count( $products_list ) > 1 ) : ?>
-                        <div style="display:flex;gap:8px;">
-                            <button onclick="shopSingleBigPrev()" class="btn-outline" style="width:48px;height:48px;padding:0;border-radius:12px;" aria-label="Previous">←</button>
-                            <button onclick="shopSingleBigNext()" class="btn-outline" style="width:48px;height:48px;padding:0;border-radius:12px;" aria-label="Next">→</button>
+                        <!-- Dot indicators -->
+                        <div class="bd-shop-dots" id="shopBigDots" style="display:flex;gap:7px;align-items:center;">
+                            <?php foreach ( $products_list as $di => $dp ) : ?>
+                            <span class="bd-shop-dot<?php echo $di === 0 ? ' active' : ''; ?>"
+                                  data-index="<?php echo esc_attr( $di ); ?>"
+                                  style="display:block;width:<?php echo $di === 0 ? '22px' : '7px'; ?>;height:7px;border-radius:4px;background:<?php echo $di === 0 ? 'var(--color-primary)' : 'var(--border)'; ?>;cursor:pointer;transition:all .3s;">
+                            </span>
+                            <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -172,46 +178,123 @@ if ( empty( $products_list ) ) {
 
         <script>
         (function(){
-            var data = <?php echo wp_json_encode( $products_list ); ?>;
-            var idx = 0;
-            window.shopSingleBigNext = function(){ idx = (idx+1) % data.length; updateBigCard(idx); };
-            window.shopSingleBigPrev = function(){ idx = (idx-1+data.length) % data.length; updateBigCard(idx); };
-            
+            var data    = <?php echo wp_json_encode( $products_list ); ?>;
+            var idx     = 0;
+            var total   = data.length;
+            var container = document.getElementById('shopSingleBig');
+            var dotsWrap  = document.getElementById('shopBigDots');
+
+            /* ---- Dot indicators ---- */
+            function updateDots(i){
+                if(!dotsWrap) return;
+                var dots = dotsWrap.querySelectorAll('.bd-shop-dot');
+                dots.forEach(function(d, di){
+                    if(di === i){
+                        d.style.width   = '22px';
+                        d.style.background = 'var(--color-primary)';
+                    } else {
+                        d.style.width   = '7px';
+                        d.style.background = 'var(--border)';
+                    }
+                });
+                /* click on dot */
+                dots.forEach(function(d){
+                    d.onclick = function(){ goTo(parseInt(this.dataset.index)); };
+                });
+            }
+
+            /* ---- Render card ---- */
             function updateBigCard(i){
-                var p = data[i];
-                var container = document.getElementById('shopSingleBig');
                 if(!container) return;
-                
-                // Update image
+                var p = data[i];
+
                 var imgWrap = container.children[0];
                 imgWrap.innerHTML = '';
-                if(p.image){
-                    var img = document.createElement('img');
-                    img.src = p.image; img.style.cssText='width:100%;height:100%;object-fit:cover;';
-                    imgWrap.appendChild(img);
-                } else {
-                    imgWrap.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.15;"><?php echo bd_icon("tag",80,80); ?></div>';
-                }
-                
-                // Ribbon
+
+                /* Sale badge */
                 if(p.on_sale && p.discount > 0){
                     var rib = document.createElement('div');
-                    rib.style.cssText='position:absolute;top:18px;left:-8px;background:#ef4444;color:white;padding:7px 38px;font-size:.8rem;font-weight:900;transform:rotate(-42deg);box-shadow:0 3px 12px rgba(0,0,0,0.25);z-index:3;letter-spacing:.5px;';
-                    rib.textContent = '-' + p.discount + '%';
+                    rib.className = 'bd-discount-badge';
+                    rib.innerHTML = '<span class="bd-discount-badge__value">-' + p.discount + '%</span>'
+                                  + '<span class="bd-discount-badge__label">OFF</span>';
                     imgWrap.appendChild(rib);
                 }
-                
-                // Info
+
+                if(p.image){
+                    var img = document.createElement('img');
+                    img.src = p.image;
+                    img.alt = p.title;
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;transition:opacity .35s;';
+                    img.style.opacity = '0';
+                    imgWrap.appendChild(img);
+                    setTimeout(function(){ img.style.opacity = '1'; }, 16);
+                } else {
+                    imgWrap.innerHTML += '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.15;"><?php echo bd_icon("tag",80,80); ?></div>';
+                }
+
                 var info = container.children[1];
                 info.querySelector('h3').textContent = p.title;
-                info.querySelector('p').textContent = p.desc;
+                info.querySelector('p').textContent  = p.desc;
                 info.querySelector('div[style*="1.65rem"]').innerHTML = p.price;
-                
+                info.querySelector('a.btn-gradient').href = p.link || '#';
+
                 var stars = info.querySelector('div[style*="fbbf24"]');
                 if(stars){
                     stars.innerHTML = '';
-                    for(var s=1;s<=5;s++) stars.innerHTML += (s <= Math.floor(p.rating)) ? '★' : '☆';
+                    for(var s=1;s<=5;s++) stars.innerHTML += (s<=Math.floor(p.rating))?'★':'☆';
                 }
+
+                updateDots(i);
+            }
+
+            function goTo(i){
+                idx = (i + total) % total;
+                updateBigCard(idx);
+            }
+
+            /* ---- Touch / Mouse swipe on image ---- */
+            function addSwipe(el){
+                var startX = 0, startY = 0, isDragging = false, moved = false;
+
+                /* Pointer events (covers mouse + touch + stylus) */
+                el.addEventListener('pointerdown', function(e){
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    isDragging = true;
+                    moved = false;
+                    el.style.cursor = 'grabbing';
+                    el.setPointerCapture(e.pointerId);
+                }, {passive:true});
+
+                el.addEventListener('pointermove', function(e){
+                    if(!isDragging) return;
+                    if(Math.abs(e.clientX - startX) > 8) moved = true;
+                }, {passive:true});
+
+                el.addEventListener('pointerup', function(e){
+                    if(!isDragging) return;
+                    isDragging = false;
+                    el.style.cursor = 'grab';
+                    if(!moved) return;
+                    var diff = startX - e.clientX;
+                    if(Math.abs(diff) > 40){
+                        goTo(diff > 0 ? idx + 1 : idx - 1);
+                    }
+                }, {passive:true});
+
+                /* Prevent image drag ghost */
+                el.addEventListener('dragstart', function(e){ e.preventDefault(); });
+            }
+
+            /* Init */
+            if(container && total > 1){
+                var imgWrap = container.children[0];
+                imgWrap.style.cursor = 'grab';
+                addSwipe(imgWrap);
+                updateDots(0);
+
+                /* Also swipe on the full card */
+                addSwipe(container);
             }
         })();
         </script>
