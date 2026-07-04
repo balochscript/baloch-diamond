@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <p class="error-desc" style="font-size:1rem">
             <?php
             /* translators: %s: Search query */
-            printf( esc_html__( 'Sorry, no results were found for "%s". Try different keywords.', 'baloch-diamond' ), '<strong>' . get_search_query() . '</strong>' );
+            printf( esc_html__( 'Sorry, no results were found for "%s". Try different keywords.', 'baloch-diamond' ), '<strong>' . esc_html( get_search_query() ) . '</strong>' );
             ?>
         </p>
 
@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="error-buttons" style="margin-top:24px">
         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn-gradient">
-            <?php echo 4392bd_icon( 'home', 18, 18 ); ?>
+            <?php echo bd_icon( 'home', 18, 18 ); ?>
             <?php esc_html_e( 'Back to Home', 'baloch-diamond' ); ?>
         </a>
     </div>

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </a>
         <?php else : ?>
             <a href="<?php the_permalink(); ?>" style="display:flex;height:100%;background:var(--bg-alt);align-items:center;justify-content:center">
-                <div style="opacity:0.15"><?php echo 4392bd_icon( 'file-text', 48, 48 ); ?></div>
+                <div style="opacity:0.15"><?php echo bd_icon( 'file-text', 48, 48 ); ?></div>
             </a>
         <?php endif; ?>
 
@@ -36,11 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) {
         <!-- Meta -->
         <div class="post-meta">
             <span class="post-meta-item">
-                <?php echo 4392bd_icon( 'user', 14, 14 ); ?>
+                <?php echo bd_icon( 'user', 14, 14 ); ?>
                 <?php the_author(); ?>
             </span>
             <span class="post-meta-item">
-                <?php echo 4392bd_icon( 'comment', 14, 14 ); ?>
+                <?php echo bd_icon( 'comment', 14, 14 ); ?>
                 <?php
                 printf(
                     esc_html( _n( '%s Comment', '%s Comments', get_comments_number(), 'baloch-diamond' ) ),
@@ -63,7 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <!-- Read More -->
         <a href="<?php the_permalink(); ?>" class="read-more">
             <?php esc_html_e( 'Read More', 'baloch-diamond' ); ?>
-            <?php echo 4392bd_icon( 'arrow-right', 16, 16 ); ?>
+            <?php echo bd_icon( 'arrow-right', 16, 16 ); ?>
         </a>
 
     </div>

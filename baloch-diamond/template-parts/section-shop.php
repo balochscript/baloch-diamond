@@ -7,10 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$show_shop   = get_theme_mod( '4392bd_shop_show', true );
-$layout      = get_theme_mod( '4392bd_shop_layout', 'grid' );
-$count       = get_theme_mod( '4392bd_shop_count', 4 );
-$filter      = get_theme_mod( '4392bd_shop_filter', 'recent' );
+$show_shop   = get_theme_mod( 'bd_shop_show', true );
+$layout      = get_theme_mod( 'bd_shop_layout', 'grid' );
+$count       = get_theme_mod( 'bd_shop_count', 4 );
+$filter      = get_theme_mod( 'bd_shop_filter', 'recent' );
 
 if ( ! $show_shop ) return;
 
@@ -20,7 +20,7 @@ $use_real_products = false;
 // Collect up to 12 selected products from customizer
 $selected_ids = array();
 for ( $i = 1; $i <= 12; $i++ ) {
-    $pid = (int) get_theme_mod( "4392bd_shop_custom_product_{$i}", 0 );
+    $pid = (int) get_theme_mod( "bd_shop_custom_product_{$i}", 0 );
     if ( $pid > 0 ) $selected_ids[] = $pid;
 }
 
@@ -112,7 +112,7 @@ if ( empty( $products_list ) ) {
 ?>
 
 <section class="section shop-showcase-section" id="shop-showcase">
-    <?php 4392bd_section_header( 'shop', array(
+    <?php bd_section_header( 'shop', array(
         'badge' => esc_html__( 'Premium Marketplace', 'baloch-diamond' ),
         'title' => esc_html__( 'Artisanal Collections', 'baloch-diamond' ),
         'desc'  => esc_html__( 'Discover authentic Balochi crafts and modern designer goods.', 'baloch-diamond' ),
@@ -136,7 +136,7 @@ if ( empty( $products_list ) ) {
                     <img src="<?php echo esc_url( $prod['image'] ); ?>" alt="<?php echo esc_attr( $prod['title'] ); ?>" style="width:100%;height:100%;object-fit:cover;">
                 <?php else : ?>
                     <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.15;">
-                        <?php echo 4392bd_icon( 'tag', 80, 80 ); ?>
+                        <?php echo bd_icon( 'tag', 80, 80 ); ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -144,7 +144,7 @@ if ( empty( $products_list ) ) {
             <!-- Info -->
             <div style="flex:1;min-width:320px;padding:42px 38px;display:flex;flex-direction:column;justify-content:center;">
                 <div style="display:flex;gap:4px;margin-bottom:10px;color:#fbbf24;font-size:1.15rem;">
-                    <?php for ( $s=1; $s<=5; $s++ ) echo $s <= floor($prod['rating']) ? '★' : '☆'; ?>
+                    <?php for ( $s = 1; $s <= 5; $s++ ) { echo esc_html( $s <= floor( $prod['rating'] ) ? '★' : '☆' ); } ?>
                 </div>
 
                 <h3 style="font-size:1.85rem;font-weight:900;margin-bottom:12px;line-height:1.2;color:var(--text);"><?php echo esc_html( $prod['title'] ); ?></h3>
@@ -152,7 +152,7 @@ if ( empty( $products_list ) ) {
                 <p style="color:var(--text-muted);font-size:1rem;line-height:1.7;margin-bottom:22px;"><?php echo esc_html( $prod['desc'] ); ?></p>
 
                 <div style="font-size:1.65rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:28px;">
-                    <?php echo $prod['price']; ?>
+                    <?php echo wp_kses_post( $prod['price'] ); ?>
                 </div>
 
                 <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
@@ -190,7 +190,7 @@ if ( empty( $products_list ) ) {
                     img.src = p.image; img.style.cssText='width:100%;height:100%;object-fit:cover;';
                     imgWrap.appendChild(img);
                 } else {
-                    imgWrap.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.15;"><?php echo 4392bd_icon("tag",80,80); ?></div>';
+                    imgWrap.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.15;"><?php echo bd_icon("tag",80,80); ?></div>';
                 }
                 
                 // Ribbon
@@ -222,7 +222,7 @@ if ( empty( $products_list ) ) {
             <div style="display:flex;gap:22px;min-width:max-content;padding:0 8px;">
                 <?php foreach ( $products_list as $prod ) : ?>
                     <div style="flex:0 0 280px;scroll-snap-align:start;">
-                        <?php 4392bd_render_product_card_html( $prod ); ?>
+                        <?php bd_render_product_card_html( $prod ); ?>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -232,58 +232,14 @@ if ( empty( $products_list ) ) {
         <!-- GRID -->
         <div class="products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:28px;">
             <?php foreach ( $products_list as $prod ) : ?>
-                <div class="shop-product-card"><?php 4392bd_render_product_card_html( $prod ); ?></div>
+                <div class="shop-product-card"><?php bd_render_product_card_html( $prod ); ?></div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 
     <div style="text-align:center;margin-top:44px;">
         <a href="<?php echo esc_url( class_exists('WooCommerce') ? wc_get_page_permalink('shop') : '#_shop' ); ?>" class="btn-gradient">
-            <?php echo 4392bd_icon( 'tag', 16, 16 ); ?> <?php esc_html_e( 'Browse Full Store', 'baloch-diamond' ); ?>
+            <?php echo bd_icon( 'tag', 16, 16 ); ?> <?php esc_html_e( 'Browse Full Store', 'baloch-diamond' ); ?>
         </a>
     </div>
 </section>
-
-<?php
-// Reusable clean product card (used by grid + horizontal)
-if ( ! function_exists( '4392bd_render_product_card_html' ) ) {
-    function 4392bd_render_product_card_html( $prod ) {
-        ?>
-        <div class="project-card product-card" style="height:100%;">
-            <div class="project-card-img-wrapper" style="position:relative;height:240px;overflow:hidden;">
-                <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
-                    <div style="position:absolute;top:14px;left:-6px;background:#ef4444;color:#fff;font-weight:900;font-size:.68rem;padding:5px 28px;transform:rotate(-43deg);box-shadow:0 2px 8px rgba(239,68,68,.3);z-index:2;letter-spacing:.3px;">
-                        -<?php echo esc_html( $prod['discount'] ); ?>%
-                    </div>
-                <?php endif; ?>
-                
-                <?php if ( $prod['image'] ) : ?>
-                    <img class="project-card-image" src="<?php echo esc_url( $prod['image'] ); ?>" alt="<?php echo esc_attr( $prod['title'] ); ?>" style="width:100%;height:100%;object-fit:cover;">
-                <?php else : ?>
-                    <div style="width:100%;height:100%;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;opacity:.12;">
-                        <?php echo 4392bd_icon( 'tag', 62, 62 ); ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-            
-            <div class="project-card-content" style="padding:22px 20px 24px;text-align:center;">
-                <div style="color:#fbbf24;font-size:1rem;margin-bottom:6px;">
-                    <?php for ( $s=1; $s<=5; $s++ ) echo $s <= floor($prod['rating']) ? '★' : '☆'; ?>
-                </div>
-                
-                <h3 class="project-card-title" style="font-size:1.1rem;margin-bottom:8px;">
-                    <a href="<?php echo esc_url( $prod['link'] ); ?>" style="color:inherit;text-decoration:none;"><?php echo esc_html( $prod['title'] ); ?></a>
-                </h3>
-                
-                <div style="font-size:1.18rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;">
-                    <?php echo $prod['price']; ?>
-                </div>
-                
-                <a href="<?php echo esc_url( $prod['link'] ); ?>" class="btn-outline" style="width:100%;justify-content:center;border-radius:10px;">
-                    <?php esc_html_e( 'View Details', 'baloch-diamond' ); ?>
-                </a>
-            </div>
-        </div>
-        <?php
-    }
-}

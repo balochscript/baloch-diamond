@@ -35,7 +35,7 @@ $social_icons = array(
 // Count team members
 $team_count = 0;
 for ( $i = 1; $i <= 10; $i++ ) {
-    $name = get_theme_mod( "4392bd_team_member_{$i}_name", '' );
+    $name = get_theme_mod( "bd_team_member_{$i}_name", '' );
     if ( $name ) {
         $team_count++;
     }
@@ -49,7 +49,7 @@ if ( $team_count === 0 ) {
 <section class="section balochi-pattern" id="team" style="background:var(--bg-alt)">
 
     <?php
-    4392bd_section_header( 'team', array(
+    bd_section_header( 'team', array(
         'badge' => esc_html__( 'The Crew', 'baloch-diamond' ),
         'title' => esc_html__( 'Meet Our Team', 'baloch-diamond' ),
         'desc'  => esc_html__( 'The talented individuals behind our success. Passionate, creative, and dedicated to excellence.', 'baloch-diamond' ),
@@ -61,23 +61,23 @@ if ( $team_count === 0 ) {
 
         <?php for ( $i = 1; $i <= 10; $i++ ) :
 
-            $name     = get_theme_mod( "4392bd_team_member_{$i}_name", '' );
-            $role     = get_theme_mod( "4392bd_team_member_{$i}_role", '' );
-            $bio      = get_theme_mod( "4392bd_team_member_{$i}_bio", '' );
-            $avatar   = get_theme_mod( "4392bd_team_member_{$i}_avatar", '' );
+            $name     = get_theme_mod( "bd_team_member_{$i}_name", '' );
+            $role     = get_theme_mod( "bd_team_member_{$i}_role", '' );
+            $bio      = get_theme_mod( "bd_team_member_{$i}_bio", '' );
+            $avatar   = get_theme_mod( "bd_team_member_{$i}_avatar", '' );
 
             // Header background
-            $header_bg_type  = get_theme_mod( "4392bd_team_member_{$i}_header_type", 'gradient' );
-            $header_bg_color = get_theme_mod( "4392bd_team_member_{$i}_header_color", '' );
-            $header_grad_1   = get_theme_mod( "4392bd_team_member_{$i}_grad_1", '' );
-            $header_grad_2   = get_theme_mod( "4392bd_team_member_{$i}_grad_2", '' );
+            $header_bg_type  = get_theme_mod( "bd_team_member_{$i}_header_type", 'gradient' );
+            $header_bg_color = get_theme_mod( "bd_team_member_{$i}_header_color", '' );
+            $header_grad_1   = get_theme_mod( "bd_team_member_{$i}_grad_1", '' );
+            $header_grad_2   = get_theme_mod( "bd_team_member_{$i}_grad_2", '' );
 
             // Social links
-            $s_twitter   = get_theme_mod( "4392bd_team_member_{$i}_twitter", '' );
-            $s_linkedin  = get_theme_mod( "4392bd_team_member_{$i}_linkedin", '' );
-            $s_github    = get_theme_mod( "4392bd_team_member_{$i}_github", '' );
-            $s_instagram = get_theme_mod( "4392bd_team_member_{$i}_instagram", '' );
-            $s_website   = get_theme_mod( "4392bd_team_member_{$i}_website", '' );
+            $s_twitter   = get_theme_mod( "bd_team_member_{$i}_twitter", '' );
+            $s_linkedin  = get_theme_mod( "bd_team_member_{$i}_linkedin", '' );
+            $s_github    = get_theme_mod( "bd_team_member_{$i}_github", '' );
+            $s_instagram = get_theme_mod( "bd_team_member_{$i}_instagram", '' );
+            $s_website   = get_theme_mod( "bd_team_member_{$i}_website", '' );
 
             if ( ! $name ) {
                 continue;
@@ -107,7 +107,7 @@ if ( $team_count === 0 ) {
                              alt="<?php echo esc_attr( $name ); ?>"
                              loading="lazy">
                     <?php else : ?>
-                        <?php echo 4392bd_icon( 'user', 40, 40 ); ?>
+                        <?php echo bd_icon( 'user', 40, 40 ); ?>
                     <?php endif; ?>
                 </div>
 

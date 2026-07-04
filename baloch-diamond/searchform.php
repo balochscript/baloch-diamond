@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <input type="search"
                class="search-input"
                placeholder="<?php esc_attr_e( 'Search...', 'baloch-diamond' ); ?>"
-               value="<?php echo get_search_query(); ?>"
+               value="<?php echo esc_attr( get_search_query() ); ?>"
                name="s"
                style="padding:14px 20px;font-size:1rem">
     </div>

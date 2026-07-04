@@ -10,25 +10,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Footer customizer settings
-$footer_about     = get_theme_mod( '4392bd_footer_about', esc_html__( 'A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence.', 'baloch-diamond' ) );
-$footer_copyright = get_theme_mod( '4392bd_footer_copyright', '' );
-$footer_show      = get_theme_mod( '4392bd_footer_show', true );
+$footer_about     = get_theme_mod( 'bd_footer_about', esc_html__( 'A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence.', 'baloch-diamond' ) );
+$footer_copyright = get_theme_mod( 'bd_footer_copyright', '' );
+$footer_show      = get_theme_mod( 'bd_footer_show', true );
 
 // Social links
-$social_twitter   = get_theme_mod( '4392bd_social_twitter', '' );
-$social_github    = get_theme_mod( '4392bd_social_github', '' );
-$social_linkedin  = get_theme_mod( '4392bd_social_linkedin', '' );
-$social_instagram = get_theme_mod( '4392bd_social_instagram', '' );
+$social_twitter   = get_theme_mod( 'bd_social_twitter', '' );
+$social_github    = get_theme_mod( 'bd_social_github', '' );
+$social_linkedin  = get_theme_mod( 'bd_social_linkedin', '' );
+$social_instagram = get_theme_mod( 'bd_social_instagram', '' );
 
 // Footer columns
-$footer_col1_title = get_theme_mod( '4392bd_footer_col1_title', esc_html__( 'Quick Links', 'baloch-diamond' ) );
-$footer_col2_title = get_theme_mod( '4392bd_footer_col2_title', esc_html__( 'Resources', 'baloch-diamond' ) );
-$footer_col3_title = get_theme_mod( '4392bd_footer_col3_title', esc_html__( 'Contact', 'baloch-diamond' ) );
+$footer_col1_title = get_theme_mod( 'bd_footer_col1_title', esc_html__( 'Quick Links', 'baloch-diamond' ) );
+$footer_col2_title = get_theme_mod( 'bd_footer_col2_title', esc_html__( 'Resources', 'baloch-diamond' ) );
+$footer_col3_title = get_theme_mod( 'bd_footer_col3_title', esc_html__( 'Contact', 'baloch-diamond' ) );
 
 // Contact info
-$contact_email   = get_theme_mod( '4392bd_contact_email', '' );
-$contact_address = get_theme_mod( '4392bd_contact_address', '' );
-$contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
+$contact_email   = get_theme_mod( 'bd_contact_email', '' );
+$contact_address = get_theme_mod( 'bd_contact_address', '' );
+$contact_phone   = get_theme_mod( 'bd_contact_phone', '' );
 ?>
 
 <?php if ( $footer_show ) : ?>
@@ -45,11 +45,11 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
                     $logo_id  = get_theme_mod( 'custom_logo' );
                     $logo_url = wp_get_attachment_image_url( $logo_id, 'thumbnail' );
                     ?>
-                    <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" style="width:36px;height:36px;object-fit:contain">
+                    <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" style="width:36px;height:36px;object-fit:contain">
                 <?php else : ?>
-                    <?php echo 4392bd_get_footer_logo_svg(); ?>
+                    <?php echo bd_get_footer_logo_svg(); ?>
                 <?php endif; ?>
-                <span class="footer-logo-text"><?php bloginfo( 'name' ); ?></span>
+                <span class="footer-logo-text"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
             </div>
 
             <?php if ( $footer_about ) : ?>
@@ -60,22 +60,22 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
             <div class="footer-social-row">
                 <?php if ( $social_twitter ) : ?>
                     <a href="<?php echo esc_url( $social_twitter ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                        <?php echo 4392bd_icon( 'twitter', 18, 18 ); ?>
+                        <?php echo bd_icon( 'twitter', 18, 18 ); ?>
                     </a>
                 <?php endif; ?>
                 <?php if ( $social_github ) : ?>
                     <a href="<?php echo esc_url( $social_github ); ?>" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                        <?php echo 4392bd_icon( 'github', 18, 18 ); ?>
+                        <?php echo bd_icon( 'github', 18, 18 ); ?>
                     </a>
                 <?php endif; ?>
                 <?php if ( $social_linkedin ) : ?>
                     <a href="<?php echo esc_url( $social_linkedin ); ?>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <?php echo 4392bd_icon( 'linkedin', 18, 18 ); ?>
+                        <?php echo bd_icon( 'linkedin', 18, 18 ); ?>
                     </a>
                 <?php endif; ?>
                 <?php if ( $social_instagram ) : ?>
                     <a href="<?php echo esc_url( $social_instagram ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                        <?php echo 4392bd_icon( 'instagram', 18, 18 ); ?>
+                        <?php echo bd_icon( 'instagram', 18, 18 ); ?>
                     </a>
                 <?php endif; ?>
             </div>
@@ -146,7 +146,7 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
                     <?php if ( $contact_email ) : ?>
                         <li>
                             <a href="mailto:<?php echo esc_attr( $contact_email ); ?>">
-                                <?php echo 4392bd_icon( 'mail', 14, 14 ); ?>
+                                <?php echo bd_icon( 'mail', 14, 14 ); ?>
                                 <?php echo esc_html( $contact_email ); ?>
                             </a>
                         </li>
@@ -154,7 +154,7 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
                     <?php if ( $contact_address ) : ?>
                         <li>
                             <a href="#">
-                                <?php echo 4392bd_icon( 'map-pin', 14, 14 ); ?>
+                                <?php echo bd_icon( 'map-pin', 14, 14 ); ?>
                                 <?php echo esc_html( $contact_address ); ?>
                             </a>
                         </li>
@@ -162,7 +162,7 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
                     <?php if ( $contact_phone ) : ?>
                         <li>
                             <a href="tel:<?php echo esc_attr( $contact_phone ); ?>">
-                                <?php echo 4392bd_icon( 'phone', 14, 14 ); ?>
+                                <?php echo bd_icon( 'phone', 14, 14 ); ?>
                                 <?php echo esc_html( $contact_phone ); ?>
                             </a>
                         </li>
@@ -179,8 +179,8 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
             <p><?php echo wp_kses_post( $footer_copyright ); ?></p>
         <?php else : ?>
             <p>
-                &copy; <?php echo date( 'Y' ); ?>
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>.
+                &copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></a>.
                 <?php
                 /* translators: %s: Theme name */
                 printf( esc_html__( 'Crafted with 💎 by %s. All rights reserved.', 'baloch-diamond' ), 'Baloch Diamond' );
@@ -191,17 +191,19 @@ $contact_phone   = get_theme_mod( '4392bd_contact_phone', '' );
 </footer>
 <?php endif; ?>
 
+<?php if ( get_theme_mod( 'bd_enable_dark_mode_toggle', true ) ) : ?>
 <!-- Dark/Light Mode Toggle -->
 <button class="theme-toggle" id="themeToggle" aria-label="<?php esc_attr_e( 'Toggle theme', 'baloch-diamond' ); ?>">
-    <span id="sunIcon" style="display:none"><?php echo 4392bd_icon( 'sun' ); ?></span>
-    <span id="moonIcon"><?php echo 4392bd_icon( 'moon' ); ?></span>
+    <span id="sunIcon" style="display:none"><?php echo bd_icon( 'sun' ); ?></span>
+    <span id="moonIcon"><?php echo bd_icon( 'moon' ); ?></span>
 </button>
+<?php endif; ?>
 
 <!-- ============================================
      FLOATING COLOR PALETTE SWITCHER (v1.1.1)
      ============================================ -->
 <button class="switcher-toggle-btn" id="switcherToggle" aria-label="<?php esc_attr_e( 'Change color scheme', 'baloch-diamond' ); ?>" title="<?php esc_attr_e( 'Preview colors', 'baloch-diamond' ); ?>">
-    <?php echo 4392bd_icon( 'settings', 20, 20 ); ?>
+    <?php echo bd_icon( 'settings', 20, 20 ); ?>
 </button>
 
 <div class="floating-switcher" id="floatingSwitcher">
