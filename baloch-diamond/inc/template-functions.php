@@ -92,6 +92,61 @@ function bd_pagination() {
 
 
 /**
+ * "Newer Posts" / "Older Posts" pagination for the Blog archive page
+ * (index.php). Reuses the .bd-blog-nav styling from the homepage Blog
+ * section for a consistent look across the site.
+ */
+function bd_blog_archive_pagination() {
+    global $wp_query;
+
+    if ( $wp_query->max_num_pages <= 1 ) {
+        return;
+    }
+
+    $paged = max( 1, (int) get_query_var( 'paged' ) );
+    $max   = (int) $wp_query->max_num_pages;
+
+    $prev_url = ( $paged > 1 ) ? get_pagenum_link( $paged - 1 ) : '';
+    $next_url = ( $paged < $max ) ? get_pagenum_link( $paged + 1 ) : '';
+    ?>
+    <div class="bd-blog-nav" style="margin-top:48px;">
+
+        <?php if ( $prev_url ) : ?>
+        <a href="<?php echo esc_url( $prev_url ); ?>" class="bd-blog-nav__btn bd-blog-nav__btn--prev btn-outline">
+            <?php echo bd_icon( 'arrow-left', 18, 18 ); ?>
+            <span><?php esc_html_e( 'Newer Posts', 'baloch-diamond' ); ?></span>
+        </a>
+        <?php else : ?>
+        <span class="bd-blog-nav__btn bd-blog-nav__btn--prev bd-blog-nav__btn--disabled btn-outline" aria-disabled="true">
+            <?php echo bd_icon( 'arrow-left', 18, 18 ); ?>
+            <span><?php esc_html_e( 'Newer Posts', 'baloch-diamond' ); ?></span>
+        </span>
+        <?php endif; ?>
+
+        <span class="bd-blog-nav__counter">
+            <?php echo esc_html( $paged ); ?>
+            <span class="bd-blog-nav__sep">/</span>
+            <?php echo esc_html( $max ); ?>
+        </span>
+
+        <?php if ( $next_url ) : ?>
+        <a href="<?php echo esc_url( $next_url ); ?>" class="bd-blog-nav__btn bd-blog-nav__btn--next btn-gradient">
+            <span><?php esc_html_e( 'Older Posts', 'baloch-diamond' ); ?></span>
+            <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
+        </a>
+        <?php else : ?>
+        <span class="bd-blog-nav__btn bd-blog-nav__btn--next bd-blog-nav__btn--disabled btn-gradient" aria-disabled="true">
+            <span><?php esc_html_e( 'Older Posts', 'baloch-diamond' ); ?></span>
+            <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
+        </span>
+        <?php endif; ?>
+
+    </div>
+    <?php
+}
+
+
+/**
  * Get customizer setting with default fallback
  */
 function bd_get_mod( $key, $default = '' ) {
@@ -155,6 +210,66 @@ function bd_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
 add_filter( 'nav_menu_link_attributes', 'bd_nav_menu_link_attributes', 10, 4 );
 
 /**
+ * Render the Balochi-embroidered "bookmark" sale ribbon as an inline SVG.
+ *
+ * Rendered as self-contained SVG markup (gradient + decoration defined inside
+ * the SVG itself) so the badge always looks correct even if the external
+ * stylesheet hasn't finished loading or is served from a stale cache.
+ *
+ * @param int    $discount Discount percentage (0 = do not render).
+ * @param string $size     'md' (default, large cards) or 'sm' (compact grid cards).
+ * @return string HTML markup, or an empty string when there is no discount.
+ */
+function bd_render_discount_bookmark( $discount, $size = 'md' ) {
+    static $bd_bookmark_uid = 0;
+
+    $discount = (int) $discount;
+    if ( $discount <= 0 ) {
+        return '';
+    }
+
+    $bd_bookmark_uid++;
+    $gradient_id = 'bdBookmarkGrad' . $bd_bookmark_uid;
+    $size_class  = ( $size === 'sm' ) ? ' bd-bookmark--sm' : '';
+
+    ob_start();
+    ?>
+    <div class="bd-bookmark<?php echo esc_attr( $size_class ); ?>" role="img" aria-label="<?php echo esc_attr( sprintf(
+        /* translators: %d: Discount percentage */
+        __( '%d%% off', 'baloch-diamond' ), $discount
+    ) ); ?>">
+        <svg viewBox="0 0 52 76" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+            <defs>
+                <linearGradient id="<?php echo esc_attr( $gradient_id ); ?>" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#f43f5e"/>
+                    <stop offset="55%" stop-color="#dc2626"/>
+                    <stop offset="100%" stop-color="#9f1239"/>
+                </linearGradient>
+            </defs>
+            <!-- Bookmark body: flat top, sharp pointed "ears" at bottom around a V notch -->
+            <path d="M2,0 H50 V70 L26,52 L2,70 Z" fill="url(#<?php echo esc_attr( $gradient_id ); ?>)"/>
+            <rect x="2" y="0" width="48" height="4" fill="#fbbf24"/>
+            <path d="M2,0 H50 V70 L26,52 L2,70 Z" fill="none" stroke="#fde68a" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.9"/>
+            <!-- Balochi needlework motif: embroidered diamond row -->
+            <g fill="none" stroke="#fde68a" stroke-width="1.1">
+                <path d="M13,10 L16,14 L13,18 L10,14 Z"/>
+                <path d="M26,10 L29,14 L26,18 L23,14 Z"/>
+                <path d="M39,10 L42,14 L39,18 L36,14 Z"/>
+            </g>
+            <g fill="#38bdf8">
+                <circle cx="13" cy="14" r="1.1"/>
+                <circle cx="26" cy="14" r="1.1"/>
+                <circle cx="39" cy="14" r="1.1"/>
+            </g>
+            <text x="26" y="38" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" font-family="Arial, sans-serif">-<?php echo esc_html( $discount ); ?>%</text>
+            <text x="26" y="47" text-anchor="middle" fill="#fde68a" font-size="6" font-weight="700" letter-spacing="1.2" font-family="Arial, sans-serif"><?php esc_html_e( 'OFF', 'baloch-diamond' ); ?></text>
+        </svg>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/**
  * Render a WooCommerce product card.
  *
  * @param array $prod Product data array.
@@ -165,10 +280,7 @@ function bd_render_product_card_html( $prod ) {
     <div class="project-card product-card" style="height:100%;">
         <div class="project-card-img-wrapper" style="position:relative;height:240px;overflow:hidden;">
             <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
-                <div class="bd-discount-badge bd-discount-badge--sm">
-                    <span class="bd-discount-badge__value">-<?php echo esc_html( $prod['discount'] ); ?>%</span>
-                    <span class="bd-discount-badge__label"><?php esc_html_e( 'OFF', 'baloch-diamond' ); ?></span>
-                </div>
+                <?php echo bd_render_discount_bookmark( $prod['discount'], 'sm' ); ?>
             <?php endif; ?>
 
             <?php if ( $prod['image'] ) : ?>

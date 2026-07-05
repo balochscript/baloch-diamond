@@ -1401,3 +1401,933 @@ msgstr ""
 msgid "🚀 Advanced Core Features"
 msgstr ""
 
+
+
+# New strings added in v1.1.0
+msgid " (Page)"
+msgstr ""
+
+msgid "\"Powered by\" / Bottom Bar Text"
+msgstr ""
+
+msgid "\"Read More\" Button Text"
+msgstr ""
+
+msgid "\"View All Posts\" Link Text"
+msgstr ""
+
+msgid "\"View All\" Button Text"
+msgstr ""
+
+msgid "\"View All\" Button URL"
+msgstr ""
+
+msgid "%1$s topics · %2$s replies"
+msgstr ""
+
+msgid "%d%% off"
+msgstr ""
+
+msgid "1 Column (Centered)"
+msgstr ""
+
+msgid "2 Columns"
+msgstr ""
+
+msgid "2 weeks ago"
+msgstr ""
+
+msgid "3 Columns"
+msgstr ""
+
+msgid "3 Columns (Default)"
+msgstr ""
+
+msgid "3 weeks ago"
+msgstr ""
+
+msgid "4 Columns"
+msgstr ""
+
+msgid "4 Columns (Default)"
+msgstr ""
+
+msgid "A curated selection of our finest handcrafted work and creative collaborations."
+msgstr ""
+
+msgid "A semi-transparent tint placed over the footer image to keep text readable."
+msgstr ""
+
+msgid "A semi-transparent tint placed over the header image to keep the logo/menu readable."
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Ask a Question"
+msgstr ""
+
+msgid "Assign a \"Footer\" menu in Appearance > Menus for this to appear."
+msgstr ""
+
+msgid "Best Balochi patterns for summer clothing"
+msgstr ""
+
+msgid "Bordered Card"
+msgstr ""
+
+msgid "Browse Full Store"
+msgstr ""
+
+msgid "Button 1 — Link URL"
+msgstr ""
+
+msgid "Button 1 — Open in New Tab"
+msgstr ""
+
+msgid "Button 1 — Text"
+msgstr ""
+
+msgid "Button 2 — Link URL"
+msgstr ""
+
+msgid "Button 2 — Open in New Tab"
+msgstr ""
+
+msgid "Button 2 — Text"
+msgstr ""
+
+msgid "Button 3 — Link URL"
+msgstr ""
+
+msgid "Button 3 — Open in New Tab"
+msgstr ""
+
+msgid "Button 3 — Text"
+msgstr ""
+
+msgid "Call to Action + Statistics"
+msgstr ""
+
+msgid "Card Style"
+msgstr ""
+
+msgid "Cart"
+msgstr ""
+
+msgid "Categories"
+msgstr ""
+
+msgid "Choose \"Custom Items (Standalone)\" to define your own projects below — fully independent of WordPress posts. Choose \"WordPress Posts\" only if you want to pull published posts automatically."
+msgstr ""
+
+msgid "Choose a preset height for the hero slider (responsive and easy to use)."
+msgstr ""
+
+msgid "Choose the main display. All layouts pull real product data (image, price, discount, rating)."
+msgstr ""
+
+msgid "Circle"
+msgstr ""
+
+msgid "Click to hide"
+msgstr ""
+
+msgid "Click to show"
+msgstr ""
+
+msgid "Color Preset"
+msgstr ""
+
+msgid "Color for hyperlinks inside the footer."
+msgstr ""
+
+msgid "Column 2 Title (Quick Links)"
+msgstr ""
+
+msgid "Column 3 Title (Categories)"
+msgstr ""
+
+msgid "Column 4 Title (Social/Connect)"
+msgstr ""
+
+msgid "Community / Forum"
+msgstr ""
+
+msgid "Community Hub"
+msgstr ""
+
+msgid "Community Members"
+msgstr ""
+
+msgid "Community Moderator"
+msgstr ""
+
+msgid "Compact — 300px"
+msgstr ""
+
+msgid "Connect With Us"
+msgstr ""
+
+msgid "Connect with fellow artisans, ask questions, and share your creations."
+msgstr ""
+
+msgid "Copyright Text"
+msgstr ""
+
+msgid "Crafted with 💎 by Baloch Diamond. All rights reserved."
+msgstr ""
+
+msgid "Custom Image"
+msgstr ""
+
+msgid "Custom Product %d"
+msgstr ""
+
+msgid "Custom Upload (see below)"
+msgstr ""
+
+msgid "Custom background color for the portfolio section. Leave empty to use the theme default."
+msgstr ""
+
+msgid "Custom background color for the team section. Leave empty for theme default."
+msgstr ""
+
+msgid "Custom text shown below the copyright line."
+msgstr ""
+
+msgid "Decorates every gradient line, bar, and button across the site (buttons, dividers, badges, dark-mode toggle, pagination, etc.) with a traditional Baloch needlework stitch pattern."
+msgstr ""
+
+msgid "Default (Sky + Orange)"
+msgstr ""
+
+msgid "Default Button Text"
+msgstr ""
+
+msgid "Default — 55% of screen"
+msgstr ""
+
+msgid "Desert (Orange + Red)"
+msgstr ""
+
+msgid "Discover authentic Balochi crafts and modern designer goods."
+msgstr ""
+
+msgid "Display Mode"
+msgstr ""
+
+msgid "Display filter tabs to let visitors filter projects by category."
+msgstr ""
+
+msgid "Drag to reorder"
+msgstr ""
+
+msgid "Drag to reorder — toggle eye to show/hide"
+msgstr ""
+
+msgid "Email Field Placeholder"
+msgstr ""
+
+msgid "Embroidery Expert"
+msgstr ""
+
+msgid "Embroidery Thread Color 1"
+msgstr ""
+
+msgid "Embroidery Thread Color 2"
+msgstr ""
+
+msgid "Enable Balochi Embroidery Decoration"
+msgstr ""
+
+msgid "Extra Large — 75% of screen"
+msgstr ""
+
+msgid "Featured Discussions"
+msgstr ""
+
+msgid "Featured Discussions + Topics"
+msgstr ""
+
+msgid "Fixed — 400 pixels"
+msgstr ""
+
+msgid "Fixed — 500 pixels"
+msgstr ""
+
+msgid "Fixed — 600 pixels"
+msgstr ""
+
+msgid "Fixed — 700 pixels"
+msgstr ""
+
+msgid "Flat (Minimal)"
+msgstr ""
+
+msgid "Flat (No border/shadow)"
+msgstr ""
+
+msgid "Footer Background Color"
+msgstr ""
+
+msgid "Footer Background Image"
+msgstr ""
+
+msgid "Footer Column Layout"
+msgstr ""
+
+msgid "Footer Image Overlay Color"
+msgstr ""
+
+msgid "Footer Link Color"
+msgstr ""
+
+msgid "Footer Logo"
+msgstr ""
+
+msgid "Footer Text Color"
+msgstr ""
+
+msgid "Forest (Green)"
+msgstr ""
+
+msgid "Forum Categories Grid"
+msgstr ""
+
+msgid "Forums"
+msgstr ""
+
+msgid "Free Guides & Downloads"
+msgstr ""
+
+msgid "Free tutorials, templates, and downloadable resources to help you master traditional and modern techniques."
+msgstr ""
+
+msgid "From the Studio"
+msgstr ""
+
+msgid "Full Screen — 100% of screen"
+msgstr ""
+
+msgid "Get monthly inspiration, new patterns, exclusive discounts, and early access to new collections."
+msgstr ""
+
+msgid "Glass Effect"
+msgstr ""
+
+msgid "Grid (Cards)"
+msgstr ""
+
+msgid "Grid Cards"
+msgstr ""
+
+msgid "Grid Columns"
+msgstr ""
+
+msgid "Grid Layout (Cards)"
+msgstr ""
+
+msgid "Header Background Image"
+msgstr ""
+
+msgid "Header Image Overlay Color"
+msgstr ""
+
+msgid "Hero Slider"
+msgstr ""
+
+msgid "Horizontal Scrollable Slider (RTL / LTR friendly)"
+msgstr ""
+
+msgid "Horizontal Slider"
+msgstr ""
+
+msgid "How to start your first Balochi embroidery project"
+msgstr ""
+
+msgid "Image Aspect Ratio"
+msgstr ""
+
+msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
+msgstr ""
+
+msgid "Item %d — Category / Tag"
+msgstr ""
+
+msgid "Item %d — Image"
+msgstr ""
+
+msgid "Item %d — Link URL"
+msgstr ""
+
+msgid "Item %d — Open Link in New Tab"
+msgstr ""
+
+msgid "Item %d — Short Description"
+msgstr ""
+
+msgid "Item %d — Title"
+msgstr ""
+
+msgid "Join Our Circle"
+msgstr ""
+
+msgid "Join Workshop"
+msgstr ""
+
+msgid "Join the Circle"
+msgstr ""
+
+msgid "Landscape (4:3) — Default"
+msgstr ""
+
+msgid "Large — 65% of screen"
+msgstr ""
+
+msgid "Latest Insights"
+msgstr ""
+
+msgid "Latest Topics (List)"
+msgstr ""
+
+msgid "Layout Style"
+msgstr ""
+
+msgid "Learn & Grow"
+msgstr ""
+
+msgid "Leave # to auto-link to bbPress forum archive."
+msgstr ""
+
+msgid "Leave empty for the theme default dark footer background. Ignored when a Footer Background Image is set below."
+msgstr ""
+
+msgid "Leave empty for the theme default."
+msgstr ""
+
+msgid "Leave empty for theme default."
+msgstr ""
+
+msgid "Leave empty to hide this icon."
+msgstr ""
+
+msgid "Leave empty to make the card non-clickable."
+msgstr ""
+
+msgid "Leave empty to use the default button text above."
+msgstr ""
+
+msgid "Link for the View All button. Leave empty to use the portfolio page URL."
+msgstr ""
+
+msgid "List (Icon + Text)"
+msgstr ""
+
+msgid "List (Photo + Info)"
+msgstr ""
+
+msgid "Live Stats + Quick Actions"
+msgstr ""
+
+msgid "Masonry (Pinterest-style)"
+msgstr ""
+
+msgid "Master Artisan"
+msgstr ""
+
+msgid "Masterpieces & Projects"
+msgstr ""
+
+msgid "Medium — 50% of screen"
+msgstr ""
+
+msgid "Medium-Small — 40% of screen"
+msgstr ""
+
+msgid "Meet All Members →"
+msgstr ""
+
+msgid "Meet Our Masters"
+msgstr ""
+
+msgid "Meet some of the passionate artisans and creators in our growing community."
+msgstr ""
+
+msgid "Member"
+msgstr ""
+
+msgid "Member %d — Instagram URL"
+msgstr ""
+
+msgid "Member %d — LinkedIn URL"
+msgstr ""
+
+msgid "Member %d — Name"
+msgstr ""
+
+msgid "Member %d — Photo"
+msgstr ""
+
+msgid "Member %d — Profile/Portfolio URL"
+msgstr ""
+
+msgid "Member %d — Role / Position"
+msgstr ""
+
+msgid "Member %d — Short Bio"
+msgstr ""
+
+msgid "Member %d — Twitter URL"
+msgstr ""
+
+msgid "Members"
+msgstr ""
+
+msgid "Mini — 30% of screen"
+msgstr ""
+
+msgid "Narrow — 360px"
+msgstr ""
+
+msgid "Newer Posts"
+msgstr ""
+
+msgid "Newsletter"
+msgstr ""
+
+msgid "No items yet. Go to Appearance → Customize → 🖼️ Portfolio Section and add your projects (Title, Image, Link)."
+msgstr ""
+
+msgid "Number of Members to Show"
+msgstr ""
+
+msgid "Number of Projects to Show"
+msgstr ""
+
+msgid "Number of Topics / Items"
+msgstr ""
+
+msgid "Number of recent posts shown in this homepage section. The full, paginated post list lives on the Blog archive page, linked via the \"View All Posts\" button below."
+msgstr ""
+
+msgid "OFF"
+msgstr ""
+
+msgid "Ocean (Blue + Cyan)"
+msgstr ""
+
+msgid "Older Posts"
+msgstr ""
+
+msgid "Optional. Overrides the Footer Background Color above."
+msgstr ""
+
+msgid "Our Community"
+msgstr ""
+
+msgid "Our Work"
+msgstr ""
+
+msgid "Pattern Designer"
+msgstr ""
+
+msgid "Patterns Shared"
+msgstr ""
+
+msgid "Photo Shape"
+msgstr ""
+
+msgid "Portfolio"
+msgstr ""
+
+msgid "Portfolio Content Source"
+msgstr ""
+
+msgid "Portfolio Section"
+msgstr ""
+
+msgid "Portrait (3:4)"
+msgstr ""
+
+msgid "Posts Shown on Homepage Preview"
+msgstr ""
+
+msgid "Powered by WordPress & Baloch Diamond Theme."
+msgstr ""
+
+msgid "Primary Navigation"
+msgstr ""
+
+msgid "Primary stitch/thread color (used for the dashed running-stitch line)."
+msgstr ""
+
+msgid "Product Display Style"
+msgstr ""
+
+msgid "RTL Font (Persian / Arabic / Balochi)"
+msgstr ""
+
+msgid "Resource %d — Button Text (optional override)"
+msgstr ""
+
+msgid "Resource %d — Description"
+msgstr ""
+
+msgid "Resource %d — Icon"
+msgstr ""
+
+msgid "Resource %d — Link URL"
+msgstr ""
+
+msgid "Resource %d — Open in New Tab"
+msgstr ""
+
+msgid "Resource %d — Title"
+msgstr ""
+
+msgid "Rounded Rectangle"
+msgstr ""
+
+msgid "Royal (Purple + Pink)"
+msgstr ""
+
+msgid "Secondary stitch color (used for the small diamond motifs)."
+msgstr ""
+
+msgid "Section Background Color"
+msgstr ""
+
+msgid "Select a product for this card position."
+msgstr ""
+
+msgid "Select any published post or page. Posts with featured images are preferred. ★ means it has an image."
+msgstr ""
+
+msgid "Set the URL this button points to. Leave # to use the forum archive link."
+msgstr ""
+
+msgid "Shadow Card (Elevated)"
+msgstr ""
+
+msgid "Share Your Pattern"
+msgstr ""
+
+msgid "Shop (WooCommerce)"
+msgstr ""
+
+msgid "Short — 25% of screen"
+msgstr ""
+
+msgid "Show \"Powered by WordPress\" Text"
+msgstr ""
+
+msgid "Show \"Read More\" Button"
+msgstr ""
+
+msgid "Show \"View All Posts\" Link"
+msgstr ""
+
+msgid "Show \"View All\" Button"
+msgstr ""
+
+msgid "Show Author Name"
+msgstr ""
+
+msgid "Show Button 1"
+msgstr ""
+
+msgid "Show Button 2"
+msgstr ""
+
+msgid "Show Button 3"
+msgstr ""
+
+msgid "Show Categories Column"
+msgstr ""
+
+msgid "Show Category Badge"
+msgstr ""
+
+msgid "Show Category Filter Tabs"
+msgstr ""
+
+msgid "Show Comment Count"
+msgstr ""
+
+msgid "Show Community Section"
+msgstr ""
+
+msgid "Show Community Statistics"
+msgstr ""
+
+msgid "Show Dark/Light Mode Toggle"
+msgstr ""
+
+msgid "Show Date Badge on Image"
+msgstr ""
+
+msgid "Show Download/Link Button on Cards"
+msgstr ""
+
+msgid "Show Featured Image"
+msgstr ""
+
+msgid "Show Footer Navigation Menu"
+msgstr ""
+
+msgid "Show Hover Overlay on Cards"
+msgstr ""
+
+msgid "Show Members Section"
+msgstr ""
+
+msgid "Show Post Excerpt"
+msgstr ""
+
+msgid "Show Project Category/Tag on Card"
+msgstr ""
+
+msgid "Show Project Excerpt/Description"
+msgstr ""
+
+msgid "Show Project Title on Card"
+msgstr ""
+
+msgid "Show Quick Links (Pages) Column"
+msgstr ""
+
+msgid "Show Role / Position"
+msgstr ""
+
+msgid "Show Separator Line Above Bottom Bar"
+msgstr ""
+
+msgid "Show Short Bio"
+msgstr ""
+
+msgid "Show Social Links Column"
+msgstr ""
+
+msgid "Show Social Links on Cards"
+msgstr ""
+
+msgid "Show title/category overlay on card hover."
+msgstr ""
+
+msgid "Single Large Card + Navigation Buttons"
+msgstr ""
+
+msgid "Slide %d — Choose Post/Page"
+msgstr ""
+
+msgid "Slider Height"
+msgstr ""
+
+msgid "Slim — 20% of screen"
+msgstr ""
+
+msgid "Small Fixed — 240px"
+msgstr ""
+
+msgid "Small — 35% of screen"
+msgstr ""
+
+msgid "Sorry, no results were found for \"%s\". Try different keywords."
+msgstr ""
+
+msgid "Square"
+msgstr ""
+
+msgid "Square (1:1)"
+msgstr ""
+
+msgid "Stories, tutorials, and inspiration from the world of Balochi art and modern design."
+msgstr ""
+
+msgid "Talented craftspeople and designers behind every stitch and creation."
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+msgid "Text shown at the bottom of most modes to link to full forums."
+msgstr ""
+
+msgid "Textile Artist"
+msgstr ""
+
+msgid "The Artisans"
+msgstr ""
+
+msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
+msgstr ""
+
+msgid "Tiny — 120px"
+msgstr ""
+
+msgid "Toggle to show or hide the entire community/forum section."
+msgstr ""
+
+msgid "Toggle to show or hide the entire portfolio section on the front page."
+msgstr ""
+
+msgid "Toggle to show or hide the entire resources section."
+msgstr ""
+
+msgid "Toggle to show or hide the entire team section on the front page."
+msgstr ""
+
+msgid "Toggle to show or hide the newsletter section on the front page."
+msgstr ""
+
+msgid "Tutorials"
+msgstr ""
+
+msgid "Upload Custom Heading Font"
+msgstr ""
+
+msgid "Upload Custom Primary Font"
+msgstr ""
+
+msgid "Upload Custom RTL Font"
+msgstr ""
+
+msgid "Upload a .woff2 file for body text. Select \"Custom Upload\" above to use."
+msgstr ""
+
+msgid "Upload a .woff2 file for headings. Select \"Custom Upload\" above to use."
+msgstr ""
+
+msgid "Upload a custom logo for the footer. Leave empty to use the site name."
+msgstr ""
+
+msgid "Upload your custom font file (recommended: .woff2). Only works if \"Custom Upload\" is selected above."
+msgstr ""
+
+msgid "Use {year} to auto-insert the current year."
+msgstr ""
+
+msgid "Used as the button label unless overridden per item."
+msgstr ""
+
+msgid "Used for buttons, links, and accents."
+msgstr ""
+
+msgid "Used for hover states and highlights."
+msgstr ""
+
+msgid "Used when \"Custom Image\" is selected above."
+msgstr ""
+
+msgid "Used when \"Gradient\" is selected."
+msgstr ""
+
+msgid "Used when \"Solid Color\" is selected."
+msgstr ""
+
+msgid "Very Small — 180px"
+msgstr ""
+
+msgid "View All Posts"
+msgstr ""
+
+msgid "View All Projects"
+msgstr ""
+
+msgid "View Details"
+msgstr ""
+
+msgid "View Product"
+msgstr ""
+
+msgid "Visit Full Community Forums →"
+msgstr ""
+
+msgid "Visit Full Forums — Link Text"
+msgstr ""
+
+msgid "Visit Full Forums — Link URL"
+msgstr ""
+
+msgid "Wide About + 3 Narrow Columns"
+msgstr ""
+
+msgid "Widescreen (16:9)"
+msgstr ""
+
+msgid "WordPress Posts (auto-pull published posts with featured image)"
+msgstr ""
+
+msgid "Workshop Leader"
+msgstr ""
+
+msgid "Workshops"
+msgstr ""
+
+msgid "You are already subscribed!"
+msgstr ""
+
+msgid "Your email address"
+msgstr ""
+
+msgid "replies"
+msgstr ""
+
+msgid "topics"
+msgstr ""
+
+msgid "© {year} Baloch Diamond. Crafted with love and heritage."
+msgstr ""
+
+msgid "— None / Empty —"
+msgstr ""
+
+msgid "— Select a Post or Page —"
+msgstr ""
+
+msgid "⚙️ Advanced Options"
+msgstr ""
+
+msgid "✅ Custom Items — Defined Below (Standalone, Recommended)"
+msgstr ""
+
+msgid "✉️ Newsletter Section"
+msgstr ""
+
+msgid "⠿ Drag rows to reorder sections on the front page."
+msgstr ""
+
+msgid "🎨 Colors & Presets"
+msgstr ""
+
+msgid "🎬 Video"
+msgstr ""
+
+msgid "🎵 Music"
+msgstr ""
+
+msgid "👁 Click the eye icon to show or hide a section."
+msgstr ""
+
+msgid "👥 Community Members"
+msgstr ""
+
+msgid "💬 Community Section"
+msgstr ""
+
+msgid "📋 Sections Order & Visibility"
+msgstr ""
+
+msgid "🖥️ CPU"
+msgstr ""
+
+msgid "🖼️ Portfolio Section"
+msgstr ""
+
+msgid "🗂️ Layout"
+msgstr ""
+

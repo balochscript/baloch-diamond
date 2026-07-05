@@ -10,12 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Header customizer settings
-$header_display   = get_theme_mod( 'bd_header_display', 'icon_title' );
-$header_bg_type   = get_theme_mod( 'bd_header_bg_type', 'default' );
-$header_bg_color  = get_theme_mod( 'bd_header_bg_color', '' );
-$header_grad_1    = get_theme_mod( 'bd_header_gradient_1', '#38bdf8' );
-$header_grad_2    = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
-$header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
+$header_display    = get_theme_mod( 'bd_header_display', 'icon_title' );
+$header_bg_type    = get_theme_mod( 'bd_header_bg_type', 'default' );
+$header_bg_color   = get_theme_mod( 'bd_header_bg_color', '' );
+$header_bg_image   = get_theme_mod( 'bd_header_bg_image', '' );
+$header_bg_overlay = get_theme_mod( 'bd_header_bg_image_overlay', 'rgba(0,0,0,0.35)' );
+$header_grad_1     = get_theme_mod( 'bd_header_gradient_1', '#38bdf8' );
+$header_grad_2     = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
+$header_grad_dir   = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> data-theme="light">
@@ -37,11 +39,13 @@ $header_grad_dir  = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 </div>
 
 <!-- Header -->
-<header class="site-header" id="siteHeader"
+<header class="site-header<?php echo ( $header_bg_type === 'image' && $header_bg_image ) ? ' has-bg-image' : ''; ?>" id="siteHeader"
     <?php if ( $header_bg_type === 'solid' && $header_bg_color ) : ?>
         style="background: <?php echo esc_attr( $header_bg_color ); ?> !important;"
     <?php elseif ( $header_bg_type === 'gradient' ) : ?>
         style="background: linear-gradient(<?php echo esc_attr( $header_grad_dir ); ?>, <?php echo esc_attr( $header_grad_1 ); ?>, <?php echo esc_attr( $header_grad_2 ); ?>) !important;"
+    <?php elseif ( $header_bg_type === 'image' && $header_bg_image ) : ?>
+        style="background-image: linear-gradient(<?php echo esc_attr( $header_bg_overlay ); ?>, <?php echo esc_attr( $header_bg_overlay ); ?>), url('<?php echo esc_url( $header_bg_image ); ?>') !important; background-size: cover; background-position: center;"
     <?php endif; ?>
 >
     <div class="header-inner">

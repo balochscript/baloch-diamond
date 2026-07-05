@@ -20,10 +20,12 @@ $footer_about    = get_theme_mod( 'bd_footer_about', esc_html__( 'A premium Word
 $footer_copyright = get_theme_mod( 'bd_footer_copyright', esc_html__( '© {year} Baloch Diamond. Crafted with love and heritage.', 'baloch-diamond' ) );
 $footer_copyright = str_replace( '{year}', gmdate( 'Y' ), $footer_copyright );
 
-$footer_logo       = get_theme_mod( 'bd_footer_logo', '' );
-$footer_bg_color   = get_theme_mod( 'bd_footer_bg_color', '' );
-$footer_text_color = get_theme_mod( 'bd_footer_text_color', '' );
-$footer_link_color = get_theme_mod( 'bd_footer_link_color', '' );
+$footer_logo         = get_theme_mod( 'bd_footer_logo', '' );
+$footer_bg_color     = get_theme_mod( 'bd_footer_bg_color', '' );
+$footer_bg_image     = get_theme_mod( 'bd_footer_bg_image', '' );
+$footer_bg_overlay   = get_theme_mod( 'bd_footer_bg_image_overlay', 'rgba(0,0,0,0.55)' );
+$footer_text_color   = get_theme_mod( 'bd_footer_text_color', '' );
+$footer_link_color   = get_theme_mod( 'bd_footer_link_color', '' );
 
 $show_pages      = get_theme_mod( 'bd_footer_show_pages', true );
 $show_categories = get_theme_mod( 'bd_footer_show_categories', true );
@@ -62,7 +64,14 @@ $contact_phone   = get_theme_mod( 'bd_contact_phone', '' );
 
 // Build inline styles
 $footer_inline = array();
-if ( $footer_bg_color )   { $footer_inline[] = 'background:' . esc_attr( $footer_bg_color ); }
+$footer_has_bg_image = ! empty( $footer_bg_image );
+if ( $footer_has_bg_image ) {
+    $footer_inline[] = 'background-image: linear-gradient(' . esc_attr( $footer_bg_overlay ) . ',' . esc_attr( $footer_bg_overlay ) . '), url(' . esc_url( $footer_bg_image ) . ')';
+    $footer_inline[] = 'background-size: cover';
+    $footer_inline[] = 'background-position: center';
+} elseif ( $footer_bg_color ) {
+    $footer_inline[] = 'background:' . esc_attr( $footer_bg_color );
+}
 if ( $footer_text_color ) { $footer_inline[] = 'color:' . esc_attr( $footer_text_color ); }
 $footer_inline_attr = ! empty( $footer_inline ) ? ' style="' . implode( ';', $footer_inline ) . '"' : '';
 
@@ -80,7 +89,7 @@ $cats  = get_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'number
 <?php echo $link_color_css; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 <?php if ( $footer_show ) : ?>
-<footer class="site-footer"<?php echo $footer_inline_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<footer class="site-footer<?php echo $footer_has_bg_image ? ' has-bg-image' : ''; ?>"<?php echo $footer_inline_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
     <div class="footer-top-bar"></div>
 

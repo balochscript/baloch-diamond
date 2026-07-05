@@ -2,11 +2,12 @@
 /**
  * Blog Section Template Part (Front Page)
  *
- * Displays paginated WordPress posts.
- * Navigation: Previous / Next page buttons + View All Posts link.
+ * Displays a preview grid of the latest posts, followed by a single
+ * "View All Posts" button that links to the full blog archive
+ * (index.php), where full pagination (Newer/Older Posts) lives.
  *
  * @package Baloch_Diamond
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // ---- Customizer settings ----
 $blog_count       = max( 1, (int) get_theme_mod( 'bd_blog_count',         6 ) );
-$pagination_style = get_theme_mod( 'bd_blog_pagination',     'prevnext' );
 $read_more_text   = get_theme_mod( 'bd_blog_readmore_text',  esc_html__( 'Read More', 'baloch-diamond' ) );
 $show_thumbnail   = get_theme_mod( 'bd_blog_show_thumbnail', true );
 $show_date_badge  = get_theme_mod( 'bd_blog_show_date_badge', true );
@@ -37,39 +37,20 @@ if ( $page_for_posts ) {
     $blog_archive_url = get_post_type_archive_link( 'post' );
 }
 
-// ---- Current page number ----
-$paged = max( 1, (int) get_query_var( 'paged' ) );
-
-// ---- Query ----
+// ---- Query: always a fixed-size preview, no front-page pagination ----
 $args = array(
     'post_type'      => 'post',
     'post_status'    => 'publish',
     'posts_per_page' => $blog_count,
-    'paged'          => $paged,
     'orderby'        => 'date',
     'order'          => 'DESC',
 );
 
-if ( $pagination_style === 'none' ) {
-    $args['posts_per_page'] = -1;
-    $args['paged']          = 1;
-}
-
-$blog_query  = new WP_Query( $args );
-$total_pages = (int) $blog_query->max_num_pages;
+$blog_query = new WP_Query( $args );
 
 if ( ! $blog_query->have_posts() ) {
     return;
 }
-
-// Build page URLs (appends ?paged=N to the blog archive URL)
-$prev_url = ( $paged > 1 )
-    ? add_query_arg( 'paged', $paged - 1, $blog_archive_url )
-    : '';
-
-$next_url = ( $paged < $total_pages )
-    ? add_query_arg( 'paged', $paged + 1, $blog_archive_url )
-    : '';
 ?>
 
 <section class="section" id="updates" style="background:var(--bg-alt)">
@@ -171,59 +152,12 @@ $next_url = ( $paged < $total_pages )
 
     </div><!-- .posts-grid -->
 
-    <?php
-    // ---- Navigation: Prev / Next + View All ----
-    $has_prev = ! empty( $prev_url );
-    $has_next = ! empty( $next_url );
-    $show_nav = $pagination_style !== 'none' && $total_pages > 1;
-    ?>
-
-    <?php if ( $show_nav || $show_viewall ) : ?>
+    <?php if ( $show_viewall ) : ?>
     <div class="bd-blog-footer">
-
-        <?php if ( $show_nav ) : ?>
-        <div class="bd-blog-nav">
-
-            <?php if ( $has_prev ) : ?>
-            <a href="<?php echo esc_url( $prev_url ); ?>" class="bd-blog-nav__btn bd-blog-nav__btn--prev btn-outline">
-                <?php echo bd_icon( 'arrow-left', 18, 18 ); ?>
-                <span><?php esc_html_e( 'Newer Posts', 'baloch-diamond' ); ?></span>
-            </a>
-            <?php else : ?>
-            <span class="bd-blog-nav__btn bd-blog-nav__btn--prev bd-blog-nav__btn--disabled btn-outline" aria-disabled="true">
-                <?php echo bd_icon( 'arrow-left', 18, 18 ); ?>
-                <span><?php esc_html_e( 'Newer Posts', 'baloch-diamond' ); ?></span>
-            </span>
-            <?php endif; ?>
-
-            <span class="bd-blog-nav__counter">
-                <?php echo esc_html( $paged ); ?>
-                <span class="bd-blog-nav__sep">/</span>
-                <?php echo esc_html( $total_pages ); ?>
-            </span>
-
-            <?php if ( $has_next ) : ?>
-            <a href="<?php echo esc_url( $next_url ); ?>" class="bd-blog-nav__btn bd-blog-nav__btn--next btn-gradient">
-                <span><?php esc_html_e( 'Older Posts', 'baloch-diamond' ); ?></span>
-                <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
-            </a>
-            <?php else : ?>
-            <span class="bd-blog-nav__btn bd-blog-nav__btn--next bd-blog-nav__btn--disabled btn-gradient" aria-disabled="true">
-                <span><?php esc_html_e( 'Older Posts', 'baloch-diamond' ); ?></span>
-                <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
-            </span>
-            <?php endif; ?>
-
-        </div>
-        <?php endif; ?>
-
-        <?php if ( $show_viewall ) : ?>
-        <a href="<?php echo esc_url( $blog_archive_url ); ?>" class="bd-blog-viewall">
+        <a href="<?php echo esc_url( $blog_archive_url ); ?>" class="bd-blog-viewall-btn btn-gradient">
             <?php echo esc_html( $viewall_text ); ?>
-            <?php echo bd_icon( 'arrow-right', 14, 14 ); ?>
+            <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
         </a>
-        <?php endif; ?>
-
     </div><!-- .bd-blog-footer -->
     <?php endif; ?>
 

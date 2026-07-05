@@ -4,7 +4,7 @@ Theme URI: https://balochscript.com/baloch-diamond
 Author: Baloch Script Team
 Author URI: https://balochscript.com
 Description: A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence. Features include customizable colors, hero slider, portfolio showcase, team section, and full dark/light mode support.
-Version: 1.1.2
+Version: 1.1.4
 Tested up to: 6.7
 Requires at least: 6.0
 Requires PHP: 7.4
@@ -33,6 +33,9 @@ Tags: blog, portfolio, custom-colors, custom-logo, custom-menu, featured-images,
     --font-body:    'Poppins', sans-serif;
     --font-heading: 'Playfair Display', serif;
     --font-rtl:     'Vazirmatn', sans-serif;
+    /* Balochi embroidery decoration thread colors — overridden by dynamic CSS from Customizer */
+    --bd-embroidery-thread-1: #fde68a;
+    --bd-embroidery-thread-2: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -128,6 +131,25 @@ body.rtl .project-card-title, body.rtl .product-title {
 
 .site-header.scrolled {
     box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+/* Header with a custom background image — force light UI so the logo,
+   menu, and icons stay readable over a photo instead of the flat --bg color */
+.site-header.has-bg-image {
+    backdrop-filter: none;
+    border-bottom-color: transparent;
+}
+
+.site-header.has-bg-image .site-name,
+.site-header.has-bg-image .site-description-text,
+.site-header.has-bg-image .desktop-menu > li > a {
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.site-header.has-bg-image .header-icon {
+    color: #ffffff;
 }
 
 .header-inner {
@@ -1039,6 +1061,32 @@ body.rtl .project-card-title, body.rtl .product-title {
 .footer-top-bar {
     height: 4px;
     background: var(--gradient);
+}
+
+/* Footer with a custom background image — force light UI so text/links
+   stay readable over a photo instead of the flat --bg-alt color */
+.site-footer.has-bg-image {
+    background-color: transparent;
+    border-top-color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+
+.site-footer.has-bg-image .footer-about p,
+.site-footer.has-bg-image .footer-links a,
+.site-footer.has-bg-image .footer-bottom {
+    color: rgba(255,255,255,0.85);
+}
+
+.site-footer.has-bg-image .footer-col h4,
+.site-footer.has-bg-image .footer-bottom a {
+    color: #ffffff;
+}
+
+.site-footer.has-bg-image .footer-social-row a {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.25);
+    color: #ffffff;
 }
 
 .footer-inner {
@@ -2069,73 +2117,54 @@ body.rtl .shop-horizontal-scroll {
 }
 
 /* ============================================
-   DISCOUNT BADGE — Clean Brand-Style Tag
-   ============================================ */
+   DISCOUNT BOOKMARK — Balochi-Embroidered Sale Tag
+   ============================================
+   Rendered as a self-contained inline SVG (see bd_render_discount_bookmark()
+   in inc/template-functions.php and bdBuildBookmarkHTML()/buildBookmarkHTML()
+   in the JS files). All colors, gradients, text and stitching are drawn
+   directly inside the SVG markup itself, so the badge always displays
+   correctly even if this stylesheet is stripped, minified incorrectly, or
+   fails to load — only positioning/sizing lives here. The entrance
+   animation only ever transforms position/scale and never touches opacity,
+   so the badge can never get stuck invisible.
+*/
 
 /* Container must have position:relative */
-.bd-discount-badge {
+.bd-bookmark {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    z-index: 4;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 52px;
-    min-height: 52px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45),
-                0 1px 4px rgba(0,0,0,0.12);
-    text-align: center;
-    line-height: 1;
-    padding: 6px;
+    top: 0;
+    right: 18px;
+    width: 54px;
+    height: 78px;
+    z-index: 6;
     pointer-events: none;
-    animation: bd-badge-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+    animation: bd-bookmark-drop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    transform-origin: top center;
 }
 
-@keyframes bd-badge-pop {
-    0%   { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1);   opacity: 1; }
+@keyframes bd-bookmark-drop {
+    0%   { transform: translateY(-10px) scale(0.9); }
+    100% { transform: translateY(0)     scale(1); }
 }
 
-.bd-discount-badge__value {
-    font-size: 1rem;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    line-height: 1;
-    font-family: var(--font-body);
-}
-
-.bd-discount-badge__label {
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    opacity: 0.88;
-    margin-top: 2px;
+.bd-bookmark svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
 }
 
 /* Compact variant — for smaller cards */
-.bd-discount-badge--sm {
-    min-width: 42px;
-    min-height: 42px;
+.bd-bookmark--sm {
+    width: 44px;
+    height: 64px;
+    right: 14px;
 }
 
-.bd-discount-badge--sm .bd-discount-badge__value {
-    font-size: 0.8rem;
-}
-
-.bd-discount-badge--sm .bd-discount-badge__label {
-    font-size: 0.44rem;
-}
-
-/* Dark mode tweak */
-[data-theme="dark"] .bd-discount-badge {
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.55),
-                0 1px 4px rgba(0,0,0,0.3);
+/* Dark mode tweak — slightly stronger shadow so it still pops off dark cards */
+[data-theme="dark"] .bd-bookmark {
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.55));
 }
 
 
@@ -2156,6 +2185,7 @@ body.rtl .shop-horizontal-scroll {
 .bd-blog-nav {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
 }
 
@@ -2205,27 +2235,21 @@ body.rtl .shop-horizontal-scroll {
     font-weight: 400;
 }
 
-/* View All link */
-.bd-blog-viewall {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.25s, gap 0.25s;
+/* "View All Posts" button — homepage Blog section footer */
+.bd-blog-viewall-btn {
+    padding: 14px 32px;
+    font-size: 0.98rem;
+    border-radius: 14px;
 }
 
-.bd-blog-viewall:hover {
-    color: var(--color-primary);
-    gap: 10px;
+.bd-blog-viewall-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.25s;
 }
 
-.bd-blog-viewall svg {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
+.bd-blog-viewall-btn:hover svg {
+    transform: translateX(4px);
 }
 
 /* Mobile */
@@ -2248,4 +2272,102 @@ body.rtl .shop-horizontal-scroll {
         min-width: 40px;
         font-size: 0.9rem;
     }
+}
+
+/* ============================================
+   BALOCHI EMBROIDERY DECORATION
+   ============================================
+   Toggle: Customize → 🎨 Colors & Presets → "Enable Balochi Embroidery
+   Decoration". When active, every gradient line/bar and every gradient
+   button/badge across the site gets a traditional Baloch needlework
+   stitch treatment using two customizable thread colors
+   (--bd-embroidery-thread-1 / --bd-embroidery-thread-2).
+   Fully inert (zero effect) when the body class below is absent.
+*/
+
+/* ---- Type A: running-stitch dashes across thin gradient bars/lines ---- */
+body.bd-embroidery-enabled .footer-top-bar,
+body.bd-embroidery-enabled .project-card-img-wrapper::after,
+body.bd-embroidery-enabled .doc-card::before,
+body.bd-embroidery-enabled .footer-col h4::after {
+    background-image: repeating-linear-gradient(
+        90deg,
+        var(--bd-embroidery-thread-1) 0,
+        var(--bd-embroidery-thread-1) 5px,
+        transparent 5px,
+        transparent 10px
+    ), var(--gradient);
+    background-color: transparent;
+}
+
+/* ---- Type B: dashed stitched-border "frame" on gradient buttons/badges/shapes ---- */
+body.bd-embroidery-enabled .btn-gradient,
+body.bd-embroidery-enabled .slide-category,
+body.bd-embroidery-enabled .pagination .current,
+body.bd-embroidery-enabled .notification-icon,
+body.bd-embroidery-enabled .team-social,
+body.bd-embroidery-enabled .footer-social-row a,
+body.bd-embroidery-enabled .promo-icon-wrapper {
+    position: relative;
+}
+
+body.bd-embroidery-enabled .btn-gradient::after,
+body.bd-embroidery-enabled .slide-category::after,
+body.bd-embroidery-enabled .post-date-badge::after,
+body.bd-embroidery-enabled .pagination .current::after,
+body.bd-embroidery-enabled .theme-toggle::after,
+body.bd-embroidery-enabled .notification-icon::after,
+body.bd-embroidery-enabled .team-social:hover::after,
+body.bd-embroidery-enabled .footer-social-row a:hover::after,
+body.bd-embroidery-enabled .promo-card:hover .promo-icon-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1.5px dashed var(--bd-embroidery-thread-1);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Small gold "bead" accents at the corners of the primary CTA button */
+body.bd-embroidery-enabled .btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 6px;
+    width: 3px; height: 3px;
+    background: var(--bd-embroidery-thread-2);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: calc(100% - 6px) 0 0 var(--bd-embroidery-thread-2);
+    pointer-events: none;
+}
+
+/* ---- Framed stitched border around the full-bleed newsletter/CTA banner ---- */
+body.bd-embroidery-enabled .newsletter-section {
+    position: relative;
+}
+
+body.bd-embroidery-enabled .newsletter-section::after {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border: 1.5px dashed var(--bd-embroidery-thread-1);
+    border-radius: 24px;
+    pointer-events: none;
+}
+
+/* ---- Small decorative diamond bead (404 page) ---- */
+body.bd-embroidery-enabled .error-diamond {
+    border: 1.5px dashed var(--bd-embroidery-thread-1);
+}
+
+/* Dark mode: keep the stitching crisp against darker card/badge surfaces
+   (data-theme lives on <html>, the embroidery toggle class lives on <body>,
+   so this must be a descendant selector, not a compound one) */
+[data-theme="dark"] body.bd-embroidery-enabled .btn-gradient::after,
+[data-theme="dark"] body.bd-embroidery-enabled .slide-category::after,
+[data-theme="dark"] body.bd-embroidery-enabled .post-date-badge::after,
+[data-theme="dark"] body.bd-embroidery-enabled .pagination .current::after,
+[data-theme="dark"] body.bd-embroidery-enabled .theme-toggle::after,
+[data-theme="dark"] body.bd-embroidery-enabled .notification-icon::after {
+    border-color: var(--bd-embroidery-thread-1);
 }

@@ -99,6 +99,46 @@ function bd_customize_register( $wp_customize ) {
 		)
 	) );
 
+	// --- BALOCHI EMBROIDERY DECORATION ---
+	$wp_customize->add_setting( 'bd_embroidery_enable', array(
+		'default'           => false,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_embroidery_enable', array(
+		'label'       => esc_html__( 'Enable Balochi Embroidery Decoration', 'baloch-diamond' ),
+		'description' => esc_html__( 'Decorates every gradient line, bar, and button across the site (buttons, dividers, badges, dark-mode toggle, pagination, etc.) with a traditional Baloch needlework stitch pattern.', 'baloch-diamond' ),
+		'section'     => 'bd_colors_section',
+		'type'        => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'bd_embroidery_thread_1', array(
+		'default'           => '#fde68a',
+		'sanitize_callback' => 'sanitize_hex_color',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_embroidery_thread_1',
+		array(
+			'label'       => esc_html__( 'Embroidery Thread Color 1', 'baloch-diamond' ),
+			'description' => esc_html__( 'Primary stitch/thread color (used for the dashed running-stitch line).', 'baloch-diamond' ),
+			'section'     => 'bd_colors_section',
+		)
+	) );
+
+	$wp_customize->add_setting( 'bd_embroidery_thread_2', array(
+		'default'           => '#ffffff',
+		'sanitize_callback' => 'sanitize_hex_color',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_embroidery_thread_2',
+		array(
+			'label'       => esc_html__( 'Embroidery Thread Color 2', 'baloch-diamond' ),
+			'description' => esc_html__( 'Secondary stitch color (used for the small diamond motifs).', 'baloch-diamond' ),
+			'section'     => 'bd_colors_section',
+		)
+	) );
+
 	// ================================================
 	// SECTION 1.5: TYPOGRAPHY
 	// ================================================
@@ -295,7 +335,38 @@ function bd_customize_register( $wp_customize ) {
 			'default'  => esc_html__( 'Default (Theme Background)', 'baloch-diamond' ),
 			'solid'    => esc_html__( 'Solid Color', 'baloch-diamond' ),
 			'gradient' => esc_html__( 'Gradient', 'baloch-diamond' ),
+			'image'    => esc_html__( 'Custom Image', 'baloch-diamond' ),
 		),
+	) );
+
+	// Header Background Image (for 'image' type)
+	$wp_customize->add_setting( 'bd_header_bg_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control(
+		$wp_customize,
+		'bd_header_bg_image',
+		array(
+			'label'       => esc_html__( 'Header Background Image', 'baloch-diamond' ),
+			'description' => esc_html__( 'Used when "Custom Image" is selected above.', 'baloch-diamond' ),
+			'section'     => 'bd_header_section',
+		)
+	) );
+
+	// Header Background Image Overlay (darkens/tints the image so text stays readable)
+	$wp_customize->add_setting( 'bd_header_bg_image_overlay', array(
+		'default'           => 'rgba(0,0,0,0.35)',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_header_bg_image_overlay',
+		array(
+			'label'       => esc_html__( 'Header Image Overlay Color', 'baloch-diamond' ),
+			'description' => esc_html__( 'A semi-transparent tint placed over the header image to keep the logo/menu readable.', 'baloch-diamond' ),
+			'section'     => 'bd_header_section',
+		)
 	) );
 
 	// Header BG Color (for solid)
@@ -596,32 +667,17 @@ function bd_customize_register( $wp_customize ) {
 		'desc'  => esc_html__( 'Stories, tutorials, and inspiration from the world of Balochi art and modern design.', 'baloch-diamond' ),
 	) );
 
-	// Number of posts per page
+	// Number of posts to preview on the front page
 	$wp_customize->add_setting( 'bd_blog_count', array(
 		'default'           => 6,
 		'sanitize_callback' => 'absint',
 	) );
 	$wp_customize->add_control( 'bd_blog_count', array(
-		'label'       => esc_html__( 'Posts Per Page', 'baloch-diamond' ),
-		'description' => esc_html__( 'Number of posts shown per page. Pagination appears automatically when there are more posts.', 'baloch-diamond' ),
+		'label'       => esc_html__( 'Posts Shown on Homepage Preview', 'baloch-diamond' ),
+		'description' => esc_html__( 'Number of recent posts shown in this homepage section. The full, paginated post list lives on the Blog archive page, linked via the "View All Posts" button below.', 'baloch-diamond' ),
 		'section'     => 'bd_blog_section',
 		'type'        => 'number',
 		'input_attrs' => array( 'min' => 1, 'max' => 24 ),
-	) );
-
-	// Pagination style
-	$wp_customize->add_setting( 'bd_blog_pagination', array(
-		'default'           => 'prevnext',
-		'sanitize_callback' => 'bd_sanitize_select',
-	) );
-	$wp_customize->add_control( 'bd_blog_pagination', array(
-		'label'   => esc_html__( 'Pagination Style', 'baloch-diamond' ),
-		'section' => 'bd_blog_section',
-		'type'    => 'select',
-		'choices' => array(
-			'prevnext' => esc_html__( 'Previous / Next Buttons (recommended)', 'baloch-diamond' ),
-			'none'     => esc_html__( 'No Pagination — Show All Posts', 'baloch-diamond' ),
-		),
 	) );
 
 	// Read More button text
@@ -1792,7 +1848,36 @@ function bd_customize_register( $wp_customize ) {
 		'bd_footer_bg_color',
 		array(
 			'label'       => esc_html__( 'Footer Background Color', 'baloch-diamond' ),
-			'description' => esc_html__( 'Leave empty for the theme default dark footer background.', 'baloch-diamond' ),
+			'description' => esc_html__( 'Leave empty for the theme default dark footer background. Ignored when a Footer Background Image is set below.', 'baloch-diamond' ),
+			'section'     => 'bd_footer_section',
+		)
+	) );
+
+	// --- BACKGROUND IMAGE ---
+	$wp_customize->add_setting( 'bd_footer_bg_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control(
+		$wp_customize,
+		'bd_footer_bg_image',
+		array(
+			'label'       => esc_html__( 'Footer Background Image', 'baloch-diamond' ),
+			'description' => esc_html__( 'Optional. Overrides the Footer Background Color above.', 'baloch-diamond' ),
+			'section'     => 'bd_footer_section',
+		)
+	) );
+
+	$wp_customize->add_setting( 'bd_footer_bg_image_overlay', array(
+		'default'           => 'rgba(0,0,0,0.55)',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_footer_bg_image_overlay',
+		array(
+			'label'       => esc_html__( 'Footer Image Overlay Color', 'baloch-diamond' ),
+			'description' => esc_html__( 'A semi-transparent tint placed over the footer image to keep text readable.', 'baloch-diamond' ),
 			'section'     => 'bd_footer_section',
 		)
 	) );

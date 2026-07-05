@@ -2,19 +2,26 @@
 /**
  * The main template file (fallback)
  *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
+ * Also serves as the dedicated Blog Archive page (when `is_home()` is true):
+ * Header → Hero Slider → Post List (with Newer/Older Posts pagination) → Footer.
+ * No other homepage sections (shop, forum, portfolio, etc.) are rendered here.
  *
  * @package Baloch_Diamond
  */
 
 get_header();
+
+$bd_is_blog_archive = is_home();
 ?>
 
 <main class="site-main" id="mainContent">
 
+    <?php if ( $bd_is_blog_archive ) : ?>
+        <?php get_template_part( 'template-parts/hero-slider' ); ?>
+    <?php endif; ?>
+
     <!-- Page Header -->
-    <div class="section" style="margin-top:70px;padding-bottom:30px">
+    <div class="section" style="<?php echo $bd_is_blog_archive ? '' : 'margin-top:70px;'; ?>padding-bottom:30px">
         <div class="section-header">
 
             <?php if ( is_home() && ! is_front_page() ) : ?>
@@ -34,10 +41,6 @@ get_header();
                 <h1 class="section-title">
                     <?php esc_html_e( 'Latest Updates', 'baloch-diamond' ); ?>
                 </h1>
-                    <div class="line"></div>
-                    <div class="diamond"></div>
-                    <div class="line"></div>
-                </div>
                 <p class="section-desc">
                     <?php esc_html_e( 'Stay updated with our latest articles, tutorials, and industry insights.', 'baloch-diamond' ); ?>
                 </p>
@@ -50,6 +53,7 @@ get_header();
 
         </div>
     </div>
+
 
     <!-- Posts Grid -->
     <div class="section" style="padding-top:0">
@@ -127,7 +131,11 @@ get_header();
             </div>
 
             <!-- Pagination -->
-            <?php bd_pagination(); ?>
+            <?php if ( $bd_is_blog_archive ) : ?>
+                <?php bd_blog_archive_pagination(); ?>
+            <?php else : ?>
+                <?php bd_pagination(); ?>
+            <?php endif; ?>
 
         <?php else : ?>
 

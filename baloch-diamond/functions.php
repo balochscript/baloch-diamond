@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme version constant
-define( 'BD_VERSION', '1.1.2' );
+define( 'BD_VERSION', '1.1.4' );
 define( 'BD_DIR', get_template_directory() );
 define( 'BD_URI', get_template_directory_uri() );
 
@@ -369,6 +369,10 @@ function bd_dynamic_css() {
     // Slider options
     $slider_height       = get_theme_mod( 'bd_slider_height',       '55vh' );
     $slider_shadow_color = get_theme_mod( 'bd_slider_shadow_color', 'rgba(0,0,0,0.5)' );
+
+    // Balochi embroidery decoration thread colors
+    $embroidery_thread_1 = get_theme_mod( 'bd_embroidery_thread_1', '#fde68a' );
+    $embroidery_thread_2 = get_theme_mod( 'bd_embroidery_thread_2', '#ffffff' );
     ?>
     <style id="bd-dynamic-css">
         :root {
@@ -377,6 +381,8 @@ function bd_dynamic_css() {
             --gradient:        linear-gradient(135deg, <?php echo esc_attr( $primary ); ?>, <?php echo esc_attr( $secondary ); ?>);
             --gradient-reverse:linear-gradient(135deg, <?php echo esc_attr( $secondary ); ?>, <?php echo esc_attr( $primary ); ?>);
             --bd-slider-height:<?php echo esc_attr( $slider_height ); ?>;
+            --bd-embroidery-thread-1: <?php echo esc_attr( $embroidery_thread_1 ); ?>;
+            --bd-embroidery-thread-2: <?php echo esc_attr( $embroidery_thread_2 ); ?>;
 
             /* Font variables — resolved CSS names from Customizer selection */
             --font-body:    '<?php echo esc_attr( $font_body ); ?>', sans-serif;
@@ -689,6 +695,11 @@ function bd_body_classes( $classes ) {
     // Skeleton shimmer support
     if ( get_theme_mod( 'bd_skeleton_loading', true ) ) {
         $classes[] = 'skeleton-enabled';
+    }
+
+    // Balochi embroidery decoration on gradient lines & buttons
+    if ( get_theme_mod( 'bd_embroidery_enable', false ) ) {
+        $classes[] = 'bd-embroidery-enabled';
     }
 
     return $classes;

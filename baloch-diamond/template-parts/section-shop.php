@@ -81,9 +81,19 @@ if ( class_exists( 'WooCommerce' ) ) {
     if ( ! empty( $products ) ) {
         $use_real_products = true;
         foreach ( $products as $product ) {
-            $reg  = (float) $product->get_regular_price();
-            $sale = (float) $product->get_sale_price();
-            $discount = ( $product->is_on_sale() && $reg > 0 ) ? round( ( ($reg - $sale) / $reg ) * 100 ) : 0;
+            // Prefer the variation price range for variable products —
+            // get_regular_price()/get_sale_price() return an empty string
+            // on the parent WC_Product_Variable, which previously made the
+            // discount always calculate to 0 (and the sale badge never show)
+            // for any store using product variations.
+            if ( $product->is_type( 'variable' ) ) {
+                $reg  = (float) $product->get_variation_regular_price( 'min' );
+                $sale = (float) $product->get_variation_sale_price( 'min' );
+            } else {
+                $reg  = (float) $product->get_regular_price();
+                $sale = (float) $product->get_sale_price();
+            }
+            $discount = ( $product->is_on_sale() && $reg > 0 && $sale > 0 && $sale < $reg ) ? round( ( ( $reg - $sale ) / $reg ) * 100 ) : 0;
 
             $products_list[] = array(
                 'id'        => $product->get_id(),
@@ -127,10 +137,7 @@ if ( empty( $products_list ) ) {
             <!-- Image with discount badge -->
             <div style="flex:1;min-width:320px;position:relative;height:420px;background:var(--bg-alt);">
                 <?php if ( $prod['on_sale'] && $prod['discount'] > 0 ) : ?>
-                    <div class="bd-discount-badge">
-                        <span class="bd-discount-badge__value">-<?php echo esc_html( $prod['discount'] ); ?>%</span>
-                        <span class="bd-discount-badge__label"><?php esc_html_e( 'OFF', 'baloch-diamond' ); ?></span>
-                    </div>
+                    <?php echo bd_render_discount_bookmark( $prod['discount'], 'md' ); ?>
                 <?php endif; ?>
                 
                 <?php if ( $prod['image'] ) : ?>
@@ -183,6 +190,38 @@ if ( empty( $products_list ) ) {
             var total   = data.length;
             var container = document.getElementById('shopSingleBig');
             var dotsWrap  = document.getElementById('shopBigDots');
+            var bookmarkUid = 0;
+
+            /* ---- Build the Balochi-embroidered bookmark ribbon markup ---- */
+            function buildBookmarkHTML( discount, size ){
+                bookmarkUid++;
+                var gradId = 'bdBookmarkGradJS' + bookmarkUid;
+                var sizeClass = ( size === 'sm' ) ? ' bd-bookmark--sm' : '';
+                return '<div class="bd-bookmark' + sizeClass + '" role="img" aria-label="' + discount + '% off">' +
+                    '<svg viewBox="0 0 52 76" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">' +
+                        '<defs><linearGradient id="' + gradId + '" x1="0" y1="0" x2="0" y2="1">' +
+                            '<stop offset="0%" stop-color="#f43f5e"/>' +
+                            '<stop offset="55%" stop-color="#dc2626"/>' +
+                            '<stop offset="100%" stop-color="#9f1239"/>' +
+                        '</linearGradient></defs>' +
+                        '<path d="M2,0 H50 V70 L26,52 L2,70 Z" fill="url(#' + gradId + ')"/>' +
+                        '<rect x="2" y="0" width="48" height="4" fill="#fbbf24"/>' +
+                        '<path d="M2,0 H50 V70 L26,52 L2,70 Z" fill="none" stroke="#fde68a" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.9"/>' +
+                        '<g fill="none" stroke="#fde68a" stroke-width="1.1">' +
+                            '<path d="M13,10 L16,14 L13,18 L10,14 Z"/>' +
+                            '<path d="M26,10 L29,14 L26,18 L23,14 Z"/>' +
+                            '<path d="M39,10 L42,14 L39,18 L36,14 Z"/>' +
+                        '</g>' +
+                        '<g fill="#38bdf8">' +
+                            '<circle cx="13" cy="14" r="1.1"/>' +
+                            '<circle cx="26" cy="14" r="1.1"/>' +
+                            '<circle cx="39" cy="14" r="1.1"/>' +
+                        '</g>' +
+                        '<text x="26" y="38" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" font-family="Arial, sans-serif">-' + discount + '%</text>' +
+                        '<text x="26" y="47" text-anchor="middle" fill="#fde68a" font-size="6" font-weight="700" letter-spacing="1.2" font-family="Arial, sans-serif">OFF</text>' +
+                    '</svg>' +
+                '</div>';
+            }
 
             /* ---- Dot indicators ---- */
             function updateDots(i){
@@ -213,11 +252,7 @@ if ( empty( $products_list ) ) {
 
                 /* Sale badge */
                 if(p.on_sale && p.discount > 0){
-                    var rib = document.createElement('div');
-                    rib.className = 'bd-discount-badge';
-                    rib.innerHTML = '<span class="bd-discount-badge__value">-' + p.discount + '%</span>'
-                                  + '<span class="bd-discount-badge__label">OFF</span>';
-                    imgWrap.appendChild(rib);
+                    imgWrap.insertAdjacentHTML('beforeend', buildBookmarkHTML(p.discount, 'md'));
                 }
 
                 if(p.image){

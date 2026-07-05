@@ -33,6 +33,40 @@
         return document.querySelectorAll( selector );
     }
 
+    // ================================================================
+    //  UTILITY: Build the Balochi-embroidered "bookmark" sale ribbon
+    // ================================================================
+    var bdBookmarkUidCounter = 0;
+    function bdBuildBookmarkHTML( discount, size ) {
+        bdBookmarkUidCounter++;
+        var gradId    = 'bdBookmarkGradMain' + bdBookmarkUidCounter;
+        var sizeClass = ( size === 'sm' ) ? ' bd-bookmark--sm' : '';
+        return '<div class="bd-bookmark' + sizeClass + '" role="img" aria-label="' + discount + '% off">' +
+            '<svg viewBox="0 0 52 76" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">' +
+                '<defs><linearGradient id="' + gradId + '" x1="0" y1="0" x2="0" y2="1">' +
+                    '<stop offset="0%" stop-color="#f43f5e"/>' +
+                    '<stop offset="55%" stop-color="#dc2626"/>' +
+                    '<stop offset="100%" stop-color="#9f1239"/>' +
+                '</linearGradient></defs>' +
+                '<path d="M2,0 H50 V70 L26,52 L2,70 Z" fill="url(#' + gradId + ')"/>' +
+                '<rect x="2" y="0" width="48" height="4" fill="#fbbf24"/>' +
+                '<path d="M2,0 H50 V70 L26,52 L2,70 Z" fill="none" stroke="#fde68a" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.9"/>' +
+                '<g fill="none" stroke="#fde68a" stroke-width="1.1">' +
+                    '<path d="M13,10 L16,14 L13,18 L10,14 Z"/>' +
+                    '<path d="M26,10 L29,14 L26,18 L23,14 Z"/>' +
+                    '<path d="M39,10 L42,14 L39,18 L36,14 Z"/>' +
+                '</g>' +
+                '<g fill="#38bdf8">' +
+                    '<circle cx="13" cy="14" r="1.1"/>' +
+                    '<circle cx="26" cy="14" r="1.1"/>' +
+                    '<circle cx="39" cy="14" r="1.1"/>' +
+                '</g>' +
+                '<text x="26" y="38" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" font-family="Arial, sans-serif">-' + discount + '%</text>' +
+                '<text x="26" y="47" text-anchor="middle" fill="#fde68a" font-size="6" font-weight="700" letter-spacing="1.2" font-family="Arial, sans-serif">OFF</text>' +
+            '</svg>' +
+        '</div>';
+    }
+
 
     // ================================================================
     //  1. NOTIFICATION SYSTEM
@@ -748,7 +782,38 @@
 
 
     // ================================================================
-    //  15. BACK TO TOP (Optional Enhancement)
+    //  15. SKELETON SHIMMER LOADING
+    // ================================================================
+    var skeletonLoader = {
+        init: function() {
+            var enabled = document.body.classList.contains( 'skeleton-enabled' );
+            if ( ! enabled ) return;
+
+            var cards = $$( '.project-card, .post-card, .doc-card, .team-card, .shop-product-card' );
+
+            cards.forEach( function( card, i ) {
+                if ( card.querySelector( 'img' ) && ! card.dataset.forceSkeleton ) return;
+
+                card.classList.add( 'skeleton-card' );
+
+                var shimmer = document.createElement( 'div' );
+                shimmer.className = 'skeleton-shimmer';
+                shimmer.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;border-radius:20px;';
+
+                card.style.position = 'relative';
+                card.appendChild( shimmer );
+
+                setTimeout( function() {
+                    if ( shimmer && shimmer.parentNode ) shimmer.parentNode.removeChild( shimmer );
+                    card.classList.remove( 'skeleton-card' );
+                }, 900 + ( i * 120 ) );
+            } );
+        }
+    };
+
+
+    // ================================================================
+    //  16. BACK TO TOP (Optional Enhancement)
     // ================================================================
     var backToTop = {
 
@@ -765,7 +830,7 @@
 
 
     // ================================================================
-    //  16. SINGLE FEATURED PRODUCT MULTI-SLIDER (WooCommerce Single Mode)
+    //  17. SINGLE FEATURED PRODUCT MULTI-SLIDER (WooCommerce Single Mode)
     // ================================================================
     var singleProductSlider = {
         init: function() {
@@ -808,13 +873,9 @@
                         imgCol.innerHTML = '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><div style="opacity:0.15; transform:scale(2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></div>';
                     }
 
-                    // Add Sale Ribbon back if applicable
+                    // Add the Balochi-embroidered bookmark sale badge back if applicable
                     if ( prod.on_sale && prod.discount > 0 ) {
-                        var ribbon = document.createElement( 'div' );
-                        ribbon.className = 'discount-ribbon';
-                        ribbon.style.cssText = 'position:absolute; top:20px; left:-10px; background:#ef4444; color:white; padding:6px 36px; transform:rotate(-45deg); font-size:0.8rem; font-weight:900; z-index:5; box-shadow:0 2px 10px rgba(0,0,0,0.25); text-transform:uppercase; letter-spacing:1px;';
-                        ribbon.textContent = prod.discount + '% OFF';
-                        imgCol.appendChild( ribbon );
+                        imgCol.insertAdjacentHTML( 'beforeend', bdBuildBookmarkHTML( prod.discount, 'md' ) );
                     }
 
                     // Update Title
@@ -883,36 +944,6 @@
         backToTop.init();
         skeletonLoader.init();
         singleProductSlider.init();
-} );
+    } );
 
-} )();var skeletonLoader = { init: function(){} };
-// ================================================
-    //  SKELETON SHIMMER LOADING (Complete)
-    // ================================================
-    var skeletonLoader = {
-        init: function() {
-            var enabled = document.body.classList.contains('skeleton-enabled');
-            if (!enabled) return;
-
-            var cards = $$('.project-card, .post-card, .doc-card, .team-card, .shop-product-card');
-
-            cards.forEach(function(card, i) {
-                if (card.querySelector('img') && !card.dataset.forceSkeleton) return;
-
-                card.classList.add('skeleton-card');
-
-                var shimmer = document.createElement('div');
-                shimmer.className = 'skeleton-shimmer';
-                shimmer.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;border-radius:20px;';
-
-                card.style.position = 'relative';
-                card.appendChild(shimmer);
-
-                setTimeout(function() {
-                    if (shimmer && shimmer.parentNode) shimmer.parentNode.removeChild(shimmer);
-                    card.classList.remove('skeleton-card');
-                }, 900 + (i * 120));
-            });
-        }
-    };
-
+} )();
