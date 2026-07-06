@@ -1,12 +1,16 @@
 <?php
 /**
- * The main template file — fallback
+ * Blog Index Template (home.php)
  *
- * WordPress uses this when no more specific template matches.
- * For the blog archive, home.php takes priority when is_home() is true.
- * For category/tag/date archives, archive.php takes priority.
+ * This is the standard WordPress template for the blog archive page.
+ * WordPress automatically uses this template when a "Posts page" is set
+ * in Settings → Reading.
  *
- * This file handles any remaining edge cases (e.g. sitemap queries).
+ * Uses the main WordPress query loop with the_posts_pagination() for
+ * fully native pagination support. Reads posts_per_page from
+ * Settings → Reading automatically.
+ *
+ * Layout: Header → Slider → Posts Grid → Pagination → Footer
  *
  * @package Baloch_Diamond
  * @version 1.2.2
@@ -17,12 +21,7 @@ get_header();
 
 <main class="site-main" id="mainContent">
 
-    <?php if ( is_home() && ! is_front_page() ) : ?>
-        <!-- Blog index fallback (home.php should handle this, but just in case) -->
-        <?php get_template_part( 'template-parts/hero-slider' ); ?>
-    <?php else : ?>
-        <div style="margin-top:70px"></div>
-    <?php endif; ?>
+    <?php get_template_part( 'template-parts/hero-slider' ); ?>
 
     <!-- Page Header -->
     <div class="section" style="padding-bottom:30px">
@@ -36,14 +35,17 @@ get_header();
                 if ( is_home() && ! is_front_page() ) {
                     single_post_title();
                 } else {
-                    esc_html_e( 'Latest Posts', 'baloch-diamond' );
+                    esc_html_e( 'Latest Updates', 'baloch-diamond' );
                 }
                 ?>
             </h1>
+            <p class="section-desc">
+                <?php esc_html_e( 'Stay updated with our latest articles, tutorials, and industry insights.', 'baloch-diamond' ); ?>
+            </p>
         </div>
     </div>
 
-    <!-- Posts Grid -->
+    <!-- Posts Grid — uses WordPress main query -->
     <div class="section" style="padding-top:0">
         <?php if ( have_posts() ) : ?>
 
@@ -53,6 +55,7 @@ get_header();
                 <?php endwhile; ?>
             </div>
 
+            <!-- Standard WordPress pagination -->
             <?php
             the_posts_pagination( array(
                 'mid_size'  => 2,
@@ -63,6 +66,7 @@ get_header();
 
         <?php else : ?>
 
+            <!-- No Posts Found -->
             <div class="error-404" style="padding:40px 24px">
                 <div class="error-diamond" style="width:40px;height:40px"></div>
                 <h2 class="error-title" style="font-size:1.5rem"><?php esc_html_e( 'No Posts Found', 'baloch-diamond' ); ?></h2>

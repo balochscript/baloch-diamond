@@ -667,18 +667,30 @@ function bd_customize_register( $wp_customize ) {
 		'desc'  => esc_html__( 'Stories, tutorials, and inspiration from the world of Balochi art and modern design.', 'baloch-diamond' ),
 	) );
 
-	// Number of posts to preview on the front page
-	$wp_customize->add_setting( 'bd_blog_count', array(
-		'default'           => 6,
-		'sanitize_callback' => 'absint',
+	// Show / Hide Blog Badge
+	$wp_customize->add_setting( 'bd_blog_show_badge', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
 	) );
-	$wp_customize->add_control( 'bd_blog_count', array(
-		'label'       => esc_html__( 'Posts Shown on Homepage Preview', 'baloch-diamond' ),
-		'description' => esc_html__( 'Number of recent posts shown in this homepage section. The full, paginated post list lives on the Blog archive page, linked via the "View All Posts" button below.', 'baloch-diamond' ),
-		'section'     => 'bd_blog_section',
-		'type'        => 'number',
-		'input_attrs' => array( 'min' => 1, 'max' => 24 ),
+	$wp_customize->add_control( 'bd_blog_show_badge', array(
+		'label'   => esc_html__( 'Show Section Badge', 'baloch-diamond' ),
+		'section' => 'bd_blog_section',
+		'type'    => 'checkbox',
 	) );
+
+	// Show / Hide Blog Section Title
+	$wp_customize->add_setting( 'bd_blog_show_title', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_blog_show_title', array(
+		'label'   => esc_html__( 'Show Section Title', 'baloch-diamond' ),
+		'section' => 'bd_blog_section',
+		'type'    => 'checkbox',
+	) );
+
+	// Note: Post count is read from WordPress Settings → Reading → "Blog pages show at most"
+	// No separate Customizer control needed — uses get_option( 'posts_per_page' ).
 
 	// Read More button text
 	$wp_customize->add_setting( 'bd_blog_readmore_text', array(
@@ -763,16 +775,37 @@ function bd_customize_register( $wp_customize ) {
 		'type'    => 'checkbox',
 	) );
 
+	// --- Blog Pagination Mode ---
+	$wp_customize->add_setting( 'bd_blog_pagination_mode', array(
+		'default'           => 'archive_link',
+		'sanitize_callback' => 'bd_sanitize_select',
+	) );
+	$wp_customize->add_control( 'bd_blog_pagination_mode', array(
+		'label'       => esc_html__( '📊 Blog Pagination Mode', 'baloch-diamond' ),
+		'description' => esc_html__( 'Choose how visitors browse more posts on the homepage blog section. The blog archive page uses standard WordPress pagination (the_posts_pagination).', 'baloch-diamond' ),
+		'section'     => 'bd_blog_section',
+		'type'        => 'select',
+		'choices'     => array(
+			'archive_link' => esc_html__( '🔗 Archive Link — Button links to the full blog archive page', 'baloch-diamond' ),
+			'load_more'    => esc_html__( '⚡ Load More — AJAX button loads more posts inline (no page refresh)', 'baloch-diamond' ),
+		),
+	) );
+
+	// --- Show "View All Posts" Link ---
+	// Uses the SAME key as the original theme (bd_blog_show_viewall) for backward compat.
 	$wp_customize->add_setting( 'bd_blog_show_viewall', array(
 		'default'           => true,
 		'sanitize_callback' => 'bd_sanitize_checkbox',
 	) );
 	$wp_customize->add_control( 'bd_blog_show_viewall', array(
-		'label'   => esc_html__( 'Show "View All Posts" Link', 'baloch-diamond' ),
-		'section' => 'bd_blog_section',
-		'type'    => 'checkbox',
+		'label'       => esc_html__( 'Show "View All Posts" Link', 'baloch-diamond' ),
+		'description' => esc_html__( 'Links to the blog archive page. Go to Settings → Reading and set a "Posts page" to configure the blog URL. A "Blog" page is created automatically on theme activation.', 'baloch-diamond' ),
+		'section'     => 'bd_blog_section',
+		'type'        => 'checkbox',
 	) );
 
+	// --- "View All Posts" Link Text ---
+	// Uses the SAME key as the original theme (bd_blog_viewall_text) for backward compat.
 	$wp_customize->add_setting( 'bd_blog_viewall_text', array(
 		'default'           => esc_html__( 'View All Posts', 'baloch-diamond' ),
 		'sanitize_callback' => 'sanitize_text_field',
@@ -781,6 +814,41 @@ function bd_customize_register( $wp_customize ) {
 		'label'   => esc_html__( '"View All Posts" Link Text', 'baloch-diamond' ),
 		'section' => 'bd_blog_section',
 		'type'    => 'text',
+	) );
+
+	// --- Load More Settings ---
+	// Note: Posts per load uses WordPress Settings → Reading → "Blog pages show at most"
+	// No separate control needed — uses get_option( 'posts_per_page' ).
+
+	$wp_customize->add_setting( 'bd_blog_loadmore_text', array(
+		'default'           => esc_html__( 'Load More Posts', 'baloch-diamond' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'bd_blog_loadmore_text', array(
+		'label'       => esc_html__( '"Load More" Button Text', 'baloch-diamond' ),
+		'section'     => 'bd_blog_section',
+		'type'        => 'text',
+	) );
+
+	$wp_customize->add_setting( 'bd_blog_loadmore_loading_text', array(
+		'default'           => esc_html__( 'Loading...', 'baloch-diamond' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'bd_blog_loadmore_loading_text', array(
+		'label'   => esc_html__( '"Loading" Text', 'baloch-diamond' ),
+		'section' => 'bd_blog_section',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'bd_blog_loadmore_nomore_text', array(
+		'default'           => esc_html__( 'No more posts to show', 'baloch-diamond' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'bd_blog_loadmore_nomore_text', array(
+		'label'       => esc_html__( '"No More Posts" Message', 'baloch-diamond' ),
+		'description' => esc_html__( 'Shown when all posts are loaded. An archive link appears below.', 'baloch-diamond' ),
+		'section'     => 'bd_blog_section',
+		'type'        => 'text',
 	) );
 
 	// ================================================
@@ -2182,7 +2250,7 @@ class BD_Sections_Sorter_Control extends WP_Customize_Control {
 	public function enqueue() {
 		wp_enqueue_script(
 			'bd-sections-sorter',
-			BD_URI . '/assets/js/sections-sorter.js',
+			get_template_directory_uri() . '/assets/js/sections-sorter.js',
 			array( 'jquery-ui-sortable', 'customize-controls' ),
 			BD_VERSION,
 			true
@@ -2351,7 +2419,7 @@ function bd_sanitize_select( $input, $setting ) {
 function bd_customizer_preview_js() {
 	wp_enqueue_script(
 		'bd-customizer-preview',
-		BD_URI . '/assets/js/customizer-preview.js',
+		get_template_directory_uri() . '/assets/js/customizer-preview.js',
 		array( 'customize-preview' ),
 		BD_VERSION,
 		true

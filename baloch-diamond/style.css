@@ -4,7 +4,7 @@ Theme URI: https://balochscript.com/baloch-diamond
 Author: Baloch Script Team
 Author URI: https://balochscript.com
 Description: A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence. Features include customizable colors, hero slider, portfolio showcase, team section, and full dark/light mode support.
-Version: 1.1.4
+Version: 1.2.2
 Tested up to: 6.7
 Requires at least: 6.0
 Requires PHP: 7.4
@@ -1654,16 +1654,20 @@ body.rtl .project-card-title, body.rtl .product-title {
     word-wrap: normal !important;
 }
 
-/* Pagination */
-.pagination {
+/* Pagination — standard WordPress the_posts_pagination() output */
+.nav-links {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
     margin-top: 48px;
 }
 
-.pagination a,
-.pagination span {
+.page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px 16px;
     border-radius: 10px;
     border: 1px solid var(--border);
@@ -1672,17 +1676,82 @@ body.rtl .project-card-title, body.rtl .product-title {
     font-weight: 600;
     font-size: 0.9rem;
     transition: all 0.3s;
+    gap: 6px;
+    line-height: 1;
 }
 
-.pagination .current {
+.page-numbers:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+.page-numbers.current {
     background: var(--gradient);
     color: white;
     border-color: transparent;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
 }
 
-.pagination a:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+.page-numbers.prev,
+.page-numbers.next {
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.page-numbers.prev:hover,
+.page-numbers.next:hover {
+    background: var(--bg-alt);
+}
+
+.page-numbers svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* Screen-reader text hidden by default */
+.navigation.pagination .screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+/* Dots separator */
+.page-numbers.dots {
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    cursor: default;
+    padding: 10px 8px;
+}
+
+.page-numbers.dots:hover {
+    transform: none;
+    color: var(--text-muted);
+    border: none;
+}
+
+/* Mobile adjustments for pagination */
+@media (max-width: 480px) {
+    .nav-links {
+        gap: 4px;
+    }
+    .page-numbers {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+    .page-numbers.prev,
+    .page-numbers.next {
+        padding: 8px 14px;
+    }
+    .nav-prev-text,
+    .nav-next-text {
+        display: none;
+    }
 }
 
 /* ============================================
@@ -2181,60 +2250,6 @@ body.rtl .shop-horizontal-scroll {
     margin-top: 48px;
 }
 
-/* Prev / Next row */
-.bd-blog-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-/* Buttons — reuse theme btn classes, just tweak sizing */
-.bd-blog-nav__btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: all 0.25s;
-    white-space: nowrap;
-    line-height: 1;
-}
-
-.bd-blog-nav__btn svg {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-}
-
-/* Disabled state */
-.bd-blog-nav__btn--disabled {
-    opacity: 0.32;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Page counter  "2 / 7" */
-.bd-blog-nav__counter {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text);
-    min-width: 52px;
-    justify-content: center;
-    letter-spacing: 0.3px;
-}
-
-.bd-blog-nav__sep {
-    color: var(--text-muted);
-    font-weight: 400;
-}
-
 /* "View All Posts" button — homepage Blog section footer */
 .bd-blog-viewall-btn {
     padding: 14px 32px;
@@ -2252,27 +2267,18 @@ body.rtl .shop-horizontal-scroll {
     transform: translateX(4px);
 }
 
-/* Mobile */
-@media (max-width: 480px) {
-    .bd-blog-nav {
-        gap: 8px;
-    }
-    .bd-blog-nav__btn {
-        padding: 10px 14px;
-        font-size: 0.82rem;
-    }
-    .bd-blog-nav__btn span {
-        display: none; /* icon only on very small screens */
-    }
-    .bd-blog-nav__btn svg {
-        width: 20px;
-        height: 20px;
-    }
-    .bd-blog-nav__counter {
-        min-width: 40px;
-        font-size: 0.9rem;
-    }
-}
+/* ============================================
+   BLOG LOAD MORE
+   ============================================ */
+.bd-loadmore-btn { position: relative; }
+.bd-loadmore-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.posts-grid .post-card.bd-newly-loaded { animation: bd-fadeInUp 0.5s ease forwards; }
+@keyframes bd-fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes bd-spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+.bd-nomore-msg { text-align:center; margin-top:20px; font-size:0.9rem; color:var(--text-muted); padding:16px 24px; background:var(--bg-alt); border-radius:12px; }
+.bd-blog-archive-link { display:inline-flex; align-items:center; gap:6px; color:var(--color-primary); font-weight:600; text-decoration:none; font-size:0.9rem; margin-top:8px; transition:gap 0.3s; }
+.bd-blog-archive-link:hover { gap:12px; }
+.bd-loadmore-status { text-align:center; margin-top:12px; font-size:0.85rem; color:var(--text-muted); }
 
 /* ============================================
    BALOCHI EMBROIDERY DECORATION

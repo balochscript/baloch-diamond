@@ -923,6 +923,84 @@
 
 
     // ================================================================
+    //  18. BLOG LOAD MORE (AJAX)
+    // ================================================================
+    var blogLoadMore = {
+        init: function() {
+            var btn = document.getElementById( 'bd-loadmore-btn' );
+            if ( ! btn ) return;
+            btn.addEventListener( 'click', function() { blogLoadMore.load(); } );
+        },
+        load: function() {
+            var btn    = document.getElementById( 'bd-loadmore-btn' );
+            var grid   = document.getElementById( 'bd-blog-grid' );
+            var status = document.querySelector( '.bd-loadmore-status' );
+            if ( ! btn || ! grid || typeof bdData === 'undefined' ) return;
+
+            var page         = parseInt( btn.getAttribute( 'data-page' ) ) || 1;
+            var perPage      = parseInt( btn.getAttribute( 'data-per-page' ) ) || 6;
+            var initialCount = parseInt( btn.getAttribute( 'data-initial-count' ) ) || 6;
+            var loadingText  = btn.getAttribute( 'data-loading-text' ) || 'Loading...';
+            var nomoreText   = btn.getAttribute( 'data-nomore-text' ) || 'No more posts';
+            var archiveUrl   = btn.getAttribute( 'data-archive-url' ) || '';
+            var originalHTML = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span style="opacity:0">' + loadingText + '</span><span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:bd-spin 0.6s linear infinite"></span>';
+
+            var fd = new FormData();
+            fd.append( 'action',         'bd_loadmore' );
+            fd.append( 'nonce',          bdData.nonce );
+            fd.append( 'page',           page );
+            fd.append( 'per_page',       perPage );
+            fd.append( 'initial_count',  initialCount );
+
+            fetch( bdData.ajaxUrl, { method: 'POST', body: fd, credentials: 'same-origin' } )
+            .then( function( r ) { return r.json(); } )
+            .then( function( data ) {
+                if ( data.success && data.data.html ) {
+                    grid.insertAdjacentHTML( 'beforeend', data.data.html );
+                    btn.setAttribute( 'data-page', page + 1 );
+
+                    if ( status ) {
+                        status.style.display = 'block';
+                        status.textContent = ( data.data.shown || 0 ) + ' / ' + ( data.data.total || 0 );
+                    }
+
+                    if ( ! data.data.has_more ) {
+                        var wrap = btn.parentNode;
+                        btn.remove();
+                        var msg = document.createElement( 'div' );
+                        msg.className = 'bd-nomore-msg';
+                        msg.textContent = nomoreText;
+                        wrap.appendChild( msg );
+                        if ( archiveUrl ) {
+                            var link = document.createElement( 'a' );
+                            link.href = archiveUrl;
+                            link.className = 'bd-blog-archive-link';
+                            link.textContent = bdData.i18n && bdData.i18n.viewArchive ? bdData.i18n.viewArchive : 'View Full Archive';
+                            wrap.appendChild( link );
+                        }
+                        if ( status ) status.style.display = 'none';
+                    } else {
+                        btn.disabled = false;
+                        btn.innerHTML = originalHTML;
+                    }
+                } else {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHTML;
+                }
+            } )
+            .catch( function() {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                if ( status ) { status.style.display = 'block'; status.textContent = 'Error. Try again.'; }
+            } );
+        }
+    };
+
+
+    // ================================================================
     //  INITIALIZE EVERYTHING
     // ================================================================
     domReady( function() {
@@ -944,6 +1022,7 @@
         backToTop.init();
         skeletonLoader.init();
         singleProductSlider.init();
+        blogLoadMore.init();
     } );
 
 } )();

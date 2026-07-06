@@ -138,8 +138,14 @@ get_header();
                 <?php endwhile; ?>
             </div>
 
-            <!-- Pagination -->
-            <?php bd_pagination(); ?>
+            <!-- Standard WordPress numbered pagination -->
+            <?php
+            the_posts_pagination( array(
+                'mid_size'  => 2,
+                'prev_text' => bd_icon( 'arrow-left', 18, 18 ),
+                'next_text' => bd_icon( 'arrow-right', 18, 18 ),
+            ) );
+            ?>
 
         <?php else : ?>
             <?php get_template_part( 'template-parts/content-none' ); ?>

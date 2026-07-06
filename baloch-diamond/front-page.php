@@ -7,7 +7,7 @@
  * Appearance → Customize → 💎 Baloch Diamond Settings → 📋 Sections Order & Visibility
  *
  * @package Baloch_Diamond
- * @version 1.1.2
+ * @version 1.2.2
  */
 
 get_header();

@@ -54,7 +54,9 @@ function bd_get_first_category( $post_id = null ) {
 
 
 /**
- * Custom pagination for archives
+ * Custom numbered pagination for archives.
+ * Uses standard WordPress get_pagenum_link() for URLs.
+ * Styled with .pagination class (CSS already in style.css).
  */
 function bd_pagination() {
     global $wp_query;
@@ -68,9 +70,9 @@ function bd_pagination() {
 
     echo '<div class="pagination">';
 
-    // Previous
+    // Previous arrow
     if ( $paged > 1 ) {
-        echo '<a href="' . esc_url( get_pagenum_link( $paged - 1 ) ) . '">' . bd_icon( 'arrow-left', 16, 16 ) . '</a>';
+        echo '<a href="' . esc_url( get_pagenum_link( $paged - 1 ) ) . '" class="pagination-arrow">' . bd_icon( 'arrow-left', 16, 16 ) . '</a>';
     }
 
     // Page numbers
@@ -82,9 +84,9 @@ function bd_pagination() {
         }
     }
 
-    // Next
+    // Next arrow
     if ( $paged < $max ) {
-        echo '<a href="' . esc_url( get_pagenum_link( $paged + 1 ) ) . '">' . bd_icon( 'arrow-right-small', 16, 16 ) . '</a>';
+        echo '<a href="' . esc_url( get_pagenum_link( $paged + 1 ) ) . '" class="pagination-arrow">' . bd_icon( 'arrow-right', 16, 16 ) . '</a>';
     }
 
     echo '</div>';
@@ -92,57 +94,20 @@ function bd_pagination() {
 
 
 /**
- * "Newer Posts" / "Older Posts" pagination for the Blog archive page
- * (index.php). Reuses the .bd-blog-nav styling from the homepage Blog
- * section for a consistent look across the site.
+ * Blog archive pagination — DEPRECATED.
+ * The theme now uses the standard WordPress the_posts_pagination() function
+ * directly in home.php. This function is kept for backward compatibility
+ * but simply calls the_posts_pagination().
+ *
+ * @deprecated 1.2.2 Use the_posts_pagination() directly.
  */
 function bd_blog_archive_pagination() {
-    global $wp_query;
-
-    if ( $wp_query->max_num_pages <= 1 ) {
-        return;
-    }
-
-    $paged = max( 1, (int) get_query_var( 'paged' ) );
-    $max   = (int) $wp_query->max_num_pages;
-
-    $prev_url = ( $paged > 1 ) ? get_pagenum_link( $paged - 1 ) : '';
-    $next_url = ( $paged < $max ) ? get_pagenum_link( $paged + 1 ) : '';
-    ?>
-    <div class="bd-blog-nav" style="margin-top:48px;">
-
-        <?php if ( $prev_url ) : ?>
-        <a href="<?php echo esc_url( $prev_url ); ?>" class="bd-blog-nav__btn bd-blog-nav__btn--prev btn-outline">
-            <?php echo bd_icon( 'arrow-left', 18, 18 ); ?>
-            <span><?php esc_html_e( 'Newer Posts', 'baloch-diamond' ); ?></span>
-        </a>
-        <?php else : ?>
-        <span class="bd-blog-nav__btn bd-blog-nav__btn--prev bd-blog-nav__btn--disabled btn-outline" aria-disabled="true">
-            <?php echo bd_icon( 'arrow-left', 18, 18 ); ?>
-            <span><?php esc_html_e( 'Newer Posts', 'baloch-diamond' ); ?></span>
-        </span>
-        <?php endif; ?>
-
-        <span class="bd-blog-nav__counter">
-            <?php echo esc_html( $paged ); ?>
-            <span class="bd-blog-nav__sep">/</span>
-            <?php echo esc_html( $max ); ?>
-        </span>
-
-        <?php if ( $next_url ) : ?>
-        <a href="<?php echo esc_url( $next_url ); ?>" class="bd-blog-nav__btn bd-blog-nav__btn--next btn-gradient">
-            <span><?php esc_html_e( 'Older Posts', 'baloch-diamond' ); ?></span>
-            <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
-        </a>
-        <?php else : ?>
-        <span class="bd-blog-nav__btn bd-blog-nav__btn--next bd-blog-nav__btn--disabled btn-gradient" aria-disabled="true">
-            <span><?php esc_html_e( 'Older Posts', 'baloch-diamond' ); ?></span>
-            <?php echo bd_icon( 'arrow-right', 18, 18 ); ?>
-        </span>
-        <?php endif; ?>
-
-    </div>
-    <?php
+    _deprecated_function( __FUNCTION__, '1.2.2', 'the_posts_pagination()' );
+    the_posts_pagination( array(
+        'mid_size'  => 2,
+        'prev_text' => bd_icon( 'arrow-left', 18, 18 ) . ' <span class="nav-prev-text">' . esc_html__( 'Newer', 'baloch-diamond' ) . '</span>',
+        'next_text' => '<span class="nav-next-text">' . esc_html__( 'Older', 'baloch-diamond' ) . '</span> ' . bd_icon( 'arrow-right', 18, 18 ),
+    ) );
 }
 
 
