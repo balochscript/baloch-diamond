@@ -6,6 +6,163 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.6.1] - 2026-07-08
+
+### Added
+- **🎨 Slider Text Overlay Color** — pick any color for the gradient band behind slide titles/excerpts (default black).
+- **🌫️ Slider Text Overlay Strength** — 0–100% range slider (5% steps): fully transparent → solid. Implemented with CSS variables (`--bd-slide-overlay-rgb` / `--bd-slide-overlay-alpha`); defaults preserve the classic look on existing sites.
+
+---
+
+## [1.6.0] - 2026-07-08
+
+### Fixed
+- **Independent sidebar scrolling** — scrolling inside a tall sticky sidebar no longer moves the whole page. Sidebars now scroll inside their own box (`max-height` + `overflow-y: auto` + `overscroll-behavior: contain`) with a thin, theme-colored scrollbar.
+
+### Added
+- **🌗 Default Theme Mode** — admin picks Light, Dark, or Auto (follows the visitor's OS `prefers-color-scheme`) as the site default. A visitor's own toggle choice is stored in their browser and always takes precedence.
+- **Flash-free mode switching** — an inline `<head>` script applies the correct mode before first paint (no light→dark flash).
+- **Custom Light Mode background color** — replace white with any color (cream, light blue, …).
+- **Custom Dark Mode background color** — replace navy with any dark color (deep green, warm charcoal, …).
+- **Automatic contrast-safe palettes** — from a single admin-picked background, the theme derives card, border, alt-background and muted-text shades using a WCAG luminance formula. Light backgrounds get dark text and vice-versa, even if the admin picks a "wrong" color for a mode. All derived palettes verified at ≥4.5:1 (body text) and ≥3:1 (muted text).
+
+---
+
+## [1.5.2] - 2026-07-08
+
+### Added
+- **📑 Paged Views: Filter Sections** — on `/page/2/` and beyond (Numbered pagination), only the Blog grid plus admin-selected sections render; page 1 always shows the full layout. Master toggle + 11 per-section checkboxes (Hero Slider enabled by default, everything else hidden). Sections enabled for paged views keep their sidebar zones.
+- **Smart pagination fallback** — if "Archive Link" mode is selected but no Posts page exists (e.g. the Blog page was deleted), the blog section automatically switches to Numbered pagination so older posts always stay reachable.
+
+---
+
+## [1.5.1] - 2026-07-07
+
+### Changed
+- **Single source of truth for section visibility** — the eye toggle in "📋 Sections Order & Visibility" is now the only place to show/hide sections. The 11 duplicate per-section "Show X Section" checkboxes were removed.
+- `bd_is_section_visible()` reads the sorter JSON; every template part self-guards with it.
+
+### Added
+- **One-time migration** — sections hidden via the old checkboxes are automatically transferred into the sorter (hidden state preserved: if either old switch hid a section, it stays hidden).
+
+---
+
+## [1.5.0] - 2026-07-07
+
+### Fixed
+- **Critical:** `bd_comment_callback()` was referenced by `comments.php` but never defined — any post with an approved comment produced a fatal error. Implemented a fully escaped comment renderer (avatar, author + Admin badge, date, moderation notice, nested reply link).
+
+### Security
+- Comment text is now kses-filtered at display time as well (defense in depth against markup injected into the database by imports/plugins that bypass input filtering).
+- Escaped related-posts titles in `content-single.php` (stored XSS via post title).
+
+### Added
+- **🛡️ Comment Protection** Customizer section: strip ALL HTML from comments, reject comments containing links/URLs, blocked words/characters list (case-insensitive, multibyte-safe), minimum/maximum comment length, optional enforcement for logged-in users (moderators always exempt). Rejections show a friendly error page with a back link.
+
+---
+
+## [1.4.4] - 2026-07-07
+
+### Security
+- AJAX search results stripped of all markup server-side (`wp_strip_all_tags` + `esc_url_raw`) in addition to client-side escaping — defense in depth against stored XSS via post titles.
+- Client-side search rendering validates/escapes result URLs and rejects non-http(s) schemes.
+- AJAX load-more numeric inputs clamped (page ≤ 500, per_page ≤ 50) against expensive unbounded queries.
+- Newsletter subscriber list capped at 5000 entries against unauthenticated flooding of theme mods.
+- Added missing ABSPATH direct-access guard to `footer.php`.
+
+### Fixed
+- `bd_topics_get_category_image()` wrapped in `function_exists` to prevent a fatal on Customizer selective refresh.
+
+---
+
+## [1.4.3] - 2026-07-07
+
+### Changed
+- **Static pages are now minimal by design** — pages render only the header, optional Hero Slider, page content, optional Newsletter, and footer. No other front-page sections ever appear on pages.
+
+### Added
+- **📄 Page Settings** Customizer section with independent Hero Slider and Newsletter toggles for static pages (both also respect their global visibility settings).
+
+---
+
+## [1.4.2] - 2026-07-07
+
+### Added
+- **🔢 Numbered blog pagination (new default)** — standard WordPress `paginate_links()` directly on the front page at `/page/2/`, `/page/3/`, … Visitors can browse ALL older posts without any extra "Blog" page.
+- `redirect_canonical` guard so `/page/N/` URLs survive on static front pages (plain-permalink `?page=N` fallback included).
+
+### Changed
+- Pagination mode selector now offers Numbered / Archive Link / Load More; all existing blog customizations apply to every mode.
+
+### Fixed
+- `mb_strtoupper()` fatal on PHP builds without the mbstring extension (team section).
+
+---
+
+## [1.4.1] - 2026-07-07
+
+### Changed
+- **Repository-compliant page setup** — replaced programmatic Blog/Home page creation with the WordPress-approved Starter Content API (applies to fresh sites only, via explicit Customizer publish). The theme never changes reading settings on its own.
+
+### Added
+- Dismissible admin notice pointing to Settings → Reading when no Posts page is configured.
+
+---
+
+## [1.4.0] - 2026-07-06
+
+### Added
+- **🏷️ Topics Section** (`template-parts/section-topics.php`): Post categories rendered as visual cards. Two card styles — the featured image of the category's latest post (with icon fallback) or gradient icon tiles. Options: topic count (1–24), show/hide post counts, order by most posts or alphabetical.
+- **🔖 Popular Tags Section** (`template-parts/section-tags.php`): Pill-style tag cloud of the site's most used tags with per-tag post counts. Configurable tag count (1–60).
+- **🗄️ Site Archive Section** (`template-parts/section-archive.php`): Monthly archive link cards plus a site statistics row (total posts, categories, tags, approved comments). Configurable month count (1–36) and stats toggle.
+- Three new Customizer panels (🏷️ Topics / 🔖 Tags / 🗄️ Archive) with full badge/title/description header controls.
+- All three sections support the Left/Right sidebar zones with dedicated compact styles.
+
+### Behaviour
+- **Hidden by default**: the new sections ship toggled OFF in the Sections Order & Visibility sorter. Users enable them with the eye toggle.
+- **Safe merge for existing sites**: layouts saved before 1.4.0 don't contain the new keys — they are appended automatically as hidden items, so no existing site's appearance changes after updating.
+
+---
+
+## [1.3.1 – 1.3.5] - 2026-07-06
+
+### Changed / Fixed (multi-column layout polish)
+- Proportional `fr`-based columns replaced pixel sidebar widths — the admin's 1/2/3-column layout is preserved at every viewport width; only real phones (<640px) stack sidebars below the content.
+- Sidebar sections keep their own native backgrounds (card wrapper removed) and carry the same decorative Balochi needlework pattern as the main sections.
+- Section headers (badge, title, description) stay centered in every zone.
+- Newsletter renders full-width below the multi-column grid (like the Hero Slider above it); Blog section background removed to match other sections.
+- Comfortable breathing room between the fixed header/slider and the layout grid; sticky offset tuned.
+- Sections Sorter hardened: retry-based init, legacy single-list fallback, locked-item rejection; automatic `filemtime` cache-busting for `style.css` and the sorter script so CDNs can never serve stale assets.
+- Overflow protection for sidebar content (inline min-widths neutralised, word-safe wrapping, compact forum/shop layouts).
+
+---
+
+## [1.3.0] - 2026-07-06
+
+### Added
+- **Multi-Column Front Page Layout (1 / 2 / 3 columns)**: Sections can now be dragged into a **Left Sidebar** or **Right Sidebar** zone directly from the Customizer sorter (Appearance → Customize → 💎 Baloch Diamond Settings → 📋 Sections Order & Visibility). A sidebar column is created automatically as soon as at least one section is dropped into it — supporting 2-column (left or right) and full 3-column layouts.
+- **Zone-aware Sections Sorter**: The drag-and-drop sorter control now shows three connected drop zones (⬅️ Left Sidebar / ▣ Main Column / ➡️ Right Sidebar). Sections can be reordered within a zone or dragged between zones. Eye-toggle show/hide is preserved.
+- **Locked sections**: Hero Slider, Newsletter and Blog are locked to the main column (🔒 icon in the sorter). Attempts to drop them into a sidebar bounce back automatically; the server-side sanitizer enforces the same rule.
+- **Proportional columns — no pixel settings**: Sidebar and main columns use proportional `fr` widths (2-col: ≈27%/73%, 3-col: ≈24%/52%/24%), so the admin's chosen layout is preserved on every screen size with nothing to configure.
+- **Compact sidebar presentation**: Every section placed in a sidebar automatically switches to a compact vertical card style — smaller headers, single-column grids, stacked cards, full-width buttons.
+- **Shop section sidebar modes**:
+  - Grid layout becomes a compact **horizontal swipe row** (scroll-snap) instead of a tall vertical stack.
+  - "Single Big" product layout stacks vertically — image on top, description/price/button **below** the image — at reduced size.
+- **Blog auto-shrink**: When a sidebar exists, the main-column blog grid uses smaller cards (`minmax(250px, 1fr)`) so posts still fit comfortably next to the sidebar.
+- **Sticky sidebars** on desktop (stick below the fixed header while scrolling).
+
+### Changed
+- `bd_sections_layout` JSON schema extended with a `zone` field (`main` | `left` | `right`). **Fully backward compatible** — existing saved layouts without `zone` are treated as `main` (classic one-column behaviour).
+- `front-page.php` rewritten to group sections by zone and render a CSS Grid layout wrapper (`.bd-layout--left / --right / --both`) only when a sidebar is in use. In multi-column mode the Hero Slider is always rendered full-width above the grid.
+- `assets/js/sections-sorter.js` upgraded to multi-zone connected sortables (`connectWith`), with locked-item rejection and live "drop here" placeholder hints.
+
+### Responsive
+- The admin's layout (1/2/3 columns) is preserved at every viewport width — columns scale proportionally.
+- Only below 640px (real phones) do sidebars stack under the main content.
+- Section headers (badge, title, description) stay centered in every zone.
+
+---
+
 ## [1.1.1] - 2026-07-03
 
 ### Added
