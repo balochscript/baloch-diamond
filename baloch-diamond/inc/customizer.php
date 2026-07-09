@@ -441,16 +441,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 20,
 	) );
 
-	// Show Slider
-	$wp_customize->add_setting( 'bd_slider_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_slider_show', array(
-		'label'   => esc_html__( 'Show Hero Slider', 'baloch-diamond' ),
-		'section' => 'bd_slider_section',
-		'type'    => 'checkbox',
-	) );
 
 	// Slider Height
 	$wp_customize->add_setting( 'bd_slider_height', array(
@@ -482,6 +472,37 @@ function bd_customize_register( $wp_customize ) {
 			'500px' => esc_html__( 'Fixed — 500 pixels',       'baloch-diamond' ),
 			'600px' => esc_html__( 'Fixed — 600 pixels',       'baloch-diamond' ),
 			'700px' => esc_html__( 'Fixed — 700 pixels',       'baloch-diamond' ),
+		),
+	) );
+
+	// ---- Text Overlay (the color band under slide titles) ----
+	$wp_customize->add_setting( 'bd_slider_overlay_color', array(
+		'default'           => '#000000',
+		'sanitize_callback' => 'sanitize_hex_color',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_slider_overlay_color',
+		array(
+			'label'       => esc_html__( '🎨 Text Overlay Color', 'baloch-diamond' ),
+			'description' => esc_html__( 'The gradient color behind the slide title/excerpt. Default is black; try your brand color for a tinted look.', 'baloch-diamond' ),
+			'section'     => 'bd_slider_section',
+		)
+	) );
+
+	$wp_customize->add_setting( 'bd_slider_overlay_opacity', array(
+		'default'           => 80,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'bd_slider_overlay_opacity', array(
+		'label'       => esc_html__( '🌫️ Text Overlay Strength (%)', 'baloch-diamond' ),
+		'description' => esc_html__( '0 = fully transparent (no band at all), 100 = solid color. Default 80. Fine-tune freely — the title text shadow keeps text readable at low values.', 'baloch-diamond' ),
+		'section'     => 'bd_slider_section',
+		'type'        => 'range',
+		'input_attrs' => array(
+			'min'  => 0,
+			'max'  => 100,
+			'step' => 5,
 		),
 	) );
 
@@ -564,16 +585,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 21,
 	) );
 
-	// Show Shop
-	$wp_customize->add_setting( 'bd_shop_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_shop_show', array(
-		'label'   => esc_html__( 'Show Shop Section', 'baloch-diamond' ),
-		'section' => 'bd_shop_section',
-		'type'    => 'checkbox',
-	) );
 
 	// Section Headers
 	bd_add_section_header_controls( $wp_customize, 'shop', 'bd_shop_section', array(
@@ -777,16 +788,17 @@ function bd_customize_register( $wp_customize ) {
 
 	// --- Blog Pagination Mode ---
 	$wp_customize->add_setting( 'bd_blog_pagination_mode', array(
-		'default'           => 'archive_link',
+		'default'           => 'numbered',
 		'sanitize_callback' => 'bd_sanitize_select',
 	) );
 	$wp_customize->add_control( 'bd_blog_pagination_mode', array(
 		'label'       => esc_html__( '📊 Blog Pagination Mode', 'baloch-diamond' ),
-		'description' => esc_html__( 'Choose how visitors browse more posts on the homepage blog section. The blog archive page uses standard WordPress pagination (the_posts_pagination).', 'baloch-diamond' ),
+		'description' => esc_html__( 'Choose how visitors browse more posts in the blog section. "Numbered" is the standard WordPress way and needs no extra page — older posts are reachable at /page/2/, /page/3/ and so on.', 'baloch-diamond' ),
 		'section'     => 'bd_blog_section',
 		'type'        => 'select',
 		'choices'     => array(
-			'archive_link' => esc_html__( '🔗 Archive Link — Button links to the full blog archive page', 'baloch-diamond' ),
+			'numbered'     => esc_html__( '🔢 Numbered — Standard WordPress pagination on the front page (no extra page needed)', 'baloch-diamond' ),
+			'archive_link' => esc_html__( '🔗 Archive Link — Button links to the blog archive page (requires a Posts page in Settings → Reading)', 'baloch-diamond' ),
 			'load_more'    => esc_html__( '⚡ Load More — AJAX button loads more posts inline (no page refresh)', 'baloch-diamond' ),
 		),
 	) );
@@ -860,17 +872,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 35,
 	) );
 
-	// Show / Hide Portfolio Section
-	$wp_customize->add_setting( 'bd_portfolio_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_portfolio_show', array(
-		'label'       => esc_html__( 'Show Portfolio Section', 'baloch-diamond' ),
-		'description' => esc_html__( 'Toggle to show or hide the entire portfolio section on the front page.', 'baloch-diamond' ),
-		'section'     => 'bd_portfolio_section',
-		'type'        => 'checkbox',
-	) );
 
 	// Section Header Controls
 	bd_add_section_header_controls( $wp_customize, 'portfolio', 'bd_portfolio_section', array(
@@ -1162,17 +1163,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 40,
 	) );
 
-	// Show / Hide Team Section
-	$wp_customize->add_setting( 'bd_team_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_team_show', array(
-		'label'       => esc_html__( 'Show Team Section', 'baloch-diamond' ),
-		'description' => esc_html__( 'Toggle to show or hide the entire team section on the front page.', 'baloch-diamond' ),
-		'section'     => 'bd_team_section',
-		'type'        => 'checkbox',
-	) );
 
 	// Section Header Controls
 	bd_add_section_header_controls( $wp_customize, 'team', 'bd_team_section', array(
@@ -1398,17 +1388,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 45,
 	) );
 
-	// Show / Hide Resources Section
-	$wp_customize->add_setting( 'bd_resources_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_resources_show', array(
-		'label'       => esc_html__( 'Show Resources Section', 'baloch-diamond' ),
-		'description' => esc_html__( 'Toggle to show or hide the entire resources section.', 'baloch-diamond' ),
-		'section'     => 'bd_resources_section',
-		'type'        => 'checkbox',
-	) );
 
 	// Section Header Controls
 	bd_add_section_header_controls( $wp_customize, 'resources', 'bd_resources_section', array(
@@ -1579,17 +1558,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 50,
 	) );
 
-	// Show / Hide Community Section
-	$wp_customize->add_setting( 'bd_forum_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_forum_show', array(
-		'label'       => esc_html__( 'Show Community Section', 'baloch-diamond' ),
-		'description' => esc_html__( 'Toggle to show or hide the entire community/forum section.', 'baloch-diamond' ),
-		'section'     => 'bd_forum_section',
-		'type'        => 'checkbox',
-	) );
 
 	bd_add_section_header_controls( $wp_customize, 'forum', 'bd_forum_section', array(
 		'badge' => esc_html__( 'Join the Circle', 'baloch-diamond' ),
@@ -1795,15 +1763,7 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 52,
 	) );
 
-	$wp_customize->add_setting( 'bd_members_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_members_show', array(
-		'label'   => esc_html__( 'Show Members Section', 'baloch-diamond' ),
-		'section' => 'bd_members_section',
-		'type'    => 'checkbox',
-	) );
+	
 
 	bd_add_section_header_controls( $wp_customize, 'members', 'bd_members_section', array(
 		'badge' => esc_html__( 'Join the Circle', 'baloch-diamond' ),
@@ -1831,17 +1791,6 @@ function bd_customize_register( $wp_customize ) {
 		'priority' => 55,
 	) );
 
-	// Show / Hide Newsletter Section
-	$wp_customize->add_setting( 'bd_newsletter_show', array(
-		'default'           => true,
-		'sanitize_callback' => 'bd_sanitize_checkbox',
-	) );
-	$wp_customize->add_control( 'bd_newsletter_show', array(
-		'label'       => esc_html__( 'Show Newsletter Section', 'baloch-diamond' ),
-		'description' => esc_html__( 'Toggle to show or hide the newsletter section on the front page.', 'baloch-diamond' ),
-		'section'     => 'bd_newsletter_section',
-		'type'        => 'checkbox',
-	) );
 
 	bd_add_section_header_controls( $wp_customize, 'newsletter', 'bd_newsletter_section', array(
 		'badge' => esc_html__( 'Stay Connected', 'baloch-diamond' ),
@@ -2030,24 +1979,25 @@ function bd_customize_register( $wp_customize ) {
 	) );
 
 	// --- SOCIAL LINKS ---
+	// Labels are pre-translated literals (no variables inside gettext calls).
 	$social_networks = array(
-		'twitter'   => array( 'label' => 'Twitter / X URL',   'default' => '' ),
-		'github'    => array( 'label' => 'GitHub URL',         'default' => '' ),
-		'linkedin'  => array( 'label' => 'LinkedIn URL',       'default' => '' ),
-		'instagram' => array( 'label' => 'Instagram URL',      'default' => '' ),
-		'facebook'  => array( 'label' => 'Facebook URL',       'default' => '' ),
-		'youtube'   => array( 'label' => 'YouTube URL',        'default' => '' ),
-		'telegram'  => array( 'label' => 'Telegram URL',       'default' => '' ),
-		'whatsapp'  => array( 'label' => 'WhatsApp URL',       'default' => '' ),
+		'twitter'   => esc_html__( 'Twitter / X URL', 'baloch-diamond' ),
+		'github'    => esc_html__( 'GitHub URL', 'baloch-diamond' ),
+		'linkedin'  => esc_html__( 'LinkedIn URL', 'baloch-diamond' ),
+		'instagram' => esc_html__( 'Instagram URL', 'baloch-diamond' ),
+		'facebook'  => esc_html__( 'Facebook URL', 'baloch-diamond' ),
+		'youtube'   => esc_html__( 'YouTube URL', 'baloch-diamond' ),
+		'telegram'  => esc_html__( 'Telegram URL', 'baloch-diamond' ),
+		'whatsapp'  => esc_html__( 'WhatsApp URL', 'baloch-diamond' ),
 	);
 
-	foreach ( $social_networks as $key => $data ) {
+	foreach ( $social_networks as $key => $label ) {
 		$wp_customize->add_setting( "bd_footer_social_{$key}", array(
-			'default'           => $data['default'],
+			'default'           => '',
 			'sanitize_callback' => 'esc_url_raw',
 		) );
 		$wp_customize->add_control( "bd_footer_social_{$key}", array(
-			'label'       => esc_html__( $data['label'], 'baloch-diamond' ),
+			'label'       => $label,
 			'description' => esc_html__( 'Leave empty to hide this icon.', 'baloch-diamond' ),
 			'section'     => 'bd_footer_section',
 			'type'        => 'url',
@@ -2150,27 +2100,369 @@ function bd_customize_register( $wp_customize ) {
 		'type'    => 'checkbox',
 	) );
 
+	// ---- Default theme mode (visitors without a saved preference) ----
+	$wp_customize->add_setting( 'bd_default_theme_mode', array(
+		'default'           => 'light',
+		'sanitize_callback' => 'bd_sanitize_select',
+	) );
+	$wp_customize->add_control( 'bd_default_theme_mode', array(
+		'label'       => esc_html__( '🌗 Default Theme Mode', 'baloch-diamond' ),
+		'description' => esc_html__( 'The mode first-time visitors see. Once a visitor uses the toggle, their own choice is remembered in their browser.', 'baloch-diamond' ),
+		'section'     => 'bd_advanced_core',
+		'type'        => 'select',
+		'choices'     => array(
+			'light' => esc_html__( '☀️ Light', 'baloch-diamond' ),
+			'dark'  => esc_html__( '🌙 Dark', 'baloch-diamond' ),
+			'auto'  => esc_html__( '🖥️ Auto — follow the visitor\'s system preference', 'baloch-diamond' ),
+		),
+	) );
+
+	// ---- Custom LIGHT mode background ----
+	$wp_customize->add_setting( 'bd_light_bg_color', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_hex_color',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_light_bg_color',
+		array(
+			'label'       => esc_html__( '🎨 Light Mode — Custom Background', 'baloch-diamond' ),
+			'description' => esc_html__( 'Replace the white background with any color (e.g. cream, light blue). Card, border and text shades are derived automatically so text always stays readable. Leave empty for default white.', 'baloch-diamond' ),
+			'section'     => 'bd_advanced_core',
+		)
+	) );
+
+	// ---- Custom DARK mode background ----
+	$wp_customize->add_setting( 'bd_dark_bg_color', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_hex_color',
+	) );
+	$wp_customize->add_control( new WP_Customize_Color_Control(
+		$wp_customize,
+		'bd_dark_bg_color',
+		array(
+			'label'       => esc_html__( '🎨 Dark Mode — Custom Background', 'baloch-diamond' ),
+			'description' => esc_html__( 'Replace the navy background with any dark color (e.g. deep green, warm charcoal). Derived shades keep contrast safe. Leave empty for the default.', 'baloch-diamond' ),
+			'section'     => 'bd_advanced_core',
+		)
+	) );
+
+	// ================================================
+	// SECTION: TOPICS (CATEGORIES) — hidden by default
+	// ================================================
+	$wp_customize->add_section( 'bd_topics_section', array(
+		'title'    => esc_html__( '🏷️ Topics Section', 'baloch-diamond' ),
+		'panel'    => 'bd_panel',
+		'priority' => 46,
+	) );
+
+	
+
+	bd_add_section_header_controls( $wp_customize, 'topics', 'bd_topics_section', array(
+		'badge' => esc_html__( 'Explore', 'baloch-diamond' ),
+		'title' => esc_html__( 'Browse by Topic', 'baloch-diamond' ),
+		'desc'  => esc_html__( 'Find the content you care about, organized by subject.', 'baloch-diamond' ),
+	) );
+
+	$wp_customize->add_setting( 'bd_topics_count', array(
+		'default'           => 6,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'bd_topics_count', array(
+		'label'       => esc_html__( 'Number of Topics', 'baloch-diamond' ),
+		'section'     => 'bd_topics_section',
+		'type'        => 'number',
+		'input_attrs' => array( 'min' => 1, 'max' => 24, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'bd_topics_style', array(
+		'default'           => 'image',
+		'sanitize_callback' => 'bd_sanitize_select',
+	) );
+	$wp_customize->add_control( 'bd_topics_style', array(
+		'label'   => esc_html__( 'Card Style', 'baloch-diamond' ),
+		'section' => 'bd_topics_section',
+		'type'    => 'select',
+		'choices' => array(
+			'image' => esc_html__( 'Latest Post Image (icon fallback)', 'baloch-diamond' ),
+			'icon'  => esc_html__( 'Icon Tiles', 'baloch-diamond' ),
+		),
+	) );
+
+	$wp_customize->add_setting( 'bd_topics_show_count', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_topics_show_count', array(
+		'label'   => esc_html__( 'Show Post Count', 'baloch-diamond' ),
+		'section' => 'bd_topics_section',
+		'type'    => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'bd_topics_orderby', array(
+		'default'           => 'count',
+		'sanitize_callback' => 'bd_sanitize_select',
+	) );
+	$wp_customize->add_control( 'bd_topics_orderby', array(
+		'label'   => esc_html__( 'Order Topics By', 'baloch-diamond' ),
+		'section' => 'bd_topics_section',
+		'type'    => 'select',
+		'choices' => array(
+			'count' => esc_html__( 'Most Posts First', 'baloch-diamond' ),
+			'name'  => esc_html__( 'Alphabetical', 'baloch-diamond' ),
+		),
+	) );
+
+	// ================================================
+	// SECTION: POPULAR TAGS — hidden by default
+	// ================================================
+	$wp_customize->add_section( 'bd_tags_section', array(
+		'title'    => esc_html__( '🔖 Tags Section', 'baloch-diamond' ),
+		'panel'    => 'bd_panel',
+		'priority' => 47,
+	) );
+
+	
+
+	bd_add_section_header_controls( $wp_customize, 'tags', 'bd_tags_section', array(
+		'badge' => esc_html__( 'Keywords', 'baloch-diamond' ),
+		'title' => esc_html__( 'Popular Tags', 'baloch-diamond' ),
+		'desc'  => esc_html__( 'Jump straight to the subjects everyone is reading about.', 'baloch-diamond' ),
+	) );
+
+	$wp_customize->add_setting( 'bd_tags_count', array(
+		'default'           => 20,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'bd_tags_count', array(
+		'label'       => esc_html__( 'Number of Tags', 'baloch-diamond' ),
+		'section'     => 'bd_tags_section',
+		'type'        => 'number',
+		'input_attrs' => array( 'min' => 1, 'max' => 60, 'step' => 1 ),
+	) );
+
+	// ================================================
+	// SECTION: SITE ARCHIVE — hidden by default
+	// ================================================
+	$wp_customize->add_section( 'bd_archive_section', array(
+		'title'    => esc_html__( '🗄️ Archive Section', 'baloch-diamond' ),
+		'panel'    => 'bd_panel',
+		'priority' => 48,
+	) );
+
+	
+
+	bd_add_section_header_controls( $wp_customize, 'archive', 'bd_archive_section', array(
+		'badge' => esc_html__( 'Time Machine', 'baloch-diamond' ),
+		'title' => esc_html__( 'Site Archive', 'baloch-diamond' ),
+		'desc'  => esc_html__( 'Browse everything we have published, month by month.', 'baloch-diamond' ),
+	) );
+
+	$wp_customize->add_setting( 'bd_archive_months', array(
+		'default'           => 8,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'bd_archive_months', array(
+		'label'       => esc_html__( 'Number of Months', 'baloch-diamond' ),
+		'section'     => 'bd_archive_section',
+		'type'        => 'number',
+		'input_attrs' => array( 'min' => 1, 'max' => 36, 'step' => 1 ),
+	) );
+
+	$wp_customize->add_setting( 'bd_archive_show_stats', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_archive_show_stats', array(
+		'label'   => esc_html__( 'Show Site Statistics (posts, categories, tags, comments)', 'baloch-diamond' ),
+		'section' => 'bd_archive_section',
+		'type'    => 'checkbox',
+	) );
+
+	// ================================================
+	// SECTION: COMMENT PROTECTION
+	// ================================================
+	$wp_customize->add_section( 'bd_comments_section', array(
+		'title'       => esc_html__( '🛡️ Comment Protection', 'baloch-diamond' ),
+		'description' => esc_html__( 'Extra filters applied on top of the WordPress core comment settings (Settings → Discussion).', 'baloch-diamond' ),
+		'panel'       => 'bd_panel',
+		'priority'    => 50,
+	) );
+
+	// Strip ALL HTML from comments
+	$wp_customize->add_setting( 'bd_comments_strip_html', array(
+		'default'           => false,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_comments_strip_html', array(
+		'label'       => esc_html__( 'Strip ALL HTML Tags from Comments', 'baloch-diamond' ),
+		'description' => esc_html__( 'WordPress already removes dangerous tags; this removes EVERY tag (links, bold, images…) so comments are always plain text.', 'baloch-diamond' ),
+		'section'     => 'bd_comments_section',
+		'type'        => 'checkbox',
+	) );
+
+	// Block links in comments
+	$wp_customize->add_setting( 'bd_comments_block_links', array(
+		'default'           => false,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_comments_block_links', array(
+		'label'       => esc_html__( 'Reject Comments Containing Links (URLs)', 'baloch-diamond' ),
+		'description' => esc_html__( 'Comments that include http(s) URLs or www. addresses are rejected with a friendly error — a very effective anti-spam measure.', 'baloch-diamond' ),
+		'section'     => 'bd_comments_section',
+		'type'        => 'checkbox',
+	) );
+
+	// Blocked words
+	$wp_customize->add_setting( 'bd_comments_blocked_words', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'bd_comments_blocked_words', array(
+		'label'       => esc_html__( 'Blocked Words / Characters', 'baloch-diamond' ),
+		'description' => esc_html__( 'One entry per line. Any comment containing one of these words or character sequences is rejected before it is saved.', 'baloch-diamond' ),
+		'section'     => 'bd_comments_section',
+		'type'        => 'textarea',
+	) );
+
+	// Min length
+	$wp_customize->add_setting( 'bd_comments_min_length', array(
+		'default'           => 0,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'bd_comments_min_length', array(
+		'label'       => esc_html__( 'Minimum Comment Length (characters)', 'baloch-diamond' ),
+		'description' => esc_html__( '0 = disabled. Rejects ultra-short spam like "nice".', 'baloch-diamond' ),
+		'section'     => 'bd_comments_section',
+		'type'        => 'number',
+		'input_attrs' => array( 'min' => 0, 'max' => 500, 'step' => 5 ),
+	) );
+
+	// Max length
+	$wp_customize->add_setting( 'bd_comments_max_length', array(
+		'default'           => 0,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'bd_comments_max_length', array(
+		'label'       => esc_html__( 'Maximum Comment Length (characters)', 'baloch-diamond' ),
+		'description' => esc_html__( '0 = disabled. Blocks wall-of-text spam floods.', 'baloch-diamond' ),
+		'section'     => 'bd_comments_section',
+		'type'        => 'number',
+		'input_attrs' => array( 'min' => 0, 'max' => 65000, 'step' => 100 ),
+	) );
+
+	// Apply to logged-in users too?
+	$wp_customize->add_setting( 'bd_comments_filter_logged_in', array(
+		'default'           => false,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_comments_filter_logged_in', array(
+		'label'       => esc_html__( 'Also Apply Filters to Logged-in Users', 'baloch-diamond' ),
+		'description' => esc_html__( 'By default administrators/editors are exempt. Users who can moderate comments are always exempt.', 'baloch-diamond' ),
+		'section'     => 'bd_comments_section',
+		'type'        => 'checkbox',
+	) );
+
+	// ================================================
+	// SECTION: STATIC PAGE SETTINGS
+	// ================================================
+	$wp_customize->add_section( 'bd_page_settings', array(
+		'title'    => esc_html__( '📄 Page Settings', 'baloch-diamond' ),
+		'panel'    => 'bd_panel',
+		'priority' => 49,
+	) );
+
+	$wp_customize->add_setting( 'bd_page_show_slider', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_page_show_slider', array(
+		'label'       => esc_html__( 'Show Hero Slider on Pages', 'baloch-diamond' ),
+		'description' => esc_html__( 'Static pages only show the Hero Slider and Newsletter — no other front-page sections. The slider also respects its own global visibility setting.', 'baloch-diamond' ),
+		'section'     => 'bd_page_settings',
+		'type'        => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'bd_page_show_newsletter', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_page_show_newsletter', array(
+		'label'       => esc_html__( 'Show Newsletter on Pages', 'baloch-diamond' ),
+		'description' => esc_html__( 'Renders full-width above the footer. Also respects the global Newsletter visibility setting.', 'baloch-diamond' ),
+		'section'     => 'bd_page_settings',
+		'type'        => 'checkbox',
+	) );
+
 	// ================================================
 	// SECTION: PAGE SECTIONS ORDER & VISIBILITY
 	// ================================================
 	$wp_customize->add_section( 'bd_sections_order', array(
-		'title'    => esc_html__( '📋 Sections Order & Visibility', 'baloch-diamond' ),
-		'panel'    => 'bd_panel',
-		'priority' => 5,
+		'title'       => esc_html__( '📋 Sections Order & Visibility', 'baloch-diamond' ),
+		'description' => esc_html__( 'The ONLY place to show/hide front-page sections: use the eye icon. Drag rows to reorder or move them into a sidebar column.', 'baloch-diamond' ),
+		'panel'       => 'bd_panel',
+		'priority'    => 5,
 	) );
 
-	// Single JSON setting — stores both order and visibility for all sections
+	// ---- Paged views (/page/2/ …): per-section visibility ----
+	// Master switch: filter sections on paged views at all?
+	$wp_customize->add_setting( 'bd_paged_blog_only', array(
+		'default'           => true,
+		'sanitize_callback' => 'bd_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'bd_paged_blog_only', array(
+		'label'       => esc_html__( '📑 Paged Views: Filter Sections', 'baloch-diamond' ),
+		'description' => esc_html__( 'When visitors browse older posts (/page/2/ and beyond via Numbered pagination), show only the Blog grid plus the sections ticked below. Page 1 always shows the full layout. Untick to show everything on every page.', 'baloch-diamond' ),
+		'section'     => 'bd_sections_order',
+		'type'        => 'checkbox',
+	) );
+
+	// Per-section checkboxes: which sections ALSO appear on paged views.
+	// Defaults: slider ON, everything else OFF. (Blog itself is always shown.)
+	$bd_paged_sections = array(
+		'slider'     => array( '🖼️ ' . esc_html__( 'Hero Slider',        'baloch-diamond' ), true ),
+		'shop'       => array( '🛍️ ' . esc_html__( 'Shop',               'baloch-diamond' ), false ),
+		'forum'      => array( '💬 ' . esc_html__( 'Community / Forum',  'baloch-diamond' ), false ),
+		'portfolio'  => array( '🗂️ ' . esc_html__( 'Portfolio',          'baloch-diamond' ), false ),
+		'resources'  => array( '📚 ' . esc_html__( 'Resources',          'baloch-diamond' ), false ),
+		'team'       => array( '👥 ' . esc_html__( 'Team',               'baloch-diamond' ), false ),
+		'newsletter' => array( '✉️ ' . esc_html__( 'Newsletter',         'baloch-diamond' ), false ),
+		'members'    => array( '👤 ' . esc_html__( 'Community Members',  'baloch-diamond' ), false ),
+		'topics'     => array( '🏷️ ' . esc_html__( 'Topics',             'baloch-diamond' ), false ),
+		'tags'       => array( '🔖 ' . esc_html__( 'Popular Tags',       'baloch-diamond' ), false ),
+		'archive'    => array( '🗄️ ' . esc_html__( 'Site Archive',       'baloch-diamond' ), false ),
+	);
+	foreach ( $bd_paged_sections as $bd_ps_key => $bd_ps ) {
+		$wp_customize->add_setting( 'bd_paged_show_' . $bd_ps_key, array(
+			'default'           => $bd_ps[1],
+			'sanitize_callback' => 'bd_sanitize_checkbox',
+		) );
+		$wp_customize->add_control( 'bd_paged_show_' . $bd_ps_key, array(
+			/* translators: %s: section name. */
+			'label'           => sprintf( esc_html__( 'Paged: show %s', 'baloch-diamond' ), $bd_ps[0] ),
+			'section'         => 'bd_sections_order',
+			'type'            => 'checkbox',
+			'active_callback' => function () {
+				return (bool) get_theme_mod( 'bd_paged_blog_only', true );
+			},
+		) );
+	}
+
+	// Single JSON setting — stores order, visibility AND column-zone for all sections
 	$wp_customize->add_setting( 'bd_sections_layout', array(
 		'default'           => wp_json_encode( array(
-			array( 'key' => 'slider',     'visible' => true ),
-			array( 'key' => 'shop',       'visible' => true ),
-			array( 'key' => 'forum',      'visible' => true ),
-			array( 'key' => 'portfolio',  'visible' => true ),
-			array( 'key' => 'blog',       'visible' => true ),
-			array( 'key' => 'resources',  'visible' => true ),
-			array( 'key' => 'team',       'visible' => true ),
-			array( 'key' => 'newsletter', 'visible' => true ),
-			array( 'key' => 'members',    'visible' => true ),
+			array( 'key' => 'slider',     'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'shop',       'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'forum',      'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'portfolio',  'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'blog',       'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'topics',     'visible' => false, 'zone' => 'main' ),
+			array( 'key' => 'tags',       'visible' => false, 'zone' => 'main' ),
+			array( 'key' => 'archive',    'visible' => false, 'zone' => 'main' ),
+			array( 'key' => 'resources',  'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'team',       'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'newsletter', 'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'members',    'visible' => true,  'zone' => 'main' ),
 		) ),
 		'sanitize_callback' => 'bd_sanitize_sections_layout',
 		'transport'         => 'refresh',
@@ -2181,7 +2473,7 @@ function bd_customize_register( $wp_customize ) {
 				$wp_customize,
 				'bd_sections_layout',
 				array(
-					'label'   => esc_html__( 'Drag to reorder — toggle eye to show/hide', 'baloch-diamond' ),
+					'label'   => esc_html__( 'Drag between columns — toggle eye to show/hide', 'baloch-diamond' ),
 					'section' => 'bd_sections_order',
 				)
 			)
@@ -2189,6 +2481,15 @@ function bd_customize_register( $wp_customize ) {
 	}
 
 }
+
+/**
+ * Section keys that can never be moved into a sidebar zone.
+ * (Hero slider, Newsletter banner and the Blog grid stay in the main column.)
+ */
+function bd_get_locked_section_keys() {
+	return array( 'slider', 'newsletter', 'blog' );
+}
+
 /**
  * Sanitize the sections layout JSON value.
  */
@@ -2197,13 +2498,26 @@ function bd_sanitize_sections_layout( $value ) {
 	if ( ! is_array( $decoded ) ) {
 		return get_theme_mod( 'bd_sections_layout' );
 	}
-	$allowed_keys = array( 'slider','shop','forum','portfolio','blog','resources','team','newsletter','members' );
-	$sanitized    = array();
+	$allowed_keys  = array( 'slider','shop','forum','portfolio','blog','resources','team','newsletter','members','topics','tags','archive' );
+	$allowed_zones = array( 'main', 'left', 'right' );
+	$locked_keys   = bd_get_locked_section_keys();
+	$sanitized     = array();
 	foreach ( $decoded as $item ) {
 		if ( isset( $item['key'] ) && in_array( $item['key'], $allowed_keys, true ) ) {
+			$key  = sanitize_key( $item['key'] );
+			$zone = ( isset( $item['zone'] ) && in_array( $item['zone'], $allowed_zones, true ) )
+				? $item['zone']
+				: 'main';
+
+			// Locked sections are always forced back into the main column
+			if ( in_array( $key, $locked_keys, true ) ) {
+				$zone = 'main';
+			}
+
 			$sanitized[] = array(
-				'key'     => sanitize_key( $item['key'] ),
+				'key'     => $key,
 				'visible' => ! empty( $item['visible'] ),
+				'zone'    => $zone,
 			);
 		}
 	}
@@ -2241,34 +2555,54 @@ class BD_Sections_Sorter_Control extends WP_Customize_Control {
 			'team'       => '👥 ' . esc_html__( 'Team',                     'baloch-diamond' ),
 			'newsletter' => '✉️ ' . esc_html__( 'Newsletter',               'baloch-diamond' ),
 			'members'    => '👤 ' . esc_html__( 'Community Members',        'baloch-diamond' ),
+			'topics'     => '🏷️ ' . esc_html__( 'Topics (Categories)',      'baloch-diamond' ),
+			'tags'       => '🔖 ' . esc_html__( 'Popular Tags',             'baloch-diamond' ),
+			'archive'    => '🗄️ ' . esc_html__( 'Site Archive',            'baloch-diamond' ),
 		);
+	}
+
+	/**
+	 * Section keys that must stay in the main column.
+	 */
+	private function get_locked_keys() {
+		return function_exists( 'bd_get_locked_section_keys' )
+			? bd_get_locked_section_keys()
+			: array( 'slider', 'newsletter', 'blog' );
 	}
 
 	/**
 	 * Enqueue the Sorter scripts & styles (only in Customizer).
 	 */
 	public function enqueue() {
+		// Cache-bust with the file's modification time so CDNs/proxies can
+		// never serve a stale copy of the sorter after a theme update.
+		$sorter_path = get_template_directory() . '/assets/js/sections-sorter.js';
+		$sorter_ver  = file_exists( $sorter_path ) ? BD_VERSION . '.' . filemtime( $sorter_path ) : BD_VERSION;
+
 		wp_enqueue_script(
 			'bd-sections-sorter',
 			get_template_directory_uri() . '/assets/js/sections-sorter.js',
-			array( 'jquery-ui-sortable', 'customize-controls' ),
-			BD_VERSION,
+			array( 'jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'customize-controls' ),
+			$sorter_ver,
 			true
 		);
+		wp_localize_script( 'bd-sections-sorter', 'bdSorterL10n', array(
+			'dropHere' => esc_html__( 'Drop sections here to activate this sidebar', 'baloch-diamond' ),
+		) );
 		wp_add_inline_style( 'customize-controls', '
 			.bd-sorter-list { list-style:none; margin:0; padding:0; }
 			.bd-sorter-item {
-				display:flex; align-items:center; gap:10px;
+				display:flex; align-items:center; gap:8px;
 				background:#fff; border:1px solid #ddd; border-radius:8px;
-				padding:10px 12px; margin-bottom:8px; cursor:grab;
+				padding:9px 10px; margin-bottom:8px; cursor:grab;
 				transition:box-shadow .2s, opacity .2s; user-select:none;
 			}
 			.bd-sorter-item:active { cursor:grabbing; }
 			.bd-sorter-item.ui-sortable-helper { box-shadow:0 6px 20px rgba(0,0,0,.15); opacity:.95; }
-			.bd-sorter-item.ui-sortable-placeholder { visibility:visible!important; background:#f0f7ff; border:2px dashed #7eb8f7; }
+			.bd-sorter-item.ui-sortable-placeholder { visibility:visible!important; background:#f0f7ff; border:2px dashed #7eb8f7; min-height:38px; }
 			.bd-sorter-handle { color:#aaa; flex-shrink:0; cursor:grab; line-height:1; }
 			.bd-sorter-handle:active { cursor:grabbing; }
-			.bd-sorter-label { flex:1; font-size:13px; font-weight:500; color:#1e1e1e; }
+			.bd-sorter-label { flex:1; font-size:12px; font-weight:500; color:#1e1e1e; line-height:1.3; }
 			.bd-sorter-item.is-hidden .bd-sorter-label { opacity:.4; text-decoration:line-through; }
 			.bd-sorter-toggle {
 				background:none; border:none; cursor:pointer; padding:4px;
@@ -2280,61 +2614,174 @@ class BD_Sections_Sorter_Control extends WP_Customize_Control {
 			.bd-sorter-hint {
 				font-size:11px; color:#757575; margin-bottom:10px; line-height:1.5;
 			}
+
+			/* ---- Multi-zone layout ---- */
+			.bd-sorter-zones { display:flex; flex-direction:column; gap:12px; }
+			.bd-sorter-zone {
+				border:1px solid #dcdcde; border-radius:10px;
+				background:#f6f7f7; padding:8px;
+			}
+			.bd-sorter-zone-title {
+				display:flex; align-items:center; gap:6px;
+				font-size:11px; font-weight:700; text-transform:uppercase;
+				letter-spacing:.4px; color:#50575e; margin:0 2px 8px;
+			}
+			.bd-sorter-zone .bd-sorter-list {
+				min-height:44px;
+				border-radius:8px;
+				transition:background .2s, outline .2s;
+			}
+			.bd-sorter-zone .bd-sorter-list.bd-drop-active {
+				background:#eef6fc; outline:2px dashed #7eb8f7; outline-offset:-2px;
+			}
+			.bd-sorter-zone .bd-sorter-list:empty::after,
+			.bd-sorter-zone .bd-sorter-list .bd-sorter-empty {
+				content:"";
+			}
+			.bd-sorter-empty {
+				display:block; font-size:11px; color:#9aa0a6; text-align:center;
+				padding:12px 6px; border:1px dashed #cfd4d9; border-radius:8px;
+				margin-bottom:8px; pointer-events:none;
+			}
+			.bd-sorter-item.bd-is-locked { background:#fbfbfc; }
+			.bd-sorter-lock {
+				color:#b5bcc2; flex-shrink:0; line-height:1;
+			}
+			.bd-sorter-item .bd-sorter-zone-badge {
+				font-size:9px; font-weight:700; color:#2271b1;
+				background:#eef6fc; border-radius:4px; padding:2px 5px;
+				flex-shrink:0; text-transform:uppercase; letter-spacing:.3px;
+			}
 		' );
 	}
 
 	/**
-	 * Render the control HTML.
+	 * Render one sortable row (li).
+	 */
+	private function render_item( $key, $visible, $zone, $label, $is_locked ) {
+		$hidden_class = $visible ? '' : ' is-hidden';
+		$locked_class = $is_locked ? ' bd-is-locked' : '';
+		// Eye SVG (shown vs hidden)
+		$eye_on  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+		$eye_off = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+		$lock    = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+		?>
+		<li class="bd-sorter-item<?php echo esc_attr( $hidden_class . $locked_class ); ?>"
+			data-key="<?php echo esc_attr( $key ); ?>"
+			data-visible="<?php echo $visible ? '1' : '0'; ?>"
+			data-zone="<?php echo esc_attr( $zone ); ?>"
+			data-locked="<?php echo $is_locked ? '1' : '0'; ?>">
+			<span class="bd-sorter-handle" title="<?php esc_attr_e( 'Drag to reorder or move between columns', 'baloch-diamond' ); ?>">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+			</span>
+			<span class="bd-sorter-label"><?php echo esc_html( $label ); ?></span>
+			<?php if ( $is_locked ) : ?>
+				<span class="bd-sorter-lock" title="<?php esc_attr_e( 'This section always stays in the main column', 'baloch-diamond' ); ?>">
+					<?php echo $lock; // phpcs:ignore ?>
+				</span>
+			<?php endif; ?>
+			<button type="button" class="bd-sorter-toggle"
+				title="<?php echo $visible ? esc_attr__( 'Click to hide', 'baloch-diamond' ) : esc_attr__( 'Click to show', 'baloch-diamond' ); ?>">
+				<?php echo $visible ? $eye_on : $eye_off; // phpcs:ignore ?>
+			</button>
+		</li>
+		<?php
+	}
+
+	/**
+	 * Render the control HTML — three drop zones (Left / Main / Right).
 	 */
 	public function render_content() {
 		$raw    = $this->value();
 		$items  = json_decode( $raw, true );
 		$labels = $this->get_labels();
+		$locked = $this->get_locked_keys();
+
+		$default_items = array(
+			array( 'key' => 'slider',     'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'shop',       'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'forum',      'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'portfolio',  'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'blog',       'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'topics',     'visible' => false, 'zone' => 'main' ),
+			array( 'key' => 'tags',       'visible' => false, 'zone' => 'main' ),
+			array( 'key' => 'archive',    'visible' => false, 'zone' => 'main' ),
+			array( 'key' => 'resources',  'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'team',       'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'newsletter', 'visible' => true,  'zone' => 'main' ),
+			array( 'key' => 'members',    'visible' => true,  'zone' => 'main' ),
+		);
 
 		// Fallback to default order if JSON is invalid
 		if ( ! is_array( $items ) || empty( $items ) ) {
-			$items = array(
-				array( 'key' => 'slider',     'visible' => true ),
-				array( 'key' => 'shop',       'visible' => true ),
-				array( 'key' => 'forum',      'visible' => true ),
-				array( 'key' => 'portfolio',  'visible' => true ),
-				array( 'key' => 'blog',       'visible' => true ),
-				array( 'key' => 'resources',  'visible' => true ),
-				array( 'key' => 'team',       'visible' => true ),
-				array( 'key' => 'newsletter', 'visible' => true ),
-				array( 'key' => 'members',    'visible' => true ),
+			$items = $default_items;
+		}
+
+		// Merge in any NEW section keys missing from a saved layout
+		// (appended hidden so existing sites keep their appearance)
+		$existing_keys = wp_list_pluck( $items, 'key' );
+		foreach ( $default_items as $default_item ) {
+			if ( ! in_array( $default_item['key'], $existing_keys, true ) ) {
+				$default_item['visible'] = false;
+				$items[] = $default_item;
+			}
+		}
+
+		// Group items into zones (order preserved)
+		$zones = array( 'left' => array(), 'main' => array(), 'right' => array() );
+		foreach ( $items as $item ) {
+			$key  = sanitize_key( $item['key'] );
+			$zone = ( isset( $item['zone'] ) && isset( $zones[ $item['zone'] ] ) ) ? $item['zone'] : 'main';
+			if ( in_array( $key, $locked, true ) ) {
+				$zone = 'main';
+			}
+			$zones[ $zone ][] = array(
+				'key'     => $key,
+				'visible' => ! empty( $item['visible'] ),
 			);
 		}
+
+		$zone_meta = array(
+			'left'  => array( 'icon' => '⬅️', 'title' => esc_html__( 'Left Sidebar',  'baloch-diamond' ) ),
+			'main'  => array( 'icon' => '▣',  'title' => esc_html__( 'Main Column',   'baloch-diamond' ) ),
+			'right' => array( 'icon' => '➡️', 'title' => esc_html__( 'Right Sidebar', 'baloch-diamond' ) ),
+		);
 		?>
 		<p class="bd-sorter-hint">
-			<?php esc_html_e( '⠿ Drag rows to reorder sections on the front page.', 'baloch-diamond' ); ?><br>
-			<?php esc_html_e( '👁 Click the eye icon to show or hide a section.', 'baloch-diamond' ); ?>
+			<?php esc_html_e( '⠿ Drag rows to reorder — or drag them into the Left/Right sidebar boxes to create a 2- or 3-column layout.', 'baloch-diamond' ); ?><br>
+			<?php esc_html_e( '👁 Click the eye icon to show or hide a section.', 'baloch-diamond' ); ?><br>
+			<?php esc_html_e( '🔒 Locked sections (Hero Slider, Newsletter, Blog) always stay in the main column.', 'baloch-diamond' ); ?>
 		</p>
 
-		<ul class="bd-sorter-list" id="bd-sorter-list-<?php echo esc_attr( $this->id ); ?>">
-		<?php foreach ( $items as $item ) :
-			$key     = sanitize_key( $item['key'] );
-			$visible = ! empty( $item['visible'] );
-			$label   = isset( $labels[ $key ] ) ? $labels[ $key ] : $key;
-			$hidden_class = $visible ? '' : ' is-hidden';
-			// Eye SVG (shown vs hidden)
-			$eye_on  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
-			$eye_off = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
-		?>
-			<li class="bd-sorter-item<?php echo esc_attr( $hidden_class ); ?>"
-				data-key="<?php echo esc_attr( $key ); ?>"
-				data-visible="<?php echo $visible ? '1' : '0'; ?>">
-				<span class="bd-sorter-handle" title="<?php esc_attr_e( 'Drag to reorder', 'baloch-diamond' ); ?>">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-				</span>
-				<span class="bd-sorter-label"><?php echo esc_html( $label ); ?></span>
-				<button type="button" class="bd-sorter-toggle"
-					title="<?php echo $visible ? esc_attr__( 'Click to hide', 'baloch-diamond' ) : esc_attr__( 'Click to show', 'baloch-diamond' ); ?>">
-					<?php echo $visible ? $eye_on : $eye_off; // phpcs:ignore ?>
-				</button>
-			</li>
-		<?php endforeach; ?>
-		</ul>
+		<div class="bd-sorter-zones" id="bd-sorter-zones-<?php echo esc_attr( $this->id ); ?>" data-setting-id="<?php echo esc_attr( $this->id ); ?>">
+			<?php foreach ( array( 'left', 'main', 'right' ) as $zone_key ) : ?>
+				<div class="bd-sorter-zone" data-zone="<?php echo esc_attr( $zone_key ); ?>">
+					<p class="bd-sorter-zone-title">
+						<span><?php echo esc_html( $zone_meta[ $zone_key ]['icon'] ); ?></span>
+						<?php echo esc_html( $zone_meta[ $zone_key ]['title'] ); ?>
+					</p>
+					<ul class="bd-sorter-list"
+						data-zone="<?php echo esc_attr( $zone_key ); ?>"
+						id="bd-sorter-list-<?php echo esc_attr( $this->id . '-' . $zone_key ); ?>">
+						<?php
+						if ( empty( $zones[ $zone_key ] ) && 'main' !== $zone_key ) {
+							echo '<li class="bd-sorter-empty">' . esc_html__( 'Drop sections here to activate this sidebar', 'baloch-diamond' ) . '</li>';
+						}
+						foreach ( $zones[ $zone_key ] as $item ) {
+							$label = isset( $labels[ $item['key'] ] ) ? $labels[ $item['key'] ] : $item['key'];
+							$this->render_item(
+								$item['key'],
+								$item['visible'],
+								$zone_key,
+								$label,
+								in_array( $item['key'], $locked, true )
+							);
+						}
+						?>
+					</ul>
+				</div>
+			<?php endforeach; ?>
+		</div>
 
 		<input type="hidden"
 			id="<?php echo esc_attr( $this->id ); ?>"

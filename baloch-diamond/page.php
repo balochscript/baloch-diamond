@@ -2,10 +2,26 @@
 /**
  * Page Template
  *
+ * Static pages intentionally stay minimal: header, optional Hero Slider,
+ * the page content, optional Newsletter, and the footer.
+ * No other front-page sections (shop, forum, portfolio, blog, …) are
+ * ever rendered on pages.
+ *
+ * Both extras are Customizer-controlled:
+ * Appearance → Customize → 💎 Baloch Diamond Settings → 📄 Page Settings
+ *
  * @package Baloch_Diamond
+ * @version 1.4.3
  */
 
 get_header();
+
+// ---- Optional Hero Slider on pages ----
+$bd_page_has_slider = false;
+if ( get_theme_mod( 'bd_page_show_slider', true ) && bd_is_section_visible( 'slider' ) ) {
+    get_template_part( 'template-parts/hero-slider' );
+    $bd_page_has_slider = true;
+}
 ?>
 
 <main class="site-main" id="mainContent">
@@ -13,7 +29,7 @@ get_header();
     <?php while ( have_posts() ) : the_post(); ?>
 
         <!-- Page Hero -->
-        <div class="single-post-hero" style="<?php echo has_post_thumbnail() ? '' : 'min-height:250px;height:30vh;'; ?>">
+        <div class="single-post-hero<?php echo $bd_page_has_slider ? ' page-hero--after-slider' : ''; ?>" style="<?php echo has_post_thumbnail() ? '' : 'min-height:250px;height:30vh;'; ?>">
             <?php if ( has_post_thumbnail() ) : ?>
                 <?php the_post_thumbnail( 'bd-slider', array( 'alt' => get_the_title() ) ); ?>
             <?php else : ?>
@@ -54,6 +70,13 @@ get_header();
         <?php endif; ?>
 
     <?php endwhile; ?>
+
+    <?php
+    // ---- Optional Newsletter on pages (full-width, above the footer) ----
+    if ( get_theme_mod( 'bd_page_show_newsletter', true ) && bd_is_section_visible( 'newsletter' ) ) {
+        get_template_part( 'template-parts/section-newsletter' );
+    }
+    ?>
 
 </main>
 

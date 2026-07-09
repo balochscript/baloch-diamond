@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Hide/Show toggle
-if ( ! get_theme_mod( 'bd_resources_show', true ) ) {
+if ( ! bd_is_section_visible( 'resources' ) ) {
     return;
 }
 

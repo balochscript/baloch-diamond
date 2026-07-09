@@ -4,14 +4,27 @@ Theme URI: https://balochscript.com/baloch-diamond
 Author: Baloch Script Team
 Author URI: https://balochscript.com
 Description: A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence. Features include customizable colors, hero slider, portfolio showcase, team section, and full dark/light mode support.
-Version: 1.2.2
-Tested up to: 6.7
+Version: 1.6.2
+Tested up to: 7.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: baloch-diamond
-Tags: blog, portfolio, custom-colors, custom-logo, custom-menu, featured-images, theme-options, translation-ready, one-column, two-columns
+Tags: blog, portfolio, custom-colors, custom-logo, custom-menu, featured-images, theme-options, translation-ready, one-column, two-columns, three-columns, left-sidebar, right-sidebar
+
+Baloch Diamond WordPress Theme, Copyright (C) 2026 Baloch Script Team
+Baloch Diamond is distributed under the terms of the GNU GPL v2 or later.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 */
 
 /* ============================================
@@ -395,7 +408,13 @@ body.rtl .project-card-title, body.rtl .product-title {
 .slide-overlay {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    /* Overlay color + strength are Customizer-controlled:
+       --bd-slide-overlay-rgb   (default 0,0,0)
+       --bd-slide-overlay-alpha (default 0.8, range 0–1) */
+    background: linear-gradient(
+        transparent,
+        rgba( var(--bd-slide-overlay-rgb, 0, 0, 0), var(--bd-slide-overlay-alpha, 0.8) )
+    );
     padding: 60px 40px 40px;
     display: flex;
     flex-direction: column;
@@ -1643,6 +1662,13 @@ body.rtl .project-card-title, body.rtl .product-title {
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
 .gallery-item { margin: 0; }
 .gallery-item img { width: 100%; height: auto; border-radius: 8px; }
+.gallery-caption { font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 6px 4px; }
+
+/* Highlight comments written by the post author */
+.bypostauthor > .comment-body {
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.12);
+}
 
 .sticky .post-card { border: 2px solid var(--color-primary); }
 
@@ -2377,3 +2403,705 @@ body.bd-embroidery-enabled .error-diamond {
 [data-theme="dark"] body.bd-embroidery-enabled .notification-icon::after {
     border-color: var(--bd-embroidery-thread-1);
 }
+
+
+/* ============================================
+   MULTI-COLUMN FRONT-PAGE LAYOUT (v1.3.0)
+   ============================================
+   The front page can now be split into 1, 2 or 3 columns.
+   .bd-layout is only printed when at least one section has been
+   dragged into a sidebar zone in:
+   Customize → 💎 Baloch Diamond → 📋 Sections Order & Visibility
+
+   Columns are proportional (fr units) — the admin's layout is kept
+   on every screen size with no pixel-width settings needed.
+*/
+
+.bd-layout {
+    display: grid;
+    gap: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px 0;   /* breathing room below the header/slider */
+    align-items: start;
+}
+
+/* No slider above? Clear the fixed header (70px) plus the
+   same comfortable breathing room. */
+.site-main > .bd-layout:first-child {
+    padding-top: 110px;
+}
+
+/* Which sidebars exist?
+   Sidebar widths are fully PROPORTIONAL (fr units) — no pixel
+   values needed. Whatever column layout the admin builds
+   (1, 2 or 3 columns) is preserved on every screen width;
+   the columns simply scale together.
+   2-col: sidebar ≈ 27% / main ≈ 73%
+   3-col: sidebars ≈ 24% each / main ≈ 52%                     */
+.bd-layout--left  { grid-template-columns: minmax(0, 27fr) minmax(0, 73fr); }
+.bd-layout--right { grid-template-columns: minmax(0, 73fr) minmax(0, 27fr); }
+.bd-layout--both  { grid-template-columns: minmax(0, 24fr) minmax(0, 52fr) minmax(0, 24fr); }
+
+/* RTL: grid columns flip automatically with direction, nothing extra needed. */
+
+/* Zones */
+.bd-zone { min-width: 0; }
+
+.bd-zone--sidebar {
+    position: sticky;
+    top: 100px; /* below the fixed header when scrolling, with breathing room */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-self: start;
+    /* Independent scrolling: a tall sidebar scrolls INSIDE its own
+       box instead of pushing the whole page. overscroll-behavior
+       stops the scroll from chaining to the main column when the
+       sidebar reaches its end. */
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+.bd-zone--sidebar::-webkit-scrollbar { width: 6px; }
+.bd-zone--sidebar::-webkit-scrollbar-track { background: transparent; }
+.bd-zone--sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+/* Sidebars carry the same decorative Balochi needlework pattern
+   as the main sections, so the background feels continuous
+   across all columns. */
+.bd-zone--sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 15 L30 25 L25 15Z' fill='none' stroke='%2338bdf8' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M10 25 L15 35 L10 45 L5 35Z' fill='none' stroke='%23f97316' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M50 25 L55 35 L50 45 L45 35Z' fill='none' stroke='%2338bdf8' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M30 45 L35 55 L30 65 L25 55Z' fill='none' stroke='%23f97316' stroke-width='0.5' opacity='0.15'/%3E%3Ccircle cx='30' cy='30' r='2' fill='none' stroke='%2338bdf8' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Keep the sidebar pattern animated when the theme option is on,
+   matching the animated patterns of the main sections. */
+body.balochi-pattern-animated .bd-zone--sidebar::before {
+    animation: stitchPulse 12s infinite linear;
+}
+
+/* Sidebar sections render above the pattern layer.
+   flex-shrink:0 is essential: without it the flex column would
+   COMPRESS the sections to fit max-height instead of letting the
+   sidebar scroll. */
+.bd-zone--sidebar > .section,
+.bd-zone--sidebar > .section-full {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+/* -----------------------------------------------
+   Sections INSIDE the multi-column wrapper:
+   the .section max-width/centering moves up to
+   .bd-layout, so neutralise it here.
+   ----------------------------------------------- */
+.bd-layout .section,
+.bd-layout .section-full {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Main column keeps comfortable padding, but slightly reduced */
+.bd-zone--main .section,
+.bd-zone--main .section-full {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Blog section becomes narrower next to a sidebar:
+   smaller cards so more still fit */
+.bd-zone--main .posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Slightly tighter section spacing in multi-column mode */
+.bd-zone--main .section { padding-top: 56px; padding-bottom: 56px; }
+
+/* ===============================================
+   COMPACT SIDEBAR MODE
+   Any section dropped into a sidebar switches to a
+   narrow, vertical presentation.
+   Sections keep their OWN native backgrounds (same
+   as one-column mode) — no card wrapper is added.
+   =============================================== */
+
+.bd-zone--sidebar .section,
+.bd-zone--sidebar .section-full {
+    padding: 30px 16px;
+}
+
+/* Compact section headers — badge, title and description stay CENTERED */
+.bd-zone--sidebar .section-header {
+    margin-bottom: 20px !important;
+    text-align: center;
+}
+.bd-zone--sidebar .section-title {
+    font-size: 1.15rem !important;
+    margin-bottom: 6px !important;
+}
+.bd-zone--sidebar .section-badge {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    margin-bottom: 8px;
+}
+.bd-zone--sidebar .section-desc {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Main-column section headers also stay centered in multi-column mode */
+.bd-zone--main .section-header {
+    text-align: center;
+}
+.bd-zone--main .section-desc {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* All the wide auto-fill grids collapse to ONE vertical column */
+.bd-zone--sidebar .projects-grid,
+.bd-zone--sidebar .docs-grid,
+.bd-zone--sidebar .team-grid,
+.bd-zone--sidebar .products-grid,
+.bd-zone--sidebar .members-grid,
+.bd-zone--sidebar .posts-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+}
+
+/* Members grid: two mini-columns fit nicely in a sidebar */
+.bd-zone--sidebar .members-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+}
+
+/* Inline-styled grids inside sections (forum stats, categories,
+   featured discussions, …) collapse to ONE column by default … */
+.bd-zone--sidebar .section div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+}
+/* … except small stat/counter boxes (inline minmax(140px…)):
+   those stay two-up — they are tiny and read better side by side */
+.bd-zone--sidebar .section div[style*="minmax(140px"] {
+    grid-template-columns: 1fr 1fr !important;
+}
+
+/* -----------------------------------------------
+   OVERFLOW PROTECTION in sidebars
+   Several section parts carry inline min-widths
+   (e.g. forum topic cards use min-width:240/260px)
+   which overflow a 220–320px sidebar. Neutralise
+   all of them and force text to wrap inside cards.
+   ----------------------------------------------- */
+.bd-zone--sidebar .section,
+.bd-zone--sidebar .section-full {
+    overflow: hidden;               /* absolute last-resort clip */
+}
+.bd-zone--sidebar .section *,
+.bd-zone--sidebar .section-full * {
+    min-width: 0 !important;        /* kill inline min-widths so flex/grid items can shrink */
+}
+.bd-zone--sidebar .section h1,
+.bd-zone--sidebar .section h2,
+.bd-zone--sidebar .section h3,
+.bd-zone--sidebar .section h4,
+.bd-zone--sidebar .section p,
+.bd-zone--sidebar .section a,
+.bd-zone--sidebar .section span {
+    overflow-wrap: break-word;      /* long words/URLs wrap instead of escaping the card,
+                                       but normal words keep their natural width */
+}
+.bd-zone--sidebar .section img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Forum topic cards: compact padding, stack content vertically */
+.bd-zone--sidebar .forum-topic-card {
+    padding: 14px 16px !important;
+    gap: 10px !important;
+}
+.bd-zone--sidebar .forum-topic-card > div {
+    flex: 1 1 100% !important;      /* title block and replies block stack */
+}
+.bd-zone--sidebar .forum-topic-card > div:last-child {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px !important;
+    text-align: start !important;
+}
+/* Hide the big 48px avatar icon inside sidebar topic cards —
+   it eats a third of the card width and forces ugly word breaks */
+.bd-zone--sidebar .forum-topic-card div[style*="width:48px"] {
+    display: none !important;
+}
+/* Slightly smaller topic titles so they wrap on word boundaries */
+.bd-zone--sidebar .forum-topic-card a {
+    font-size: 0.88rem !important;
+    line-height: 1.4 !important;
+}
+
+/* Cards & buttons shrink a little.
+   Fluid font/padding so buttons never clip even in very
+   narrow proportional sidebars. */
+.bd-zone--sidebar .doc-card { padding: 16px; }
+.bd-zone--sidebar .btn-gradient,
+.bd-zone--sidebar .btn-outline {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* Stat labels (e.g. "Replies") never break mid-word */
+.bd-zone--sidebar .forum-topic-card span {
+    overflow-wrap: normal !important;
+    word-break: keep-all;
+}
+
+/* Members section: remove its big inline paddings/margins */
+.bd-zone--sidebar .members-showcase {
+    padding: 30px 16px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* -----------------------------------------------
+   SHOP inside sidebar
+   ----------------------------------------------- */
+
+/* Grid / horizontal-scroll layouts:
+   ⤷ in the sidebar the product strip becomes a compact
+     HORIZONTAL swipe row instead of a tall vertical stack */
+.bd-zone--sidebar .products-grid {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px !important;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+}
+.bd-zone--sidebar .products-grid > .shop-product-card {
+    flex: 0 0 210px;
+    scroll-snap-align: start;
+}
+
+/* Native horizontal-scroll layout: narrower cards in the sidebar */
+.bd-zone--sidebar .shop-horizontal-scroll > div > div {
+    flex-basis: 210px !important;
+}
+
+/* Single-big product layout: stack image on top, info below,
+   and shrink everything */
+.bd-zone--sidebar .shop-single-big {
+    flex-direction: column;
+    flex-wrap: nowrap !important;   /* inline style says wrap — breaks column stretch */
+    max-width: 100% !important;
+    border-radius: 16px !important;
+}
+.bd-zone--sidebar .shop-single-big > div {
+    min-width: 0 !important;
+    width: 100% !important;
+    flex: 1 1 auto !important;
+}
+/* image block */
+.bd-zone--sidebar .shop-single-big > div:first-child {
+    height: 190px !important;
+}
+/* info block */
+.bd-zone--sidebar .shop-single-big > div:last-child {
+    padding: 20px 18px !important;
+}
+.bd-zone--sidebar .shop-single-big h3 {
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+}
+.bd-zone--sidebar .shop-single-big p {
+    font-size: 0.8rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 12px !important;
+}
+/* Button + dot indicators: stack vertically so the button
+   gets the full sidebar width and never clips */
+.bd-zone--sidebar .shop-single-big .btn-gradient {
+    flex: 1 1 100% !important;
+    white-space: nowrap;
+}
+.bd-zone--sidebar .shop-single-big .bd-shop-dots {
+    flex: 1 1 100% !important;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+/* -----------------------------------------------
+   TEAM / PORTFOLIO / RESOURCES fine-tuning in sidebar
+   ----------------------------------------------- */
+.bd-zone--sidebar .team-card { padding-bottom: 18px; }
+.bd-zone--sidebar .team-avatar { width: 74px; height: 74px; }
+.bd-zone--sidebar .team-name { font-size: 0.95rem; }
+.bd-zone--sidebar .team-bio { font-size: 0.78rem; }
+
+.bd-zone--sidebar .project-card-img-wrapper { height: 150px; }
+.bd-zone--sidebar .bd-filter-btn { font-size: 0.72rem; padding: 6px 12px; }
+
+.bd-zone--sidebar .doc-title { font-size: 0.95rem; }
+.bd-zone--sidebar .doc-desc { font-size: 0.78rem; }
+
+/* Member mini-cards */
+.bd-zone--sidebar .member-card { padding: 14px 8px !important; }
+
+/* Decorative Balochi background pattern stays visible in sidebars,
+   exactly like the one-column presentation of each section. */
+
+/* ===============================================
+   RESPONSIVE
+   The admin's chosen layout (1 / 2 / 3 columns) is
+   PRESERVED at every screen width — the fr-based
+   columns simply scale proportionally, no pixel
+   breakpoints deciding the layout.
+
+   Only on very narrow phone screens (<640px), where
+   a 3-column split would leave each column unreadably
+   thin, do the sidebars stack below the main content.
+   =============================================== */
+@media (max-width: 640px) {
+    .bd-layout,
+    .bd-layout--left,
+    .bd-layout--right,
+    .bd-layout--both {
+        grid-template-columns: 1fr;
+        padding: 0 14px;
+        gap: 20px;
+    }
+
+    .bd-zone--sidebar {
+        position: static;
+        order: 2;
+    }
+    .bd-zone--main { order: 1; }
+
+    /* Restore normal horizontal padding for stacked sections */
+    .bd-zone--main .section,
+    .bd-zone--main .section-full {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+
+/* ============================================
+   TOPICS SECTION (v1.4.0)
+   ============================================ */
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 22px;
+    position: relative;
+    z-index: 1;
+}
+
+.topic-card {
+    display: block;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform .3s, box-shadow .3s;
+}
+.topic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.10);
+}
+
+.topic-card-media {
+    position: relative;
+    height: 120px;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.topic-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.topic-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.35));
+    pointer-events: none;
+}
+.topic-card-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    background: var(--gradient);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.topic-card-body {
+    padding: 16px 18px 18px;
+    text-align: center;
+}
+.topic-card-name {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+.topic-card-count {
+    font-size: .78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Topics inside a sidebar: two mini-columns */
+.bd-zone--sidebar .topics-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+}
+.bd-zone--sidebar .topic-card-media { height: 70px; }
+.bd-zone--sidebar .topic-card-icon { width: 40px; height: 40px; border-radius: 10px; }
+.bd-zone--sidebar .topic-card-icon svg { width: 20px; height: 20px; }
+.bd-zone--sidebar .topic-card-body { padding: 10px 8px 12px; }
+.bd-zone--sidebar .topic-card-name { font-size: .85rem; }
+
+/* ============================================
+   TAGS SECTION (v1.4.0)
+   ============================================ */
+.tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: .88rem;
+    font-weight: 600;
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.tag-pill svg { color: var(--color-primary); flex-shrink: 0; }
+.tag-pill:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+.tag-pill-count {
+    background: var(--bg-alt);
+    color: var(--text-muted);
+    font-size: .72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+/* Tags inside a sidebar: smaller pills, left aligned flow */
+.bd-zone--sidebar .tags-cloud { gap: 8px; }
+.bd-zone--sidebar .tag-pill { padding: 6px 12px; font-size: .78rem; }
+
+/* ============================================
+   ARCHIVE SECTION (v1.4.0)
+   ============================================ */
+.archive-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 18px;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 1;
+}
+
+.archive-stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: transform .3s, box-shadow .3s;
+}
+.archive-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 26px rgba(0,0,0,.08);
+}
+.archive-stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--gradient);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+.archive-stat-value {
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}
+.archive-stat-label {
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--text-muted);
+}
+
+.archive-months-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.archive-month-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: .92rem;
+    font-weight: 600;
+    transition: transform .25s, border-color .25s;
+}
+.archive-month-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-primary);
+}
+.archive-month-card a {
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+}
+.archive-month-card a:hover { color: var(--color-primary); }
+
+/* Archive inside a sidebar */
+.bd-zone--sidebar .archive-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    margin-bottom: 20px;
+}
+.bd-zone--sidebar .archive-stat-card { padding: 14px 8px; }
+.bd-zone--sidebar .archive-stat-value { font-size: 1.15rem; }
+.bd-zone--sidebar .archive-months-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+}
+.bd-zone--sidebar .archive-month-card { padding: 10px 14px; font-size: .82rem; }
+
+
+/* Paged views (/page/2/ …) in "blog only" mode: the blog section is
+   the FIRST element under the fixed header (no slider above), so it
+   needs extra top padding to clear the 70px header comfortably. */
+.site-main > #updates:first-child {
+    padding-top: 130px;
+}
+
+/* ============================================
+   FRONT-PAGE BLOG NUMBERED PAGINATION (v1.4.2)
+   Reuses the theme's .pagination / .page-numbers
+   styles; only spacing tweaks needed here.
+   ============================================ */
+.bd-blog-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hide the Newer/Older word on tiny screens, keep the arrow */
+@media (max-width: 480px) {
+    .bd-blog-pagination .bd-page-label { display: none; }
+}
+
+/* Compact pagination when the blog lives in the main column
+   next to a sidebar */
+.bd-zone--main .bd-blog-pagination { margin-top: 36px; }
+.bd-zone--main .bd-blog-pagination .page-numbers { padding: 8px 13px; font-size: .84rem; }
+
+
+/* ============================================
+   PAGE TEMPLATE EXTRAS (v1.4.3)
+   ============================================ */
+/* When the Hero Slider renders above the page hero, the page hero
+   no longer needs the fixed-header offset. */
+.single-post-hero.page-hero--after-slider {
+    margin-top: 0;
+}
+
+
+/* ============================================
+   FOOTER WIDGET AREAS (v1.6.2)
+   Rendered when widgets are added in
+   Appearance → Widgets → Footer Column 1–3
+   ============================================ */
+.footer-widgets {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+}
+.footer-widget-col .widget { margin-bottom: 20px; }
+.footer-widget-col .widget h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+.footer-widget-col .widget ul { list-style: none; margin: 0; padding: 0; }
+.footer-widget-col .widget ul li { margin-bottom: 8px; }

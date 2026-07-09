@@ -20,10 +20,30 @@ $header_grad_2     = get_theme_mod( 'bd_header_gradient_2', '#f97316' );
 $header_grad_dir   = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> data-theme="light">
+<html <?php language_attributes(); ?> data-theme="<?php echo esc_attr( 'dark' === get_theme_mod( 'bd_default_theme_mode', 'light' ) ? 'dark' : 'light' ); ?>">
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    /* Apply the visitor's saved (or admin-default) theme mode BEFORE paint
+       to avoid a light/dark flash. Order of precedence:
+       1) visitor's own saved choice, 2) admin default ('auto' follows the
+       OS preference), 3) light. */
+    ( function() {
+        try {
+            var saved   = localStorage.getItem( 'bd_theme' );
+            var def     = '<?php echo esc_js( get_theme_mod( 'bd_default_theme_mode', 'light' ) ); ?>';
+            var mode    = saved;
+            if ( ! mode ) {
+                mode = ( 'auto' === def )
+                    ? ( window.matchMedia && window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light' )
+                    : def;
+            }
+            if ( 'dark' !== mode && 'light' !== mode ) { mode = 'light'; }
+            document.documentElement.setAttribute( 'data-theme', mode );
+        } catch ( e ) {}
+    } )();
+    </script>
     <?php wp_head(); ?>
 <style>.cart-icon{position:relative}.cart-icon .cart-count{position:absolute;top:-6px;right:-6px;background:var(--color-primary);color:white;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}</style>
 </head>
@@ -180,15 +200,7 @@ $header_grad_dir   = get_theme_mod( 'bd_header_gradient_direction', '135deg' );
 <div class="search-overlay" id="searchOverlay">
     <div class="search-container">
         <div class="search-input-wrapper">
-            <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" id="bdSearchForm">
-                <input type="search"
-                       class="search-input"
-                       id="searchInput"
-                       name="s"
-                       placeholder="<?php esc_attr_e( 'Search posts, pages...', 'baloch-diamond' ); ?>"
-                       value="<?php echo esc_attr( get_search_query() ); ?>"
-                       autocomplete="off">
-            </form>
+            <?php get_search_form( array( 'bd_context' => 'overlay' ) ); ?>
             <button class="search-close" id="searchClose" aria-label="<?php esc_attr_e( 'Close search', 'baloch-diamond' ); ?>">
                 <?php echo bd_icon( 'close', 18, 18 ); ?>
             </button>

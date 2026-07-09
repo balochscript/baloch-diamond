@@ -120,10 +120,34 @@ function bd_get_mod( $key, $default = '' ) {
 
 
 /**
- * Check if a section should be visible
+ * Check if a section should be visible.
+ *
+ * SINGLE SOURCE OF TRUTH: the eye-toggle in
+ * Customize → 💎 Baloch Diamond → 📋 Sections Order & Visibility
+ * (the bd_sections_layout JSON). The old per-section "Show X Section"
+ * checkboxes were removed in 1.5.1; legacy values are migrated once
+ * by bd_migrate_visibility_to_sorter().
+ *
+ * @param string $section Section key (slider, shop, blog, …).
+ * @return bool
  */
 function bd_is_section_visible( $section ) {
-    return get_theme_mod( 'bd_' . $section . '_show', true );
+    $raw    = get_theme_mod( 'bd_sections_layout', '' );
+    $layout = $raw ? json_decode( $raw, true ) : array();
+
+    if ( is_array( $layout ) ) {
+        foreach ( $layout as $item ) {
+            if ( isset( $item['key'] ) && $item['key'] === $section ) {
+                return ! isset( $item['visible'] ) || (bool) $item['visible'];
+            }
+        }
+    }
+
+    // Key not present in a saved layout (or no layout saved yet):
+    // fall back to the shipped defaults — new sections (topics, tags,
+    // archive) are hidden by default, everything else is visible.
+    $hidden_by_default = array( 'topics', 'tags', 'archive' );
+    return ! in_array( $section, $hidden_by_default, true );
 }
 
 
@@ -276,4 +300,86 @@ function bd_render_product_card_html( $prod ) {
         </div>
     </div>
     <?php
+}
+
+
+/**
+ * ============================================
+ * COMMENTS
+ * ============================================
+ */
+
+/**
+ * Custom comment renderer used by wp_list_comments() in comments.php.
+ *
+ * This function was referenced but missing — any post with an approved
+ * comment fataled. All dynamic values are escaped; the comment text is
+ * printed through comment_text() which applies WordPress's standard
+ * kses filtering for untrusted commenters.
+ *
+ * @param WP_Comment $comment Comment object.
+ * @param array      $args    wp_list_comments() arguments.
+ * @param int        $depth   Current depth.
+ */
+if ( ! function_exists( 'bd_comment_callback' ) ) {
+    function bd_comment_callback( $comment, $args, $depth ) {
+        ?>
+        <div <?php comment_class( 'bd-comment', $comment ); ?> id="comment-<?php comment_ID(); ?>" style="display:flex;gap:12px;<?php echo $depth > 1 ? 'margin-left:' . esc_attr( min( 3, $depth - 1 ) * 28 ) . 'px;' : ''; ?>">
+
+            <?php if ( 0 !== (int) $args['avatar_size'] ) : ?>
+                <?php echo get_avatar( $comment, $args['avatar_size'], '', '', array( 'class' => 'comment-avatar' ) ); ?>
+            <?php endif; ?>
+
+            <div class="comment-body">
+                <div class="comment-meta">
+                    <span class="comment-author">
+                        <?php echo esc_html( get_comment_author( $comment ) ); ?>
+                        <?php if ( user_can( $comment->user_id, 'manage_options' ) ) : ?>
+                            <span style="font-size:.68rem;font-weight:700;color:var(--color-primary);background:var(--card-bg);border:1px solid var(--border);padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;">
+                                <?php esc_html_e( 'Admin', 'baloch-diamond' ); ?>
+                            </span>
+                        <?php endif; ?>
+                    </span>
+                    <span class="comment-date">
+                        <?php
+                        printf(
+                            /* translators: 1: comment date, 2: comment time */
+                            esc_html__( '%1$s at %2$s', 'baloch-diamond' ),
+                            esc_html( get_comment_date( '', $comment ) ),
+                            esc_html( get_comment_time() )
+                        );
+                        ?>
+                    </span>
+                </div>
+
+                <?php if ( '0' === $comment->comment_approved ) : ?>
+                    <p style="font-size:.8rem;color:var(--color-secondary);margin:0 0 6px;">
+                        <?php esc_html_e( 'Your comment is awaiting moderation.', 'baloch-diamond' ); ?>
+                    </p>
+                <?php endif; ?>
+
+                <div class="comment-text">
+                    <?php comment_text( $comment ); ?>
+                </div>
+
+                <?php
+                comment_reply_link(
+                    array_merge(
+                        $args,
+                        array(
+                            'reply_text' => esc_html__( 'Reply', 'baloch-diamond' ),
+                            'depth'      => $depth,
+                            'max_depth'  => $args['max_depth'],
+                            'before'     => '<div style="margin-top:8px;font-size:.8rem;">',
+                            'after'      => '</div>',
+                        )
+                    ),
+                    $comment
+                );
+                ?>
+            </div>
+
+        </div>
+        <?php
+    }
 }

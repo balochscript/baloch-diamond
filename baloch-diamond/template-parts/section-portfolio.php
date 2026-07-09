@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // ---- Hide / Show ----
-if ( ! get_theme_mod( 'bd_portfolio_show', true ) ) {
+if ( ! bd_is_section_visible( 'portfolio' ) ) {
     return;
 }
 

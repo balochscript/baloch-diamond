@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Hide/Show toggle
-if ( ! get_theme_mod( 'bd_team_show', true ) ) {
+if ( ! bd_is_section_visible( 'team' ) ) {
     return;
 }
 
@@ -109,7 +109,11 @@ $social_icons = array(
                      loading="lazy">
                 <?php else : ?>
                 <div style="width:100%;height:100%;background:<?php echo esc_attr( $default_grad ); ?>;display:flex;align-items:center;justify-content:center;color:white;font-size:2rem;font-weight:700;">
-                    <?php echo esc_html( mb_strtoupper( mb_substr( $member['name'], 0, 1 ) ) ); ?>
+                    <?php
+                    // mb_strtoupper is not polyfilled by WordPress core — guard it
+                    $bd_initial = mb_substr( $member['name'], 0, 1 );
+                    echo esc_html( function_exists( 'mb_strtoupper' ) ? mb_strtoupper( $bd_initial ) : strtoupper( $bd_initial ) );
+                    ?>
                 </div>
                 <?php endif; ?>
             </div>

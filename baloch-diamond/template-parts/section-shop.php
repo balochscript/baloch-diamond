@@ -12,7 +12,9 @@ $layout      = get_theme_mod( 'bd_shop_layout', 'grid' );
 $count       = get_theme_mod( 'bd_shop_count', 4 );
 $filter      = get_theme_mod( 'bd_shop_filter', 'recent' );
 
-if ( ! $show_shop ) return;
+if ( ! bd_is_section_visible( 'shop' ) ) {
+    return;
+}
 
 $products_list = array();
 $use_real_products = false;

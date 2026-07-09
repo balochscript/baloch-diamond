@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme version constant
-define( 'BD_VERSION', '1.2.2' );
+define( 'BD_VERSION', '1.6.2' );
 
 /**
  * ============================================
@@ -66,6 +66,12 @@ function bd_theme_setup() {
     // Wide alignment support for Gutenberg
     add_theme_support( 'align-wide' );
 
+    // Default block styles for a consistent look with the editor
+    add_theme_support( 'wp-block-styles' );
+
+    // Editor stylesheet so the block editor matches the front end
+    add_editor_style( 'assets/css/editor-style.css' );
+
     // Responsive embeds
     add_theme_support( 'responsive-embeds' );
 
@@ -115,80 +121,386 @@ function bd_has_blog_archive_page() {
 }
 
 /**
- * Auto-setup: Create "Blog" page and configure Reading settings.
+ * Starter Content — the WordPress.org-approved way to suggest a
+ * "Home" (front page) + "Blog" (posts page) setup.
  *
- * Many themes with front-page.php need a "Posts page" (page_for_posts)
- * so the blog archive has a dedicated URL. Without this, the "View All
- * Posts" button has nowhere to link to, and the front page may show the
- * blog index instead of custom sections.
+ * Unlike programmatic page creation, starter content:
+ *  - Only applies to FRESH sites (fresh_site flag = true).
+ *  - Is only ever imported inside the Customizer preview.
+ *  - Is only saved when the USER explicitly clicks "Publish".
+ *  - Never touches existing sites or overrides user settings.
  *
- * This checks on every admin page load whether page_for_posts is set.
- * If not, it creates a "Blog" page and configures the Reading settings.
- * Once configured, it returns immediately on subsequent loads — no overhead.
- *
- * This is the standard WordPress approach — identical to what the user
- * would do manually in Settings → Reading.
+ * On existing sites the admin simply sets Settings → Reading →
+ * "A static page" manually; the theme degrades gracefully either way
+ * (see bd_get_blog_archive_url()).
  */
-function bd_maybe_setup_blog_page() {
-    // Only run in admin context (not on front-end requests)
-    if ( ! is_admin() ) {
+function bd_register_starter_content() {
+    add_theme_support( 'starter-content', array(
+        'posts'   => array(
+            'home' => array(
+                'post_type'  => 'page',
+                'post_title' => _x( 'Home', 'Theme starter content', 'baloch-diamond' ),
+            ),
+            'blog' => array(
+                'post_type'  => 'page',
+                'post_title' => _x( 'Blog', 'Theme starter content', 'baloch-diamond' ),
+            ),
+        ),
+        'options' => array(
+            'show_on_front'  => 'page',
+            'page_on_front'  => '{{home}}',
+            'page_for_posts' => '{{blog}}',
+        ),
+    ) );
+}
+add_action( 'after_setup_theme', 'bd_register_starter_content', 20 );
+
+/**
+ * Admin notice (dismissible, once): if no Posts page is configured,
+ * politely point the admin to Settings → Reading. The theme never
+ * changes these options itself.
+ */
+function bd_reading_settings_notice() {
+    // Only for admins, only when relevant, only if not dismissed
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    if ( get_option( 'page_for_posts' ) || get_user_meta( get_current_user_id(), 'bd_dismiss_reading_notice', true ) ) {
         return;
     }
 
-    // If page_for_posts is already set and the page exists, we're done
-    $existing_posts_page = get_option( 'page_for_posts' );
-    if ( $existing_posts_page && get_post( $existing_posts_page ) ) {
+    // Mark dismissal via query arg
+    if ( isset( $_GET['bd_dismiss_reading_notice'] ) && check_admin_referer( 'bd_dismiss_reading_notice' ) ) {
+        update_user_meta( get_current_user_id(), 'bd_dismiss_reading_notice', 1 );
         return;
     }
 
-    // Check if a "Blog" page already exists (user may have created one manually)
-    $existing_blog = get_page_by_path( 'blog' );
-    if ( $existing_blog ) {
-        update_option( 'page_for_posts', $existing_blog->ID );
-    } else {
-        // Create "Blog" page
-        $blog_page_id = wp_insert_post( array(
-            'post_title'     => esc_html__( 'Blog', 'baloch-diamond' ),
-            'post_name'      => 'blog',
-            'post_type'      => 'page',
-            'post_status'    => 'publish',
-            'comment_status' => 'closed',
-            'ping_status'    => 'closed',
+    $settings_url = admin_url( 'options-reading.php' );
+    $dismiss_url  = wp_nonce_url( add_query_arg( 'bd_dismiss_reading_notice', '1' ), 'bd_dismiss_reading_notice' );
+    ?>
+    <div class="notice notice-info">
+        <p>
+            <strong><?php esc_html_e( 'Baloch Diamond:', 'baloch-diamond' ); ?></strong>
+            <?php esc_html_e( 'For the best experience, set a static Front page and a Posts page (e.g. "Blog") so the "View All Posts" button has a destination.', 'baloch-diamond' ); ?>
+            <a href="<?php echo esc_url( $settings_url ); ?>"><?php esc_html_e( 'Go to Settings → Reading', 'baloch-diamond' ); ?></a>
+            &nbsp;|&nbsp;
+            <a href="<?php echo esc_url( $dismiss_url ); ?>"><?php esc_html_e( 'Dismiss', 'baloch-diamond' ); ?></a>
+        </p>
+    </div>
+    <?php
+}
+add_action( 'admin_notices', 'bd_reading_settings_notice' );
+
+/**
+ * Allow /page/N/ pagination on the static front page.
+ *
+ * WordPress's canonical redirect normally strips /page/N/ from a static
+ * front page URL (because the page itself is not paginated with
+ * <!--nextpage-->). The front-page blog section paginates a custom
+ * query, so when the "Numbered" pagination mode is active we keep
+ * those URLs intact. Standard approach used by many portfolio/one-page
+ * themes.
+ *
+ * @param string $redirect_url  The redirect URL.
+ * @param string $requested_url The originally requested URL.
+ * @return string|false
+ */
+function bd_front_page_pagination_canonical( $redirect_url, $requested_url ) {
+    if ( 'numbered' !== get_theme_mod( 'bd_blog_pagination_mode', 'numbered' ) ) {
+        return $redirect_url;
+    }
+    if ( is_front_page() && ! is_home() && get_query_var( 'page' ) > 1 ) {
+        return false;
+    }
+    return $redirect_url;
+}
+add_filter( 'redirect_canonical', 'bd_front_page_pagination_canonical', 10, 2 );
+
+/**
+ * ============================================
+ * ONE-TIME MIGRATION: per-section "Show" checkboxes → sorter JSON
+ *
+ * Until 1.5.0 every section had its own "Show X Section" checkbox
+ * (bd_slider_show, bd_shop_show, …) IN ADDITION to the eye toggle in
+ * the drag-and-drop sorter — two places controlling the same thing.
+ * From 1.5.1 the sorter is the single source of truth. This migration
+ * runs once: any section a user had hidden via the old checkbox is
+ * written into bd_sections_layout as visible=false, then the flag is
+ * set so it never runs again. The old theme_mods are left untouched
+ * (harmless), so downgrading is safe too.
+ * ============================================
+ */
+function bd_migrate_visibility_to_sorter() {
+    if ( get_theme_mod( 'bd_visibility_migrated', false ) ) {
+        return;
+    }
+
+    $keys = array( 'slider', 'shop', 'forum', 'portfolio', 'blog', 'resources', 'team', 'newsletter', 'members', 'topics', 'tags', 'archive' );
+
+    $raw    = get_theme_mod( 'bd_sections_layout', '' );
+    $layout = $raw ? json_decode( $raw, true ) : array();
+    if ( ! is_array( $layout ) ) {
+        $layout = array();
+    }
+
+    // Index existing entries by key
+    $indexed = array();
+    foreach ( $layout as $item ) {
+        if ( isset( $item['key'] ) ) {
+            $indexed[ $item['key'] ] = $item;
+        }
+    }
+
+    $changed = false;
+    foreach ( $keys as $key ) {
+        $legacy_visible = (bool) get_theme_mod( 'bd_' . $key . '_show', true );
+
+        if ( isset( $indexed[ $key ] ) ) {
+            // Respect the stricter of the two old switches:
+            // hidden anywhere → hidden in the merged result.
+            $sorter_visible = ! isset( $indexed[ $key ]['visible'] ) || (bool) $indexed[ $key ]['visible'];
+            $merged         = $sorter_visible && $legacy_visible;
+            if ( $merged !== $sorter_visible ) {
+                $indexed[ $key ]['visible'] = $merged;
+                $changed = true;
+            }
+        } elseif ( ! $legacy_visible ) {
+            // Key missing from saved layout but hidden via old checkbox
+            $indexed[ $key ] = array( 'key' => $key, 'visible' => false, 'zone' => 'main' );
+            $changed = true;
+        }
+    }
+
+    if ( $changed ) {
+        // Preserve original order, append any newly added keys at the end
+        $result = array();
+        foreach ( $layout as $item ) {
+            if ( isset( $item['key'] ) && isset( $indexed[ $item['key'] ] ) ) {
+                $result[] = $indexed[ $item['key'] ];
+                unset( $indexed[ $item['key'] ] );
+            }
+        }
+        foreach ( $indexed as $item ) {
+            $result[] = $item;
+        }
+        set_theme_mod( 'bd_sections_layout', wp_json_encode( $result ) );
+    }
+
+    set_theme_mod( 'bd_visibility_migrated', true );
+}
+add_action( 'after_setup_theme', 'bd_migrate_visibility_to_sorter', 30 );
+
+/**
+ * ============================================
+ * COMMENT PROTECTION
+ * Customizer: 💎 Baloch Diamond → 🛡️ Comment Protection
+ * Extra validation on top of core Discussion settings.
+ * ============================================
+ */
+
+/**
+ * Should the protection filters run for the current commenter?
+ *
+ * Moderators are always exempt; other logged-in users are exempt
+ * unless the admin opted in via bd_comments_filter_logged_in.
+ *
+ * @return bool
+ */
+function bd_comment_filters_apply() {
+    if ( current_user_can( 'moderate_comments' ) ) {
+        return false;
+    }
+    if ( is_user_logged_in() && ! get_theme_mod( 'bd_comments_filter_logged_in', false ) ) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Validate incoming comments BEFORE they are saved.
+ *
+ * Runs on preprocess_comment (the standard hook for comment
+ * validation). Rejections use wp_die() with a readable message and
+ * a back link — identical UX to core's own duplicate/flood checks.
+ *
+ * @param array $commentdata Comment data.
+ * @return array
+ */
+function bd_validate_comment( $commentdata ) {
+    // Only filter real user-submitted comment types
+    $type = isset( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '';
+    if ( ! in_array( $type, array( '', 'comment' ), true ) ) {
+        return $commentdata;
+    }
+
+    if ( ! bd_comment_filters_apply() ) {
+        return $commentdata;
+    }
+
+    $content = isset( $commentdata['comment_content'] ) ? (string) $commentdata['comment_content'] : '';
+
+    // ---- Length limits ----
+    $min = absint( get_theme_mod( 'bd_comments_min_length', 0 ) );
+    $max = absint( get_theme_mod( 'bd_comments_max_length', 0 ) );
+    $len = function_exists( 'mb_strlen' ) ? mb_strlen( wp_strip_all_tags( $content ) ) : strlen( wp_strip_all_tags( $content ) );
+
+    if ( $min > 0 && $len < $min ) {
+        wp_die(
+            sprintf(
+                /* translators: %d: minimum number of characters. */
+                esc_html__( 'Your comment is too short. Please write at least %d characters.', 'baloch-diamond' ),
+                (int) $min
+            ),
+            esc_html__( 'Comment Rejected', 'baloch-diamond' ),
+            array( 'response' => 400, 'back_link' => true )
+        );
+    }
+
+    if ( $max > 0 && $len > $max ) {
+        wp_die(
+            sprintf(
+                /* translators: %d: maximum number of characters. */
+                esc_html__( 'Your comment is too long. Please keep it under %d characters.', 'baloch-diamond' ),
+                (int) $max
+            ),
+            esc_html__( 'Comment Rejected', 'baloch-diamond' ),
+            array( 'response' => 400, 'back_link' => true )
+        );
+    }
+
+    // ---- Link blocking ----
+    if ( get_theme_mod( 'bd_comments_block_links', false ) ) {
+        if ( preg_match( '#(https?://|www\.)\S+#i', $content )
+            || preg_match( '#<a\s#i', $content ) ) {
+            wp_die(
+                esc_html__( 'Comments containing links are not allowed on this site.', 'baloch-diamond' ),
+                esc_html__( 'Comment Rejected', 'baloch-diamond' ),
+                array( 'response' => 400, 'back_link' => true )
+            );
+        }
+    }
+
+    // ---- Blocked words / character sequences ----
+    $blocked_raw = (string) get_theme_mod( 'bd_comments_blocked_words', '' );
+    if ( '' !== trim( $blocked_raw ) ) {
+        $blocked = array_filter( array_map( 'trim', explode( "\n", $blocked_raw ) ) );
+        // Case-insensitive haystack (multibyte-safe)
+        $haystack = function_exists( 'mb_strtolower' ) ? mb_strtolower( $content ) : strtolower( $content );
+        foreach ( $blocked as $word ) {
+            $needle = function_exists( 'mb_strtolower' ) ? mb_strtolower( $word ) : strtolower( $word );
+            if ( '' !== $needle && false !== strpos( $haystack, $needle ) ) {
+                wp_die(
+                    esc_html__( 'Your comment contains words that are not allowed on this site.', 'baloch-diamond' ),
+                    esc_html__( 'Comment Rejected', 'baloch-diamond' ),
+                    array( 'response' => 400, 'back_link' => true )
+                );
+            }
+        }
+    }
+
+    return $commentdata;
+}
+add_filter( 'preprocess_comment', 'bd_validate_comment' );
+
+/**
+ * Optionally strip ALL HTML from comment content before saving.
+ *
+ * WordPress core already kses-filters untrusted comments (only a small
+ * whitelist like <a>, <b>, <blockquote> survives). This option removes
+ * even those, storing pure plain text.
+ *
+ * @param string $content Comment content.
+ * @return string
+ */
+function bd_maybe_strip_comment_html( $content ) {
+    if ( get_theme_mod( 'bd_comments_strip_html', false ) && bd_comment_filters_apply() ) {
+        $content = wp_strip_all_tags( $content );
+    }
+    return $content;
+}
+add_filter( 'pre_comment_content', 'bd_maybe_strip_comment_html', 1 );
+
+/**
+ * Defense in depth: kses-filter comment text at DISPLAY time too.
+ *
+ * Core sanitizes untrusted comments on INPUT; this also protects
+ * against markup that entered the database through other routes
+ * (imports, plugins calling wp_insert_comment() without filtering).
+ * Uses the same allowlist core applies to comment data.
+ *
+ * @param string $comment_text Comment text being displayed.
+ * @return string
+ */
+function bd_kses_comment_display( $comment_text ) {
+    if ( get_theme_mod( 'bd_comments_strip_html', false ) ) {
+        return wp_strip_all_tags( $comment_text );
+    }
+    return wp_kses( $comment_text, 'comment' );
+}
+add_filter( 'comment_text', 'bd_kses_comment_display', 9 );
+
+/**
+ * When "strip HTML" is on, also disable the allowed-tags hint filters
+ * so commenters are not misled — and make kses run with an empty
+ * allowlist for display of NEW comments (defense in depth).
+ */
+function bd_comments_disable_html_notice() {
+    if ( get_theme_mod( 'bd_comments_strip_html', false ) ) {
+        add_filter( 'comment_form_defaults', function ( $defaults ) {
+            $defaults['comment_notes_after'] = '';
+            return $defaults;
+        } );
+    }
+}
+add_action( 'init', 'bd_comments_disable_html_notice' );
+
+/**
+ * ============================================
+ * BLOCK STYLES & PATTERNS
+ * ============================================
+ */
+function bd_register_block_styles() {
+    if ( function_exists( 'register_block_style' ) ) {
+        register_block_style( 'core/button', array(
+            'name'  => 'bd-gradient',
+            'label' => __( 'Diamond Gradient', 'baloch-diamond' ),
+            'inline_style' => '.wp-block-button.is-style-bd-gradient .wp-block-button__link{background:linear-gradient(135deg,var(--color-primary,#38bdf8),var(--color-secondary,#f97316));border:none;color:#fff;}',
         ) );
 
-        if ( $blog_page_id && ! is_wp_error( $blog_page_id ) ) {
-            update_option( 'page_for_posts', $blog_page_id );
-        }
+        register_block_style( 'core/quote', array(
+            'name'  => 'bd-embroidered',
+            'label' => __( 'Embroidered Border', 'baloch-diamond' ),
+            'inline_style' => '.wp-block-quote.is-style-bd-embroidered{border-left:3px dashed var(--color-secondary,#f97316);background:var(--bg-alt,#f8fafc);padding:20px 24px;border-radius:0 12px 12px 0;}',
+        ) );
     }
-
-    // If show_on_front is 'posts', switch to 'page' mode
-    // so front-page.php shows custom sections, not the blog index
-    if ( get_option( 'show_on_front' ) !== 'page' ) {
-        // Check if a "Home" page already exists
-        $existing_home = get_page_by_path( 'home' );
-        if ( $existing_home ) {
-            $home_page_id = $existing_home->ID;
-        } else {
-            $home_page_id = wp_insert_post( array(
-                'post_title'     => esc_html__( 'Home', 'baloch-diamond' ),
-                'post_name'      => 'home',
-                'post_type'      => 'page',
-                'post_status'    => 'publish',
-                'comment_status' => 'closed',
-                'ping_status'    => 'closed',
-            ) );
-        }
-
-        if ( $home_page_id && ! is_wp_error( $home_page_id ) ) {
-            update_option( 'show_on_front', 'page' );
-            update_option( 'page_on_front', $home_page_id );
-        }
-    }
-
-    // Flush rewrite rules so /blog/ URL works immediately
-    flush_rewrite_rules( false );
 }
-add_action( 'after_setup_theme', 'bd_maybe_setup_blog_page', 20 );
+add_action( 'init', 'bd_register_block_styles' );
+
+function bd_register_block_patterns() {
+    if ( function_exists( 'register_block_pattern' ) ) {
+        register_block_pattern( 'baloch-diamond/cta-banner', array(
+            'title'       => __( 'Diamond CTA Banner', 'baloch-diamond' ),
+            'description' => __( 'A call-to-action banner with a gradient heading and button, in the Baloch Diamond style.', 'baloch-diamond' ),
+            'categories'  => array( 'call-to-action' ),
+            'content'     => '<!-- wp:group {"style":{"spacing":{"padding":{"top":"48px","bottom":"48px","left":"24px","right":"24px"}},"border":{"radius":"18px"}},"backgroundColor":"","layout":{"type":"constrained"}} -->
+<div class="wp-block-group" style="border-radius:18px;padding-top:48px;padding-right:24px;padding-bottom:48px;padding-left:24px"><!-- wp:heading {"textAlign":"center"} -->
+<h2 class="wp-block-heading has-text-align-center">' . esc_html__( 'Where Tradition Meets Modern Design', 'baloch-diamond' ) . '</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">' . esc_html__( 'Discover authentic craftsmanship woven into every detail.', 'baloch-diamond' ) . '</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-bd-gradient"} -->
+<div class="wp-block-button is-style-bd-gradient"><a class="wp-block-button__link wp-element-button">' . esc_html__( 'Explore Now', 'baloch-diamond' ) . '</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:group -->',
+        ) );
+    }
+}
+add_action( 'init', 'bd_register_block_patterns' );
 
 /**
  * ============================================
@@ -289,8 +601,12 @@ function bd_enqueue_scripts() {
         wp_enqueue_style( 'bd-google-fonts', $fonts_url, array(), null );
     }
 
-    // Main theme stylesheet
-    wp_enqueue_style( 'bd-style', get_stylesheet_uri(), array(), BD_VERSION );
+    // Main theme stylesheet.
+    // Cache-bust with filemtime so CDNs (e.g. Cloudflare) always fetch the
+    // fresh file after a theme update, even if BD_VERSION is unchanged.
+    $bd_style_path = get_template_directory() . '/style.css';
+    $bd_style_ver  = file_exists( $bd_style_path ) ? BD_VERSION . '.' . filemtime( $bd_style_path ) : BD_VERSION;
+    wp_enqueue_style( 'bd-style', get_stylesheet_uri(), array(), $bd_style_ver );
 
     // Main JavaScript
     wp_enqueue_script(
@@ -377,6 +693,101 @@ require_once get_template_directory() . '/inc/template-functions.php';
 
 /**
  * ============================================
+ * THEME MODE COLOR HELPERS
+ * Derive readable shades from a single custom
+ * background color so text never clashes.
+ * ============================================
+ */
+
+/**
+ * Hex → [r, g, b].
+ *
+ * @param string $hex e.g. #aabbcc or #abc.
+ * @return array|null
+ */
+function bd_hex_to_rgb( $hex ) {
+    $hex = ltrim( (string) $hex, '#' );
+    if ( 3 === strlen( $hex ) ) {
+        $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+    }
+    if ( 6 !== strlen( $hex ) || ! ctype_xdigit( $hex ) ) {
+        return null;
+    }
+    return array( hexdec( substr( $hex, 0, 2 ) ), hexdec( substr( $hex, 2, 2 ) ), hexdec( substr( $hex, 4, 2 ) ) );
+}
+
+/**
+ * Mix a color towards white (positive amount) or black (negative amount).
+ *
+ * @param string $hex    Base color.
+ * @param float  $amount -1..1 (0.1 = 10% towards white, -0.1 = 10% towards black).
+ * @return string        Hex color.
+ */
+function bd_shade( $hex, $amount ) {
+    $rgb = bd_hex_to_rgb( $hex );
+    if ( ! $rgb ) {
+        return $hex;
+    }
+    $target = $amount >= 0 ? 255 : 0;
+    $amount = min( 1, abs( $amount ) );
+    foreach ( $rgb as $i => $c ) {
+        $rgb[ $i ] = (int) round( $c + ( $target - $c ) * $amount );
+    }
+    return sprintf( '#%02x%02x%02x', $rgb[0], $rgb[1], $rgb[2] );
+}
+
+/**
+ * Relative luminance (0 = black, 1 = white) — WCAG formula (simplified).
+ *
+ * @param string $hex Color.
+ * @return float
+ */
+function bd_luminance( $hex ) {
+    $rgb = bd_hex_to_rgb( $hex );
+    if ( ! $rgb ) {
+        return 1.0;
+    }
+    return ( 0.2126 * $rgb[0] + 0.7152 * $rgb[1] + 0.0722 * $rgb[2] ) / 255;
+}
+
+/**
+ * Build a full, contrast-safe palette from one background color.
+ *
+ * Light backgrounds get dark text; dark backgrounds get light text —
+ * regardless of which "mode" the admin put the color in, so a user
+ * choosing a dark color for light mode still gets readable text.
+ *
+ * @param string $bg Background hex color.
+ * @return array     bg, bg_alt, card_bg, border, text, text_muted, shadow.
+ */
+function bd_palette_from_bg( $bg ) {
+    $is_light = bd_luminance( $bg ) >= 0.5;
+
+    if ( $is_light ) {
+        return array(
+            'bg'         => $bg,
+            'bg_alt'     => bd_shade( $bg, -0.045 ),
+            'card_bg'    => bd_shade( $bg, 0.5 ),
+            'border'     => bd_shade( $bg, -0.12 ),
+            'text'       => '#1e293b',
+            'text_muted' => '#5b6b7f',
+            'shadow'     => '0 4px 24px rgba(0,0,0,0.08)',
+        );
+    }
+
+    return array(
+        'bg'         => $bg,
+        'bg_alt'     => bd_shade( $bg, 0.07 ),
+        'card_bg'    => bd_shade( $bg, 0.07 ),
+        'border'     => bd_shade( $bg, 0.18 ),
+        'text'       => '#f1f5f9',
+        'text_muted' => bd_shade( $bg, 0.55 ),
+        'shadow'     => '0 4px 24px rgba(0,0,0,0.3)',
+    );
+}
+
+/**
+ * ============================================
  * DYNAMIC CSS OUTPUT (Colors from Customizer)
  * ============================================
  */
@@ -457,6 +868,20 @@ function bd_dynamic_css() {
     $slider_shadow_color = get_theme_mod( 'bd_slider_shadow_color', 'rgba(0,0,0,0.5)' );
     $embroidery_thread_1 = get_theme_mod( 'bd_embroidery_thread_1', '#fde68a' );
     $embroidery_thread_2 = get_theme_mod( 'bd_embroidery_thread_2', '#ffffff' );
+
+    // Custom light/dark mode backgrounds → derived, contrast-safe palettes
+    $light_bg      = get_theme_mod( 'bd_light_bg_color', '' );
+    $dark_bg       = get_theme_mod( 'bd_dark_bg_color', '' );
+    $light_palette = ( $light_bg && bd_hex_to_rgb( $light_bg ) ) ? bd_palette_from_bg( $light_bg ) : null;
+    $dark_palette  = ( $dark_bg && bd_hex_to_rgb( $dark_bg ) ) ? bd_palette_from_bg( $dark_bg ) : null;
+
+    // Slider text-overlay color + strength (fully user-adjustable, 0–100%)
+    $overlay_hex   = get_theme_mod( 'bd_slider_overlay_color', '#000000' );
+    $overlay_rgb   = bd_hex_to_rgb( $overlay_hex );
+    if ( ! $overlay_rgb ) {
+        $overlay_rgb = array( 0, 0, 0 );
+    }
+    $overlay_alpha = max( 0, min( 100, absint( get_theme_mod( 'bd_slider_overlay_opacity', 80 ) ) ) ) / 100;
     ?>
     <style id="bd-dynamic-css">
         :root {
@@ -465,12 +890,40 @@ function bd_dynamic_css() {
             --gradient:        linear-gradient(135deg, <?php echo esc_attr( $primary ); ?>, <?php echo esc_attr( $secondary ); ?>);
             --gradient-reverse:linear-gradient(135deg, <?php echo esc_attr( $secondary ); ?>, <?php echo esc_attr( $primary ); ?>);
             --bd-slider-height:<?php echo esc_attr( $slider_height ); ?>;
+            --bd-slide-overlay-rgb: <?php echo esc_attr( implode( ', ', $overlay_rgb ) ); ?>;
+            --bd-slide-overlay-alpha: <?php echo esc_attr( $overlay_alpha ); ?>;
             --bd-embroidery-thread-1: <?php echo esc_attr( $embroidery_thread_1 ); ?>;
             --bd-embroidery-thread-2: <?php echo esc_attr( $embroidery_thread_2 ); ?>;
             --font-body:    '<?php echo esc_attr( $font_body ); ?>', sans-serif;
             --font-heading: '<?php echo esc_attr( $font_heading ); ?>', serif;
             --font-rtl:     <?php echo $font_rtl ? "'" . esc_attr( $font_rtl ) . "', sans-serif" : 'sans-serif'; ?>;
         }
+
+        <?php if ( $light_palette ) : ?>
+        /* Custom LIGHT mode palette (derived from one admin color) */
+        :root, [data-theme="light"] {
+            --bg:         <?php echo esc_attr( $light_palette['bg'] ); ?>;
+            --bg-alt:     <?php echo esc_attr( $light_palette['bg_alt'] ); ?>;
+            --card-bg:    <?php echo esc_attr( $light_palette['card_bg'] ); ?>;
+            --border:     <?php echo esc_attr( $light_palette['border'] ); ?>;
+            --text:       <?php echo esc_attr( $light_palette['text'] ); ?>;
+            --text-muted: <?php echo esc_attr( $light_palette['text_muted'] ); ?>;
+            --shadow:     <?php echo esc_attr( $light_palette['shadow'] ); ?>;
+        }
+        <?php endif; ?>
+
+        <?php if ( $dark_palette ) : ?>
+        /* Custom DARK mode palette (derived from one admin color) */
+        [data-theme="dark"] {
+            --bg:         <?php echo esc_attr( $dark_palette['bg'] ); ?>;
+            --bg-alt:     <?php echo esc_attr( $dark_palette['bg_alt'] ); ?>;
+            --card-bg:    <?php echo esc_attr( $dark_palette['card_bg'] ); ?>;
+            --border:     <?php echo esc_attr( $dark_palette['border'] ); ?>;
+            --text:       <?php echo esc_attr( $dark_palette['text'] ); ?>;
+            --text-muted: <?php echo esc_attr( $dark_palette['text_muted'] ); ?>;
+            --shadow:     <?php echo esc_attr( $dark_palette['shadow'] ); ?>;
+        }
+        <?php endif; ?>
 
         *, body, p, a, span, li, td, th, label, input, button, select, textarea, blockquote, figcaption,
         .menu-item, .footer-links a, .post-card-excerpt, .post-card-title a,
@@ -663,10 +1116,12 @@ function bd_ajax_search() {
             $search_query->the_post();
             $results[] = array(
                 'id'    => get_the_ID(),
-                'title' => get_the_title(),
-                'url'   => get_permalink(),
+                // Defense-in-depth: strip any markup server-side too;
+                // the JS layer additionally HTML-escapes before rendering.
+                'title' => wp_strip_all_tags( get_the_title() ),
+                'url'   => esc_url_raw( get_permalink() ),
                 'type'  => get_post_type(),
-                'desc'  => wp_trim_words( get_the_excerpt(), 12 ),
+                'desc'  => wp_strip_all_tags( wp_trim_words( get_the_excerpt(), 12 ) ),
             );
         }
         wp_reset_postdata();
@@ -685,6 +1140,12 @@ function bd_ajax_subscribe() {
     $subscribers   = is_array( $subscribers ) ? $subscribers : array();
     if ( in_array( $email, $subscribers, true ) ) { wp_send_json_success( esc_html__( 'You are already subscribed!', 'baloch-diamond' ) ); }
 
+    // Storage cap: theme_mods load on every request, so an unauthenticated
+    // endpoint must never grow one unboundedly (flood/DoS hardening).
+    if ( count( $subscribers ) >= 5000 ) {
+        wp_send_json_error( esc_html__( 'Subscription list is full. Please contact the site owner.', 'baloch-diamond' ) );
+    }
+
     $subscribers[] = $email;
     set_theme_mod( 'bd_newsletter_subscribers', $subscribers );
     wp_send_json_success( esc_html__( 'Thanks for subscribing!', 'baloch-diamond' ) );
@@ -695,9 +1156,11 @@ add_action( 'wp_ajax_nopriv_bd_subscribe', 'bd_ajax_subscribe' );
 function bd_ajax_loadmore() {
     check_ajax_referer( 'bd_nonce', 'nonce' );
 
-    $page           = isset( $_POST['page'] ) ? max( 1, absint( $_POST['page'] ) ) : 1;
-    $per_page       = isset( $_POST['per_page'] ) ? max( 1, absint( $_POST['per_page'] ) ) : 6;
-    $initial_count  = isset( $_POST['initial_count'] ) ? max( 1, absint( $_POST['initial_count'] ) ) : 6;
+    // Clamp all client-supplied numbers to sane ranges so a malicious
+    // request can't force an unbounded/expensive query (DoS hardening).
+    $page           = isset( $_POST['page'] ) ? min( 500, max( 1, absint( $_POST['page'] ) ) ) : 1;
+    $per_page       = isset( $_POST['per_page'] ) ? min( 50, max( 1, absint( $_POST['per_page'] ) ) ) : 6;
+    $initial_count  = isset( $_POST['initial_count'] ) ? min( 50, max( 1, absint( $_POST['initial_count'] ) ) ) : 6;
     $offset         = $initial_count + ( ( $page - 1 ) * $per_page );
 
     $show_thumbnail  = get_theme_mod( 'bd_blog_show_thumbnail',  true );

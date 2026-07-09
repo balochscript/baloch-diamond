@@ -9,6 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( ! bd_is_section_visible( 'slider' ) ) {
+    return;
+}
+
 // Get slider settings
 $slider_source = get_theme_mod( 'bd_slider_source', 'recent' );
 $slider_count  = get_theme_mod( 'bd_slider_count', 5 );

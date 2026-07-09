@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Baloch Diamond 1.0.0\n"
+"Project-Id-Version: Baloch Diamond 1.6.1\n"
 "Report-Msgid-Bugs-To: https://balochscript.com/baloch-diamond/issues\n"
-"POT-Creation-Date: 2025-01-28 12:00+0000\n"
+"POT-Creation-Date: 2026-07-08 12:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,944 +16,650 @@ msgstr ""
 "X-Generator: Baloch Diamond Theme\n"
 "X-Domain: baloch-diamond\n"
 
-#. Theme Name
+# Strings extracted from Baloch Diamond theme (v1.6.1)
+
 msgid "Baloch Diamond"
 msgstr ""
 
-#. Theme URI
 msgid "https://balochscript.com/baloch-diamond"
 msgstr ""
 
-#. Description
 msgid "A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence. Features include customizable colors, hero slider, portfolio showcase, team section, and full dark/light mode support."
 msgstr ""
 
-#. Author
 msgid "Baloch Script Team"
 msgstr ""
 
-#: functions.php
 msgid "Primary Menu"
 msgstr ""
 
-#: functions.php
 msgid "Footer Menu"
 msgstr ""
 
-#: functions.php
 msgid "Footer Column 1"
 msgstr ""
 
-#: functions.php
 msgid "Widgets in footer column 1"
 msgstr ""
 
-#: functions.php
 msgid "Footer Column 2"
 msgstr ""
 
-#: functions.php
 msgid "Widgets in footer column 2"
 msgstr ""
 
-#: functions.php
 msgid "Footer Column 3"
 msgstr ""
 
-#: functions.php
 msgid "Widgets in footer column 3"
 msgstr ""
 
-#: functions.php
 msgid "Search posts, projects, docs..."
 msgstr ""
 
-#: functions.php
 msgid "No results found for"
 msgstr ""
 
-#: functions.php
 msgid "Navigation"
 msgstr ""
 
-#: functions.php
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: functions.php
 msgid "This email is already subscribed."
 msgstr ""
 
-#: functions.php
 msgid "Thanks for subscribing!"
 msgstr ""
 
-#. Header
-#: header.php
 msgid "Theme Customizer"
 msgstr ""
 
-#: header.php
 msgid "Close settings"
 msgstr ""
 
-#: header.php
 msgid "🎨 Primary Color"
 msgstr ""
 
-#: header.php
 msgid "🔥 Secondary Color"
 msgstr ""
 
-#: header.php
 msgid "💎 Color Presets"
 msgstr ""
 
-#: header.php
 msgid "Ocean Breeze"
 msgstr ""
 
-#: header.php
 msgid "Desert Sunset"
 msgstr ""
 
-#: header.php
 msgid "Forest Green"
 msgstr ""
 
-#: header.php
 msgid "Royal Purple"
 msgstr ""
 
-#: header.php
 msgid "Baloch Diamond (Default)"
 msgstr ""
 
-#: header.php
 msgid "🌐 Language / Translation"
 msgstr ""
 
-#: header.php
 msgid "Download Translation File (.pot)"
 msgstr ""
 
-#: header.php
 msgid "Translate the .pot file using Poedit or Loco Translate plugin, then upload .mo file to /languages/ folder."
 msgstr ""
 
-#: header.php
 msgid "Search"
 msgstr ""
 
-#: header.php
 msgid "Menu"
 msgstr ""
 
-#: header.php
 msgid "Home"
 msgstr ""
 
-#: header.php
 msgid "Close menu"
 msgstr ""
 
-#: header.php
 msgid "Search posts, pages..."
 msgstr ""
 
-#: header.php
 msgid "Close search"
 msgstr ""
 
-#. Footer
-#: footer.php
 msgid "Quick Links"
 msgstr ""
 
-#: footer.php
 msgid "Resources"
 msgstr ""
 
-#: footer.php
 msgid "Contact"
 msgstr ""
 
-#: footer.php
 msgid "Crafted with 💎 by %s. All rights reserved."
 msgstr ""
 
-#: footer.php
 msgid "Toggle theme"
 msgstr ""
 
-#. Index / Archive
-#: index.php
 msgid "Blog"
 msgstr ""
 
-#: index.php
 msgid "Latest Updates"
 msgstr ""
 
-#: index.php
 msgid "Stay updated with our latest articles, tutorials, and industry insights."
 msgstr ""
 
-#: index.php
 msgid "Latest Posts"
 msgstr ""
 
-#: index.php
 msgid "Read More"
 msgstr ""
 
-#: index.php
 msgid "No Posts Found"
 msgstr ""
 
-#: index.php
 msgid "It seems we can't find what you're looking for. Perhaps searching can help."
 msgstr ""
 
-#: index.php
 msgid "Back to Home"
 msgstr ""
 
-#: index.php
 msgid "Prev"
 msgstr ""
 
-#: index.php
 msgid "Next"
 msgstr ""
 
-#: index.php
-#: archive.php
-#: comments.php
-#, php-format
-msgid "%s Comment"
-msgid_plural "%s Comments"
-msgstr[0] ""
-msgstr[1] ""
-
-#. Single Post
-#: single.php
 msgid "Previous"
 msgstr ""
 
-#: single.php
-msgid "Next"
-msgstr ""
-
-#. Content Single
-#: template-parts/content-single.php
 msgid "By %s"
 msgstr ""
 
-#: template-parts/content-single.php
 msgid "Related Posts"
 msgstr ""
 
-#: template-parts/content-single.php
-#, php-format
-msgid "%d min read"
-msgid_plural "%d min read"
-msgstr[0] ""
-msgstr[1] ""
-
-#: template-parts/content-single.php
 msgid "Uncategorized"
 msgstr ""
 
-#. 404 Page
-#: 404.php
 msgid "Lost in the Desert"
 msgstr ""
 
-#: 404.php
 msgid "The page you're looking for has wandered off into the vast Balochi desert. Let's guide you back home."
 msgstr ""
 
-#. Archive
-#: archive.php
 msgid "Category"
 msgstr ""
 
-#: archive.php
 msgid "Tag"
 msgstr ""
 
-#: archive.php
 msgid "Author"
 msgstr ""
 
-#: archive.php
 msgid "Yearly Archive"
 msgstr ""
 
-#: archive.php
 msgid "Monthly Archive"
 msgstr ""
 
-#: archive.php
 msgid "Daily Archive"
 msgstr ""
 
-#: archive.php
 msgid "Archive"
 msgstr ""
 
-#: archive.php
-#, php-format
-msgid "%d post found"
-msgid_plural "%d posts found"
-msgstr[0] ""
-msgstr[1] ""
-
-#. Search
-#: search.php
 msgid "Search Results"
 msgstr ""
 
-#: search.php
-#, php-format
 msgid "Results for: %s"
 msgstr ""
 
-#: search.php
-#, php-format
-msgid "%d result found"
-msgid_plural "%d results found"
-msgstr[0] ""
-msgstr[1] ""
-
-#: search.php
 msgid "View"
 msgstr ""
 
-#. Search Form
-#: searchform.php
 msgid "Search..."
 msgstr ""
 
-#. Content None
-#: template-parts/content-none.php
 msgid "No Results Found"
 msgstr ""
 
-#: template-parts/content-none.php
-#, php-format
 msgid "Sorry, no results were found for \"%s\". Try different keywords."
 msgstr ""
 
-#: template-parts/content-none.php
 msgid "Nothing Found"
 msgstr ""
 
-#. Comments
-#: comments.php
-#, php-format
 msgid "Comments (%s)"
 msgstr ""
 
-#: comments.php
 msgid "Comments are closed."
 msgstr ""
 
-#: comments.php
 msgid "Leave a Comment"
 msgstr ""
 
-#: comments.php
 msgid "Be the First to Comment"
 msgstr ""
 
-#: comments.php
 msgid "← Cancel Reply"
 msgstr ""
 
-#: comments.php
-#, php-format
 msgid "Logged in as %s."
 msgstr ""
 
-#: comments.php
 msgid "Log out?"
 msgstr ""
 
-#: comments.php
 msgid "Your Name *"
 msgstr ""
 
-#: comments.php
 msgid "Your Email *"
 msgstr ""
 
-#: comments.php
 msgid "Website (optional)"
 msgstr ""
 
-#: comments.php
 msgid "Write your comment..."
 msgstr ""
 
-#: comments.php
 msgid "Post Comment"
 msgstr ""
 
-#: comments.php
 msgid "%s ago"
 msgstr ""
 
-#: comments.php
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: comments.php
 msgid "Reply"
 msgstr ""
 
-#: comments.php
 msgid "Edit"
 msgstr ""
 
-#. Hero Slider
-#: template-parts/hero-slider.php
 msgid "Previous slide"
 msgstr ""
 
-#: template-parts/hero-slider.php
 msgid "Next slide"
 msgstr ""
 
-#. Portfolio Section
-#: template-parts/section-portfolio.php
 msgid "Our Portfolio"
 msgstr ""
 
-#: template-parts/section-portfolio.php
 msgid "Featured Projects"
 msgstr ""
 
-#: template-parts/section-portfolio.php
 msgid "Showcasing our finest work blending tradition with innovation. Each project tells a unique story of creativity and craftsmanship."
 msgstr ""
 
-#: template-parts/section-portfolio.php
 msgid "More Info"
 msgstr ""
 
-#. Blog Section
-#: template-parts/section-blog.php
 msgid "Stay updated with our latest articles, tutorials, and industry insights. Fresh content delivered regularly."
 msgstr ""
 
-#. Resources Section
-#: template-parts/section-resources.php
 msgid "Project Documentation"
 msgstr ""
 
-#: template-parts/section-resources.php
 msgid "Comprehensive documentation to help you get started and make the most of our projects."
 msgstr ""
 
-#: template-parts/section-resources.php
 msgid "Read Documentation"
 msgstr ""
 
-#. Team Section
-#: template-parts/section-team.php
 msgid "The Crew"
 msgstr ""
 
-#: template-parts/section-team.php
 msgid "Meet Our Team"
 msgstr ""
 
-#: template-parts/section-team.php
 msgid "The talented individuals behind our success. Passionate, creative, and dedicated to excellence."
 msgstr ""
 
-#. Newsletter Section
-#: template-parts/section-newsletter.php
 msgid "Stay Connected"
 msgstr ""
 
-#: template-parts/section-newsletter.php
 msgid "Subscribe to our newsletter and never miss an update. Get exclusive content, project news, and insights delivered to your inbox."
 msgstr ""
 
-#: template-parts/section-newsletter.php
 msgid "Enter your email..."
 msgstr ""
 
-#: template-parts/section-newsletter.php
 msgid "Subscribe"
 msgstr ""
 
-#. Customizer
-#: inc/customizer.php
 msgid "💎 Baloch Diamond Settings"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🎨 Theme Colors"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Primary Color"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Secondary Color"
 msgstr ""
 
-#: inc/customizer.php
 msgid "📌 Header Settings"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Header Center Display"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Site Icon Only"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Icon + Site Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Icon + Title + Description"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Title Only (No Icon)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Title + Description (No Icon)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Header Background Type"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Default (Theme Background)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Solid Color"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Gradient"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Header Background Color"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Used when \"Solid Color\" is selected."
 msgstr ""
 
-#: inc/customizer.php
 msgid "Gradient Color 1"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Used when \"Gradient\" is selected."
 msgstr ""
 
-#: inc/customizer.php
 msgid "Gradient Color 2"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Gradient Direction"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Top to Bottom"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Left to Right"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Diagonal (↘)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Bottom to Top"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Right to Left"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Diagonal (↗)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🖼️ Hero Slider"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Hero Slider"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Slider Source"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Recent Posts (with featured image)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Custom Selected Posts/Pages"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Number of Slides (Recent)"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Max 7 slides."
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Slide %d — Post/Page ID"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
 msgstr ""
 
-#: inc/customizer.php
 msgid "💼 Portfolio Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Portfolio Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Badge"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Badge Text"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Section Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Description"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Section Description"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Button Text"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "── Project %d ──"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Project %d Title"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Project %d Description"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Project %d Image"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Project %d Link"
 msgstr ""
 
-#: inc/customizer.php
 msgid "URL to a page or post."
 msgstr ""
 
-#: inc/customizer.php
 msgid "📝 Blog Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Blog Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Number of Posts to Show"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Read More Button Text"
 msgstr ""
 
-#: inc/customizer.php
 msgid "📚 Resources Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Resources Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Link Text"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "── Resource %d ──"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Resource %d Icon"
 msgstr ""
 
-#: inc/customizer.php
 msgid "📄 File"
 msgstr ""
 
-#: inc/customizer.php
 msgid "💻 Code"
 msgstr ""
 
-#: inc/customizer.php
 msgid "📐 Layout"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🛡️ Shield"
 msgstr ""
 
-#: inc/customizer.php
 msgid "📖 Book"
 msgstr ""
 
-#: inc/customizer.php
 msgid "⚡ Zap"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🌐 Globe"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🔧 CPU"
 msgstr ""
 
-#: inc/customizer.php
 msgid "❤️ Heart"
 msgstr ""
 
-#: inc/customizer.php
 msgid "⭐ Star"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Resource %d Title"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Resource %d Description"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Resource %d Link"
 msgstr ""
 
-#: inc/customizer.php
 msgid "👥 Team Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Team Section"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "── Member %d ──"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Name"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Role"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Bio"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Photo"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Card Header"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Default Gradient"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Header Color"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Gradient 1"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Gradient 2"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Twitter URL"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d LinkedIn URL"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d GitHub URL"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Instagram URL"
 msgstr ""
 
-#: inc/customizer.php
-#, php-format
 msgid "Member %d Website URL"
 msgstr ""
 
-#: inc/customizer.php
 msgid "📧 Newsletter Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Newsletter Section"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Description"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Input Placeholder Text"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🦶 Footer Settings"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Show Footer"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Footer About Text"
 msgstr ""
 
-#: inc/customizer.php
 msgid "A premium WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design excellence."
 msgstr ""
 
-#: inc/customizer.php
 msgid "Column 1 Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Column 2 Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Column 3 Title"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Custom Copyright Text"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Leave empty to use default. HTML allowed."
 msgstr ""
 
-#: inc/customizer.php
 msgid "📞 Contact Info"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Email Address"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Address"
 msgstr ""
 
-#: inc/customizer.php
 msgid "Phone Number"
 msgstr ""
 
-#: inc/customizer.php
 msgid "🔗 Social Media"
 msgstr ""
 
-# New strings added in v1.1.0
 msgid "%d posts found"
 msgstr ""
 
@@ -988,9 +694,6 @@ msgid "Discussion Forums"
 msgstr ""
 
 msgid "Enter Forums"
-msgstr ""
-
-msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
 msgstr ""
 
 msgid "Explore Our Diamond Hub"
@@ -1032,16 +735,7 @@ msgstr ""
 msgid "Show Promo Hub Section"
 msgstr ""
 
-msgid "Sorry, no results were found for \"%s\". Try different keywords."
-msgstr ""
-
 msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
-msgstr ""
-
-msgid "Used when \"Gradient\" is selected."
-msgstr ""
-
-msgid "Used when \"Solid Color\" is selected."
 msgstr ""
 
 msgid "── Forum Box Settings ──"
@@ -1071,16 +765,7 @@ msgstr ""
 msgid "📣 Promo Hub (Forum & Shop)"
 msgstr ""
 
-
-
-# New strings added in v1.1.0
-msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
-msgstr ""
-
 msgid "Heading Font"
-msgstr ""
-
-msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
 msgstr ""
 
 msgid "Primary Font (Body Text)"
@@ -1089,30 +774,12 @@ msgstr ""
 msgid "RTL Font (Persian/Balochi)"
 msgstr ""
 
-msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
-msgstr ""
-
 msgid "Select the font family for Persian, Balochi, Arabic, and other Right-to-Left (RTL) scripts."
-msgstr ""
-
-msgid "Sorry, no results were found for \"%s\". Try different keywords."
-msgstr ""
-
-msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
-msgstr ""
-
-msgid "Used when \"Gradient\" is selected."
-msgstr ""
-
-msgid "Used when \"Solid Color\" is selected."
 msgstr ""
 
 msgid "🔤 Typography & Fonts"
 msgstr ""
 
-
-
-# New strings added in v1.1.0
 msgid "1 day ago"
 msgstr ""
 
@@ -1158,9 +825,6 @@ msgstr ""
 msgid "Embroidered Pattern Guide"
 msgstr ""
 
-msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
-msgstr ""
-
 msgid "Exhibitions"
 msgstr ""
 
@@ -1180,9 +844,6 @@ msgid "Help Rate"
 msgstr ""
 
 msgid "How to clean vintage hand-woven fabrics safely"
-msgstr ""
-
-msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
 msgstr ""
 
 msgid "Join Discussions"
@@ -1239,9 +900,6 @@ msgstr ""
 msgid "Select Option"
 msgstr ""
 
-msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
-msgstr ""
-
 msgid "Show Forum Section"
 msgstr ""
 
@@ -1254,13 +912,7 @@ msgstr ""
 msgid "Sign up today and get instant access to hundreds of topics. Explore patterns, share your design progress, get feedback from senior needlework masters, and join community workshops."
 msgstr ""
 
-msgid "Sorry, no results were found for \"%s\". Try different keywords."
-msgstr ""
-
 msgid "Subscribe to Invites"
-msgstr ""
-
-msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
 msgstr ""
 
 msgid "Thriving Community"
@@ -1270,12 +922,6 @@ msgid "Traditional Needlework Dress"
 msgstr ""
 
 msgid "Upcoming local artisans exhibition in Quetta 2026"
-msgstr ""
-
-msgid "Used when \"Gradient\" is selected."
-msgstr ""
-
-msgid "Used when \"Solid Color\" is selected."
 msgstr ""
 
 msgid "View Full Store"
@@ -1293,9 +939,6 @@ msgstr ""
 msgid "🛍️ Shop Showcase (WooCommerce)"
 msgstr ""
 
-
-
-# New strings added in v1.1.0
 msgid "CTA Button Link"
 msgstr ""
 
@@ -1317,9 +960,6 @@ msgstr ""
 msgid "Enable Skeleton Shimmer Loading"
 msgstr ""
 
-msgid "Enter the post or page ID. Used when \"Custom\" source is selected."
-msgstr ""
-
 msgid "Forum Section Badge"
 msgstr ""
 
@@ -1327,9 +967,6 @@ msgid "Forum Section Description"
 msgstr ""
 
 msgid "Forum Section Title"
-msgstr ""
-
-msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
 msgstr ""
 
 msgid "Open color settings"
@@ -1344,9 +981,6 @@ msgstr ""
 msgid "Reset to Default"
 msgstr ""
 
-msgid "Select a pre-designed color preset, or choose \"Custom\" to set your own colors below."
-msgstr ""
-
 msgid "Set the main hero slider height. e.g. 50vh, 55vh, 60vh or 500px."
 msgstr ""
 
@@ -1357,9 +991,6 @@ msgid "Slider Height (CSS height)"
 msgstr ""
 
 msgid "Slider Text Shadow Color"
-msgstr ""
-
-msgid "Sorry, no results were found for \"%s\". Try different keywords."
 msgstr ""
 
 msgid "Stat 1 Label"
@@ -1386,24 +1017,12 @@ msgstr ""
 msgid "Stat 4 Number"
 msgstr ""
 
-msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
-msgstr ""
-
-msgid "Used when \"Gradient\" is selected."
-msgstr ""
-
-msgid "Used when \"Solid Color\" is selected."
-msgstr ""
-
 msgid "── CTA & Stats Customization ──"
 msgstr ""
 
 msgid "🚀 Advanced Core Features"
 msgstr ""
 
-
-
-# New strings added in v1.1.0
 msgid " (Page)"
 msgstr ""
 
@@ -1750,9 +1369,6 @@ msgid "How to start your first Balochi embroidery project"
 msgstr ""
 
 msgid "Image Aspect Ratio"
-msgstr ""
-
-msgid "It seems we can\'t find what you\'re looking for. Perhaps searching can help."
 msgstr ""
 
 msgid "Item %d — Category / Tag"
@@ -2136,9 +1752,6 @@ msgstr ""
 msgid "Small — 35% of screen"
 msgstr ""
 
-msgid "Sorry, no results were found for \"%s\". Try different keywords."
-msgstr ""
-
 msgid "Square"
 msgstr ""
 
@@ -2161,9 +1774,6 @@ msgid "Textile Artist"
 msgstr ""
 
 msgid "The Artisans"
-msgstr ""
-
-msgid "The page you\'re looking for has wandered off into the vast Balochi desert. Let\'s guide you back home."
 msgstr ""
 
 msgid "Tiny — 120px"
@@ -2221,12 +1831,6 @@ msgid "Used for hover states and highlights."
 msgstr ""
 
 msgid "Used when \"Custom Image\" is selected above."
-msgstr ""
-
-msgid "Used when \"Gradient\" is selected."
-msgstr ""
-
-msgid "Used when \"Solid Color\" is selected."
 msgstr ""
 
 msgid "Very Small — 180px"
@@ -2329,5 +1933,341 @@ msgid "🖼️ Portfolio Section"
 msgstr ""
 
 msgid "🗂️ Layout"
+msgstr ""
+
+msgid "\"Load More\" Button Text"
+msgstr ""
+
+msgid "\"Loading\" Text"
+msgstr ""
+
+msgid "\"No More Posts\" Message"
+msgstr ""
+
+msgid "%1$s at %2$s"
+msgstr ""
+
+msgid "%s post"
+msgstr ""
+
+msgid "%s posts"
+msgstr ""
+
+msgid "0 = disabled. Blocks wall-of-text spam floods."
+msgstr ""
+
+msgid "0 = disabled. Rejects ultra-short spam like \"nice\"."
+msgstr ""
+
+msgid "0 = fully transparent (no band at all), 100 = solid color. Default 80. Fine-tune freely — the title text shadow keeps text readable at low values."
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
+msgid "Alphabetical"
+msgstr ""
+
+msgid "Also Apply Filters to Logged-in Users"
+msgstr ""
+
+msgid "Baloch Diamond:"
+msgstr ""
+
+msgid "Blocked Words / Characters"
+msgstr ""
+
+msgid "Blog posts"
+msgstr ""
+
+msgid "Browse by Topic"
+msgstr ""
+
+msgid "Browse everything we have published, month by month."
+msgstr ""
+
+msgid "By default administrators/editors are exempt. Users who can moderate comments are always exempt."
+msgstr ""
+
+msgid "Choose how visitors browse more posts in the blog section. \"Numbered\" is the standard WordPress way and needs no extra page — older posts are reachable at /page/2/, /page/3/ and so on."
+msgstr ""
+
+msgid "Comment Rejected"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Comments containing links are not allowed on this site."
+msgstr ""
+
+msgid "Comments that include http(s) URLs or www. addresses are rejected with a friendly error — a very effective anti-spam measure."
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
+msgid "Drag between columns — toggle eye to show/hide"
+msgstr ""
+
+msgid "Drag to reorder or move between columns"
+msgstr ""
+
+msgid "Drop sections here to activate this sidebar"
+msgstr ""
+
+msgid "Explore"
+msgstr ""
+
+msgid "Extra filters applied on top of the WordPress core comment settings (Settings → Discussion)."
+msgstr ""
+
+msgid "Find the content you care about, organized by subject."
+msgstr ""
+
+msgid "For the best experience, set a static Front page and a Posts page (e.g. \"Blog\") so the \"View All Posts\" button has a destination."
+msgstr ""
+
+msgid "Go to Settings → Reading"
+msgstr ""
+
+msgid "Icon Tiles"
+msgstr ""
+
+msgid "Jump straight to the subjects everyone is reading about."
+msgstr ""
+
+msgid "Keywords"
+msgstr ""
+
+msgid "Latest Post Image (icon fallback)"
+msgstr ""
+
+msgid "Left Sidebar"
+msgstr ""
+
+msgid "Left sidebar sections"
+msgstr ""
+
+msgid "Links to the blog archive page. Go to Settings → Reading and set a \"Posts page\" to configure the blog URL. A \"Blog\" page is created automatically on theme activation."
+msgstr ""
+
+msgid "Load More Posts"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Main Column"
+msgstr ""
+
+msgid "Maximum Comment Length (characters)"
+msgstr ""
+
+msgid "Minimum Comment Length (characters)"
+msgstr ""
+
+msgid "Most Posts First"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "No more posts to show"
+msgstr ""
+
+msgid "Number of Months"
+msgstr ""
+
+msgid "Number of Tags"
+msgstr ""
+
+msgid "Number of Topics"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "One entry per line. Any comment containing one of these words or character sequences is rejected before it is saved."
+msgstr ""
+
+msgid "Order Topics By"
+msgstr ""
+
+msgid "Paged: show %s"
+msgstr ""
+
+msgid "Popular Tags"
+msgstr ""
+
+msgid "Posts"
+msgstr ""
+
+msgid "Reject Comments Containing Links (URLs)"
+msgstr ""
+
+msgid "Renders full-width above the footer. Also respects the global Newsletter visibility setting."
+msgstr ""
+
+msgid "Replace the navy background with any dark color (e.g. deep green, warm charcoal). Derived shades keep contrast safe. Leave empty for the default."
+msgstr ""
+
+msgid "Replace the white background with any color (e.g. cream, light blue). Card, border and text shades are derived automatically so text always stays readable. Leave empty for default white."
+msgstr ""
+
+msgid "Right Sidebar"
+msgstr ""
+
+msgid "Right sidebar sections"
+msgstr ""
+
+msgid "Shop"
+msgstr ""
+
+msgid "Show Hero Slider on Pages"
+msgstr ""
+
+msgid "Show Newsletter on Pages"
+msgstr ""
+
+msgid "Show Post Count"
+msgstr ""
+
+msgid "Show Section Badge"
+msgstr ""
+
+msgid "Show Section Title"
+msgstr ""
+
+msgid "Show Site Statistics (posts, categories, tags, comments)"
+msgstr ""
+
+msgid "Shown when all posts are loaded. An archive link appears below."
+msgstr ""
+
+msgid "Site Archive"
+msgstr ""
+
+msgid "Static pages only show the Hero Slider and Newsletter — no other front-page sections. The slider also respects its own global visibility setting."
+msgstr ""
+
+msgid "Strip ALL HTML Tags from Comments"
+msgstr ""
+
+msgid "Subscription list is full. Please contact the site owner."
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "The ONLY place to show/hide front-page sections: use the eye icon. Drag rows to reorder or move them into a sidebar column."
+msgstr ""
+
+msgid "The gradient color behind the slide title/excerpt. Default is black; try your brand color for a tinted look."
+msgstr ""
+
+msgid "The mode first-time visitors see. Once a visitor uses the toggle, their own choice is remembered in their browser."
+msgstr ""
+
+msgid "This section always stays in the main column"
+msgstr ""
+
+msgid "Time Machine"
+msgstr ""
+
+msgid "Topics"
+msgstr ""
+
+msgid "Topics (Categories)"
+msgstr ""
+
+msgid "View Full Archive"
+msgstr ""
+
+msgid "When visitors browse older posts (/page/2/ and beyond via Numbered pagination), show only the Blog grid plus the sections ticked below. Page 1 always shows the full layout. Untick to show everything on every page."
+msgstr ""
+
+msgid "WordPress already removes dangerous tags; this removes EVERY tag (links, bold, images…) so comments are always plain text."
+msgstr ""
+
+msgid "Your comment contains words that are not allowed on this site."
+msgstr ""
+
+msgid "Your comment is too long. Please keep it under %d characters."
+msgstr ""
+
+msgid "Your comment is too short. Please write at least %d characters."
+msgstr ""
+
+msgid "☀️ Light"
+msgstr ""
+
+msgid "⚡ Load More — AJAX button loads more posts inline (no page refresh)"
+msgstr ""
+
+msgid "⠿ Drag rows to reorder — or drag them into the Left/Right sidebar boxes to create a 2- or 3-column layout."
+msgstr ""
+
+msgid "🌗 Default Theme Mode"
+msgstr ""
+
+msgid "🌙 Dark"
+msgstr ""
+
+msgid "🌫️ Text Overlay Strength (%)"
+msgstr ""
+
+msgid "🎨 Dark Mode — Custom Background"
+msgstr ""
+
+msgid "🎨 Light Mode — Custom Background"
+msgstr ""
+
+msgid "🎨 Text Overlay Color"
+msgstr ""
+
+msgid "🏷️ Topics Section"
+msgstr ""
+
+msgid "📄 Page Settings"
+msgstr ""
+
+msgid "📊 Blog Pagination Mode"
+msgstr ""
+
+msgid "📑 Paged Views: Filter Sections"
+msgstr ""
+
+msgid "🔒 Locked sections (Hero Slider, Newsletter, Blog) always stay in the main column."
+msgstr ""
+
+msgid "🔖 Tags Section"
+msgstr ""
+
+msgid "🔗 Archive Link — Button links to the blog archive page (requires a Posts page in Settings → Reading)"
+msgstr ""
+
+msgid "🔢 Numbered — Standard WordPress pagination on the front page (no extra page needed)"
+msgstr ""
+
+msgid "🖥️ Auto — follow the visitor\'s system preference"
+msgstr ""
+
+msgid "🗄️ Archive Section"
+msgstr ""
+
+msgid "🛡️ Comment Protection"
+msgstr ""
+
+msgid "%d min read"
+msgstr ""
+
+msgid "%d post found"
+msgstr ""
+
+msgid "%d result found"
+msgstr ""
+
+msgid "%s Comment"
 msgstr ""
 

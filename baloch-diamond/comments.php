@@ -67,93 +67,45 @@ $commenter = wp_get_current_commenter();
 
     <?php if ( comments_open() ) : ?>
 
-        <!-- Comment Form -->
-        <div class="comment-form-wrapper" id="respond">
-
-            <h4>
-                <?php
-                if ( get_comments_number() > 0 ) {
-                    esc_html_e( 'Leave a Comment', 'baloch-diamond' );
-                } else {
-                    esc_html_e( 'Be the First to Comment', 'baloch-diamond' );
-                }
-                ?>
-            </h4>
-
+        <!-- Comment Form (standard comment_form() so plugins can hook in) -->
+        <div class="comment-form-wrapper">
             <?php
-            // Cancel reply link
-            if ( get_comment_reply_link() !== '' ) :
-            ?>
-                <small id="cancel-comment-reply-link-wrapper" style="display:block;margin-bottom:12px">
-                    <?php cancel_comment_reply_link( esc_html__( '← Cancel Reply', 'baloch-diamond' ) ); ?>
-                </small>
-            <?php endif; ?>
+            $bd_form_title = get_comments_number() > 0
+                ? esc_html__( 'Leave a Comment', 'baloch-diamond' )
+                : esc_html__( 'Be the First to Comment', 'baloch-diamond' );
 
-            <form action="<?php echo esc_url( site_url( '/wp-comments-post.php' ) ); ?>"
-                  method="post"
-                  id="commentform"
-                  class="comment-form">
-
-                <?php if ( is_user_logged_in() ) : ?>
-
-                    <p style="margin-bottom:12px;font-size:0.9rem;color:var(--text-muted)">
-                        <?php
-                        $current_user = wp_get_current_user();
+            comment_form( array(
+                'title_reply'          => $bd_form_title,
+                'title_reply_before'   => '<h4 id="reply-title" class="comment-reply-title">',
+                'title_reply_after'    => '</h4>',
+                'cancel_reply_before'  => ' <small id="cancel-comment-reply-link-wrapper" style="display:block;margin-bottom:12px">',
+                'cancel_reply_after'   => '</small>',
+                'cancel_reply_link'    => esc_html__( '← Cancel Reply', 'baloch-diamond' ),
+                'class_form'           => 'comment-form',
+                'comment_notes_before' => '',
+                'comment_notes_after'  => '',
+                'fields'               => array(
+                    'author' => '<div class="comment-form-fields">'
+                        . '<input type="text" name="author" id="author" placeholder="' . esc_attr__( 'Your Name *', 'baloch-diamond' ) . '" value="' . esc_attr( $commenter['comment_author'] ?? '' ) . '" required>',
+                    'email'  => '<input type="email" name="email" id="email" placeholder="' . esc_attr__( 'Your Email *', 'baloch-diamond' ) . '" value="' . esc_attr( $commenter['comment_author_email'] ?? '' ) . '" required>'
+                        . '</div>',
+                    'url'    => '<input type="url" name="url" id="url" placeholder="' . esc_attr__( 'Website (optional)', 'baloch-diamond' ) . '" value="' . esc_attr( $commenter['comment_author_url'] ?? '' ) . '" style="padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--card-bg);color:var(--text);font-family:var(--font-body);outline:none;width:100%;margin-bottom:12px">',
+                ),
+                'comment_field'        => '<textarea name="comment" id="comment" rows="4" placeholder="' . esc_attr__( 'Write your comment...', 'baloch-diamond' ) . '" required></textarea>',
+                'logged_in_as'         => sprintf(
+                    '<p style="margin-bottom:12px;font-size:0.9rem;color:var(--text-muted)">%s <a href="%s" style="color:var(--color-primary);text-decoration:none">%s</a></p>',
+                    sprintf(
                         /* translators: %s: User display name */
-                        printf(
-                            esc_html__( 'Logged in as %s.', 'baloch-diamond' ),
-                            '<strong>' . esc_html( $current_user->display_name ) . '</strong>'
-                        );
-                        ?>
-                        <a href="<?php echo esc_url( wp_logout_url( get_permalink() ) ); ?>"
-                           style="color:var(--color-primary);text-decoration:none">
-                            <?php esc_html_e( 'Log out?', 'baloch-diamond' ); ?>
-                        </a>
-                    </p>
-
-                <?php else : ?>
-
-                    <div class="comment-form-fields">
-                        <input type="text"
-                               name="author"
-                               id="author"
-                               placeholder="<?php esc_attr_e( 'Your Name *', 'baloch-diamond' ); ?>"
-                               value="<?php echo esc_attr( $commenter['comment_author'] ?? '' ); ?>"
-                               required>
-
-                        <input type="email"
-                               name="email"
-                               id="email"
-                               placeholder="<?php esc_attr_e( 'Your Email *', 'baloch-diamond' ); ?>"
-                               value="<?php echo esc_attr( $commenter['comment_author_email'] ?? '' ); ?>"
-                               required>
-                    </div>
-
-                    <input type="url"
-                           name="url"
-                           id="url"
-                           placeholder="<?php esc_attr_e( 'Website (optional)', 'baloch-diamond' ); ?>"
-                           value="<?php echo esc_attr( $commenter['comment_author_url'] ?? '' ); ?>"
-                           style="padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--card-bg);color:var(--text);font-family:var(--font-body);outline:none;width:100%;margin-bottom:12px">
-
-                <?php endif; ?>
-
-                <textarea name="comment"
-                          id="comment"
-                          rows="4"
-                          placeholder="<?php esc_attr_e( 'Write your comment...', 'baloch-diamond' ); ?>"
-                          required></textarea>
-
-                <?php comment_id_fields(); ?>
-                <?php do_action( 'comment_form', get_the_ID() ); ?>
-
-                <button type="submit" class="btn-gradient">
-                    <?php echo bd_icon( 'send', 16, 16 ); ?>
-                    <?php esc_html_e( 'Post Comment', 'baloch-diamond' ); ?>
-                </button>
-
-            </form>
-
+                        esc_html__( 'Logged in as %s.', 'baloch-diamond' ),
+                        '<strong>' . esc_html( wp_get_current_user()->display_name ) . '</strong>'
+                    ),
+                    esc_url( wp_logout_url( get_permalink() ) ),
+                    esc_html__( 'Log out?', 'baloch-diamond' )
+                ),
+                'submit_button'        => '<button type="submit" id="%2$s" class="btn-gradient %3$s">' . bd_icon( 'send', 16, 16 ) . ' %4$s</button>',
+                'label_submit'         => esc_html__( 'Post Comment', 'baloch-diamond' ),
+            ) );
+            ?>
         </div>
 
     <?php endif; ?>

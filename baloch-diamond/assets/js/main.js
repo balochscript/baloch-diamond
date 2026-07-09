@@ -417,7 +417,13 @@
                 if ( data.success && data.data.length > 0 ) {
                     var html = '';
                     data.data.forEach( function( item ) {
-                        html += '<a href="' + item.url + '" class="search-result-item" style="text-decoration:none;color:var(--text)">';
+                        // Defense-in-depth: URL comes from get_permalink() server-side,
+                        // but escape it anyway and reject non-http(s) schemes.
+                        var safeUrl = String( item.url || '' );
+                        if ( ! /^https?:\/\//i.test( safeUrl ) ) {
+                            safeUrl = '#';
+                        }
+                        html += '<a href="' + search.escapeHtml( safeUrl ) + '" class="search-result-item" style="text-decoration:none;color:var(--text)">';
                         html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">';
                         html += '<strong style="font-size:0.95rem">' + search.escapeHtml( item.title ) + '</strong>';
                         html += '<span style="font-size:0.7rem;padding:3px 8px;border-radius:6px;background:var(--bg-alt);color:var(--text-muted)">' + search.escapeHtml( item.type ) + '</span>';
@@ -454,12 +460,11 @@
 
             if ( ! btn ) return;
 
-            // Load saved theme
-            var saved = localStorage.getItem( 'bd_theme' );
-            if ( saved ) {
-                document.documentElement.setAttribute( 'data-theme', saved );
-                this.updateIcons( saved );
-            }
+            // The actual mode was already applied by the inline <head>
+            // script (saved choice → admin default → auto). Just make
+            // sure the toggle icon matches whatever is active now.
+            var current = document.documentElement.getAttribute( 'data-theme' ) || 'light';
+            this.updateIcons( current );
 
             var self = this;
             btn.addEventListener( 'click', function() {

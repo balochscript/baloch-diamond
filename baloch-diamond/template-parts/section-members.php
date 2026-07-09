@@ -12,8 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$show_members = get_theme_mod( 'bd_members_show', true );
-if ( ! $show_members ) {
+if ( ! bd_is_section_visible( 'members' ) ) {
     return;
 }
 

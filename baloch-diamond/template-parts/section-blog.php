@@ -2,7 +2,9 @@
 /**
  * Blog Section Template Part (Front Page)
  *
- * Displays a preview grid of the latest posts with configurable pagination:
+ * Displays a grid of the latest posts with configurable pagination:
+ *   - "Numbered" mode: standard WordPress pagination (paginate_links)
+ *     right on the front page — /page/2/, /page/3/ … no extra page needed
  *   - "Archive Link" mode: button linking to the full blog archive
  *   - "Load More" mode: AJAX-powered inline post loading
  *
@@ -10,11 +12,15 @@
  * Works with both WordPress reading modes — no manual page setup required.
  *
  * @package Baloch_Diamond
- * @version 1.2.0
+ * @version 1.4.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
+}
+
+if ( ! bd_is_section_visible( 'blog' ) ) {
+    return;
 }
 
 // ---- Customizer settings ----
@@ -42,8 +48,16 @@ if ( ! $viewall_text ) {
         esc_html__( 'View All Posts', 'baloch-diamond' ) );
 }
 
-// ---- Pagination mode: 'archive_link' or 'load_more' ----
-$pagination_mode  = get_theme_mod( 'bd_blog_pagination_mode', 'archive_link' );
+// ---- Pagination mode: 'numbered', 'archive_link' or 'load_more' ----
+$pagination_mode  = get_theme_mod( 'bd_blog_pagination_mode', 'numbered' );
+
+// ---- Smart fallback ----
+// "Archive Link" needs a Posts page (Settings → Reading). If the admin
+// deleted that page (or never set one), silently fall back to standard
+// numbered pagination so visitors can ALWAYS reach older posts.
+if ( 'archive_link' === $pagination_mode && ! bd_get_blog_archive_url() ) {
+    $pagination_mode = 'numbered';
+}
 
 // ---- Load More settings ----
 $loadmore_text    = get_theme_mod( 'bd_blog_loadmore_text', esc_html__( 'Load More Posts', 'baloch-diamond' ) );
@@ -52,11 +66,19 @@ $loadmore_nomore  = get_theme_mod( 'bd_blog_loadmore_nomore_text', esc_html__( '
 $posts_per_load   = max( 1, (int) get_option( 'posts_per_page', 10 ) );
 
 // ---- Resolve blog archive URL ----
-// Uses page_for_posts (set in Settings → Reading or auto-created on activation).
-// Returns empty string if no blog archive page exists — button is simply hidden.
+// Uses page_for_posts (Settings → Reading). Returns empty string if no
+// blog archive page exists — the archive-link button is simply hidden.
 $blog_archive_url = bd_get_blog_archive_url();
 
-// ---- Query: fixed-size preview, no front-page pagination ----
+// ---- Current page for numbered pagination on a static front page ----
+// WordPress passes the page number as 'page' on static front pages
+// and as 'paged' elsewhere.
+$bd_paged = 1;
+if ( 'numbered' === $pagination_mode ) {
+    $bd_paged = max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
+}
+
+// ---- Query ----
 $args = array(
     'post_type'      => 'post',
     'post_status'    => 'publish',
@@ -64,6 +86,9 @@ $args = array(
     'orderby'        => 'date',
     'order'          => 'DESC',
 );
+if ( 'numbered' === $pagination_mode ) {
+    $args['paged'] = $bd_paged;
+}
 
 $blog_query = new WP_Query( $args );
 
@@ -80,7 +105,7 @@ if ( $total_counts && isset( $total_counts->publish ) ) {
 $has_more_posts = ( $blog_count < $total_publish );
 ?>
 
-<section class="section" id="updates" style="background:var(--bg-alt)">
+<section class="section" id="updates">
 
     <?php
     bd_section_header( 'blog', array(
@@ -178,6 +203,45 @@ $has_more_posts = ( $blog_count < $total_publish );
         <?php endwhile; wp_reset_postdata(); ?>
 
     </div><!-- .posts-grid -->
+
+    <?php
+    // ====================================================
+    //  PAGINATION — Numbered Mode (standard WordPress)
+    //  Uses paginate_links() with the custom query's total
+    //  pages. Works on the static front page via /page/N/
+    //  URLs — no extra "Blog" page required.
+    // ====================================================
+    if ( 'numbered' === $pagination_mode && $blog_query->max_num_pages > 1 ) :
+
+        // On a static front page WordPress uses the 'page' query var,
+        // so build the base from the front page permalink.
+        $bd_pagination_base = trailingslashit( home_url() ) . '%_%';
+        $bd_pagination_format = user_trailingslashit( 'page/%#%/', 'paged' );
+        if ( ! get_option( 'permalink_structure' ) ) {
+            // Plain permalinks fallback: ?page=N
+            $bd_pagination_format = '?page=%#%';
+        }
+
+        $bd_links = paginate_links( array(
+            'base'      => $bd_pagination_base,
+            'format'    => $bd_pagination_format,
+            'current'   => $bd_paged,
+            'total'     => (int) $blog_query->max_num_pages,
+            'type'      => 'plain',
+            'mid_size'  => 2,
+            'prev_text' => bd_icon( 'arrow-left', 16, 16 ) . '<span class="bd-page-label"> ' . esc_html__( 'Newer', 'baloch-diamond' ) . '</span>',
+            'next_text' => '<span class="bd-page-label">' . esc_html__( 'Older', 'baloch-diamond' ) . ' </span>' . bd_icon( 'arrow-right', 16, 16 ),
+        ) );
+
+        if ( $bd_links ) :
+    ?>
+    <nav class="navigation pagination bd-blog-pagination" aria-label="<?php esc_attr_e( 'Blog posts', 'baloch-diamond' ); ?>">
+        <?php echo $bd_links; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- paginate_links() outputs safe HTML. ?>
+    </nav>
+    <?php
+        endif;
+    endif;
+    ?>
 
     <?php
     // ====================================================

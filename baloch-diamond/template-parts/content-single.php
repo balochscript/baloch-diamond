@@ -129,7 +129,7 @@ $category = bd_get_first_category();
                                 <div style="opacity:0.15"><?php echo bd_icon( 'file-text', 32, 32 ); ?></div>
                             </div>
                         <?php endif; ?>
-                        <h4><?php the_title(); ?></h4>
+                        <h4><?php echo esc_html( get_the_title() ); ?></h4>
                     </a>
                 <?php endwhile; ?>
             </div>

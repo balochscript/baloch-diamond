@@ -67,7 +67,7 @@ $btn2_rel    = $btn2_newtab ? ' rel="noopener noreferrer"' : '';
 $btn3_target = $btn3_newtab ? '_blank' : '_self';
 $btn3_rel    = $btn3_newtab ? ' rel="noopener noreferrer"' : '';
 
-if ( ! $show_forum ) {
+if ( ! bd_is_section_visible( 'forum' ) ) {
     return;
 }
 

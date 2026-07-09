@@ -2,6 +2,8 @@
 /**
  * Footer Template — Fully Customizable
  *
+ * Direct access blocked below (after the docblock).
+ *
  * Customizer: 💎 Baloch Diamond Settings → 🦶 Footer Settings
  * - Custom logo upload
  * - About text, copyright text ({year} auto-replace)
@@ -13,6 +15,10 @@
  *
  * @package Baloch_Diamond
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 // Gather Customizer values
 $footer_show     = get_theme_mod( 'bd_footer_show', true );
@@ -222,6 +228,19 @@ $cats  = get_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'number
         <?php endif; ?>
 
     </div><!-- .footer-inner -->
+
+    <?php if ( is_active_sidebar( 'footer-1' ) || is_active_sidebar( 'footer-2' ) || is_active_sidebar( 'footer-3' ) ) : ?>
+    <!-- Footer Widget Areas (Appearance → Widgets) -->
+    <div class="footer-widgets">
+        <?php for ( $bd_fw = 1; $bd_fw <= 3; $bd_fw++ ) : ?>
+            <?php if ( is_active_sidebar( 'footer-' . $bd_fw ) ) : ?>
+                <div class="footer-col footer-widget-col">
+                    <?php dynamic_sidebar( 'footer-' . $bd_fw ); ?>
+                </div>
+            <?php endif; ?>
+        <?php endfor; ?>
+    </div>
+    <?php endif; ?>
 
     <!-- Footer Bottom -->
     <div class="footer-bottom">
