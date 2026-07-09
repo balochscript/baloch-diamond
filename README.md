@@ -21,7 +21,7 @@ A premium, highly-customizable WordPress theme inspired by the timeless beauty o
 
 ## 📸 Theme Preview
 
-![Baloch Diamond Theme Screenshot](screenshot.png)
+![Baloch Diamond Theme Screenshot](baloch-diamond/screenshot.png)
 
 *The 3-column layout in action: Shop sidebar (left), Blog with hero slider (center), Community Hub (right) — all arranged with drag & drop, no code.*
 
