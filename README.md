@@ -1,32 +1,42 @@
 <div align="center">
 
+<img src="icon.png" alt="Baloch Diamond WordPress Theme" width="720">
+
 # 💎 Baloch Diamond WordPress Theme
 
 A premium, highly-customizable WordPress theme inspired by the timeless beauty of Balochi needlework artistry. Where tradition meets modern web design. Fully optimized for blogging, portfolio showcases, WooCommerce storefronts, and bbPress community forums.
 
-![Baloch Diamond Theme](screenshot.png)
-
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg)](https://wordpress.org)
+[![Tested](https://img.shields.io/badge/Tested%20up%20to-7.0-blue.svg)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net)
 [![License](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/Version-1.6.1-orange.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.6.2-orange.svg)](../../releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/balochscript/baloch-diamond/total.svg?color=teal)](../../releases)
 
-[Live Demo](#) • [Download](#) • [Documentation](#) • [Report Bug](../../issues)
+[⬇️ Download Latest](../../releases/latest) • [🌐 Live Site](https://balochscript.com) • [📋 Changelog](CHANGELOG.md) • [🐛 Report Bug](../../issues)
 
 </div>
 
 ---
 
+## 📸 Theme Preview
+
+![Baloch Diamond Theme Screenshot](screenshot.png)
+
+*The 3-column layout in action: Shop sidebar (left), Blog with hero slider (center), Community Hub (right) — all arranged with drag & drop, no code.*
+
+---
+
 ## ✨ Features
 
-### 🏗️ Multi-Column Layout Builder (New in v1.3)
+### 🏗️ Multi-Column Layout Builder
 - **1 / 2 / 3-Column Front Page** — Drag any section into a Left or Right sidebar zone straight from the Customizer sorter; sidebar columns appear automatically.
 - **Zone-Aware Drag & Drop Sorter** — Three connected drop zones (⬅️ Left / ▣ Main / ➡️ Right) with eye-toggle show/hide per section. The single source of truth for section visibility.
 - **Proportional Columns** — `fr`-based widths keep the chosen layout on every screen size with zero pixel settings; only real phones stack the sidebars.
 - **Compact Sidebar Presentation** — Sections dropped into a sidebar automatically switch to a compact vertical style (the Shop grid even becomes a horizontal swipe row).
-- **Independent Sidebar Scrolling (New in v1.6)** — Tall sticky sidebars scroll inside their own box without moving the page.
+- **Independent Sidebar Scrolling** — Tall sticky sidebars scroll inside their own box without moving the page.
 
-### 📰 Blog & Pagination (New in v1.4–1.5)
+### 📰 Blog & Pagination
 - **Standard Numbered Pagination (default)** — WordPress `paginate_links()` right on the front page (`/page/2/`, `/page/3/`, …). No extra "Blog" page needed; smart fallback if a Posts page is deleted.
 - **Three Pagination Modes** — Numbered / Archive-Link button / AJAX Load More.
 - **Paged-View Section Filtering** — On `/page/2/`+ show only the Blog grid plus admin-selected sections (Hero Slider on by default); page 1 always shows the full layout.
@@ -34,33 +44,26 @@ A premium, highly-customizable WordPress theme inspired by the timeless beauty o
 
 ### 🎨 Design & Layout
 - **Balochi-Inspired Patterns** — Elegant, geometric SVG pattern backdrops reflecting traditional needlework (also on sidebar columns).
-- **Optional Animated Patterns (New in v1.1.0)** — Slow, beautiful, CSS-powered sliding pattern backgrounds, toggleable via the WordPress Customizer.
+- **Optional Animated Patterns** — Slow, beautiful, CSS-powered sliding pattern backgrounds, toggleable via the WordPress Customizer.
 - **Customizable Color Schemes** — 5 preset palettes (Ocean Breeze, Desert Sunset, Forest Green, Royal Purple, and Baloch Diamond Default) or complete custom colors.
-- **Slider Overlay Control (New in v1.6.1)** — Pick any color AND strength (0–100%) for the gradient band behind hero-slide titles.
-- **Interactive Palette Switcher (New in v1.1.0)** — A clean, beautiful frontend sliding palette widget allowing users to temporarily preview theme colors on-the-fly, with an instant "Reset to Default" button.
-- **Responsive Megamenu (New in v1.1.0)** — Style any drop-down menu into a stunning 4-column full-width grid menu decorated with elegant needlework motifs by simply adding the `megamenu` CSS class.
-- **Skeleton Shimmer Loading (New in v1.1.0)** — Shimmering skeletal animation placeholders that transition beautifully into loaded content to improve perceived performance.
+- **Slider Overlay Control** — Pick any color AND strength (0–100%) for the gradient band behind hero-slide titles.
+- **Interactive Palette Switcher** — A clean frontend sliding palette widget for previewing theme colors on-the-fly, with an instant "Reset to Default" button.
+- **Responsive Megamenu** — Style any drop-down into a 4-column full-width grid menu decorated with needlework motifs by adding the `megamenu` CSS class.
+- **Skeleton Shimmer Loading** — Shimmering placeholders that transition beautifully into loaded content.
+- **Block Editor Ready** — Custom block styles (Diamond Gradient button, Embroidered Border quote), a "Diamond CTA Banner" pattern, and editor styles that match the front end.
 
-### 🔌 Advanced Integrations (Enhanced v1.1.1)
-- **WooCommerce Marketplace Section** — Fully isolated shop showcase support. Highlights on-sale, recent, featured, or popular products in a grid or slider carousel layout with ratings and dynamic pricing. **Filter fully functional** (Recent / On Sale / Featured / Popular).
-- **bbPress Discussion Board Section** — Display latest active forum topics with reply counters, author metadata, and categories, or toggle a high-converting community CTA statistics board. **5 display modes** + 6 fully editable stats.
-- **Community Members Showcase (New in v1.1.1)** — Lightweight, fully customizable members grid in the Customizer. Display up to 8 artisans/creators with name, role, avatar upload, and profile links.
-- **Header Account & Cart (New in v1.1.1)** — Quick-access icons for My Account and Shopping Cart (with live item count badge) when WooCommerce is active.
-
-### 🌗 Dark/Light Mode (Upgraded in v1.6)
+### 🌗 Dark/Light Mode
 - One-click theme toggle, saved locally in the visitor's browser, respecting WooCommerce, bbPress, and custom blocks.
 - **Admin-selectable default mode** — Light, Dark, or Auto (follows the visitor's OS preference), applied before first paint (no flash).
 - **Custom mode colors** — Replace white/navy with ANY background color; card, border and text shades are derived automatically with WCAG-safe contrast.
 
-### 🎛️ Extensive Customizer Options (v1.1.1)
-- **Theme Colors & Scheme Presets**
-- **Typography & Font Selector** — Full Google Font + RTL support.
-- **Shop & Forum Sections** — Toggle layouts, choose counts, and filters independently.
-- **Community Members Section** — 8 fully customizable member cards (name, role, avatar, link).
-- **Portfolio, Blog, Team, and Resources** — Tailor images, slide counts, post grids, and social icons.
-- **Header** — 5 display modes, solid/gradient headers.
+### 🔌 Advanced Integrations
+- **WooCommerce Marketplace Section** — Shop showcase with grid / horizontal slider / single-big layouts. Highlights on-sale, recent, featured, or popular products with ratings and dynamic pricing.
+- **bbPress Discussion Board Section** — Latest forum topics with reply counters, author metadata, and categories — 5 display modes + 6 fully editable stats.
+- **Community Members Showcase** — Up to 8 artisans/creators with name, role, avatar upload, and profile links.
+- **Header Account & Cart** — Quick-access icons for My Account and Shopping Cart (with live item count badge) when WooCommerce is active.
 
-### 🛡️ Security & Comment Protection (New in v1.4.4–1.5)
+### 🛡️ Security & Comment Protection
 - **Security-audited** — escaped output everywhere, nonce-protected AJAX, kses-filtered comments at display time, clamped AJAX inputs, ABSPATH guards.
 - **Comment Protection Customizer section** — strip all HTML from comments, reject comments containing links, blocked-words list (multibyte-safe), min/max comment length, optional enforcement for logged-in users.
 - **Repository-friendly** — no pages created programmatically; uses the WordPress Starter Content API and never touches reading settings on its own.
@@ -76,7 +79,7 @@ A premium, highly-customizable WordPress theme inspired by the timeless beauty o
 ## 📦 Installation
 
 ### Method 1: WordPress Dashboard
-1. Download the latest release **`baloch-diamond.zip`** from the [Releases](../../releases) tab.
+1. Download the latest release **`baloch-diamond.zip`** from the [Releases](../../releases/latest) tab.
 2. Go to **Appearance → Themes → Add New → Upload Theme**.
 3. Upload `baloch-diamond.zip` and click **Activate**.
 
@@ -89,16 +92,19 @@ A premium, highly-customizable WordPress theme inspired by the timeless beauty o
 
 ## ⚙️ Setup After Activation
 
-### 1. Set Homepage
-Go to Dashboard → Settings → Reading → Select "A static page" or "Your latest posts".
+### 1. Arrange Your Layout
+Go to **Appearance → Customize → 💎 Baloch Diamond Settings → 📋 Sections Order & Visibility**. Drag sections between the Left / Main / Right zones, reorder them, and toggle visibility with the eye icon.
 
-### 2. Customize Theme
-Go to Dashboard → Appearance → Customize → 💎 Baloch Diamond Settings.
+### 2. Set Homepage *(optional)*
+The theme works out of the box with either reading mode. For a classic setup, go to **Settings → Reading** and select "A static page". The blog section's Numbered pagination needs **no** extra Blog page.
 
-### 3. Create Megamenus
-Go to Dashboard → Appearance → Menus. Under **Screen Options** (top right), check **CSS Classes**. Add the class `megamenu` to any top-level menu item to expand its submenu into a full-width, 4-column needlework grid.
+### 3. Customize Everything
+**Appearance → Customize → 💎 Baloch Diamond Settings** — colors, fonts, sliders, sections, dark/light modes, comment protection, and more (19 setting panels).
 
-### 4. Enable Localizer / Languages
+### 4. Create Megamenus
+Go to **Appearance → Menus**. Under **Screen Options** (top right), check **CSS Classes**. Add the class `megamenu` to any top-level menu item to expand its submenu into a full-width, 4-column needlework grid.
+
+### 5. Enable Localizer / Languages
 Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamond`.
 
 ---
@@ -125,7 +131,7 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
 | 📧 Newsletter | Title, description, placeholder, CTA button text |
 | 📄 Page Settings | Hero Slider & Newsletter toggles for static pages |
 | 🛡️ Comment Protection | Strip HTML, block links, blocked words, min/max length, logged-in enforcement |
-| 🦶 Footer | Logo, about/copyright texts, colors, layouts (1–4 col), 8 social networks |
+| 🦶 Footer | Logo, about/copyright texts, colors, layouts (1–4 col), 8 social networks + 3 widget areas |
 
 ---
 
@@ -137,14 +143,14 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
     ├── index.php
     ├── front-page.php (multi-column zone layout + paged-view filtering)
     ├── header.php (Account + Cart icons, flash-free theme mode)
-    ├── footer.php
+    ├── footer.php (footer widget areas)
     ├── single.php
     ├── page.php (minimal: slider + content + newsletter)
     ├── home.php
     ├── archive.php
     ├── search.php
     ├── 404.php
-    ├── comments.php
+    ├── comments.php (standard comment_form)
     ├── searchform.php
     ├── screenshot.png
     ├── readme.txt
@@ -168,6 +174,8 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
     │   ├── content-single.php
     │   └── content-none.php
     ├── assets/
+    │   ├── css/
+    │   │   └── editor-style.css
     │   └── js/
     │       ├── main.js
     │       ├── sections-sorter.js (multi-zone drag & drop)
@@ -177,9 +185,23 @@ Compatible with Loco Translate and Poedit. The theme textdomain is `baloch-diamo
 
 ---
 
+## 🚀 Release Workflow
+
+Releases are fully automated via GitHub Actions. Pushing a tag (e.g. `v1.6.2`) will:
+
+1. ✅ Verify the tag matches the version in `style.css`, `functions.php`, and `readme.txt`
+2. 🧪 Lint every PHP file
+3. 🌐 Refresh the translation `.pot` file
+4. 🤐 Build and attach `baloch-diamond.zip`
+5. 📝 Extract this version's notes from `CHANGELOG.md` into the release body
+
+---
+
 ## 📄 License
 
 Licensed under the [GNU General Public License v2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
+
+All bundled SVG icons and Balochi needlework patterns are original works by the Baloch Script Team (GPLv2+). Google Fonts are loaded under the SIL Open Font License 1.1.
 
 ---
 
@@ -187,6 +209,6 @@ Licensed under the [GNU General Public License v2 or later](https://www.gnu.org/
 
 **Crafted with 💎 inspired by Balochi art & culture**
 
-Made with ❤️ by the Baloch Script Team
+Made with ❤️ by the [Baloch Script Team](https://balochscript.com)
 
 </div>
